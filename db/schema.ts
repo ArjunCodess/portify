@@ -11,4 +11,5 @@ export const user = pgTable('user', {
     github: varchar('github'),
     link: text('link'),
     location: varchar('location'),
+    profilePicture: text('profile_picture'),
 })

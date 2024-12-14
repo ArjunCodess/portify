@@ -8,6 +8,13 @@
       "when": 1734193636686,
       "tag": "0000_famous_maggott",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1734195319271,
+      "tag": "0001_stiff_cardiac",
+      "breakpoints": true
     }
   ]
 }

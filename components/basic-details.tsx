@@ -7,6 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@clerk/nextjs";
 import { useToast } from "@/hooks/use-toast";
+import {
+  CldUploadButton,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Loader2 } from "lucide-react";
 
 export default function BasicDetails() {
   const { toast } = useToast();
@@ -20,8 +26,10 @@ export default function BasicDetails() {
     github: "",
     link: "",
     location: "",
+    profilePicture: "",
   });
   const [isDirty, setIsDirty] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -65,10 +73,48 @@ export default function BasicDetails() {
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to save changes",
+        description:
+          error instanceof Error ? error.message : "Failed to save changes",
         variant: "destructive",
       });
       console.error("Error saving changes:", error);
+    }
+  };
+
+  const handleImageUpload = async (imageUrl: string) => {
+    try {
+      setIsUploading(true);
+
+      const updateResponse = await fetch(`/api/user/${userId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          profilePicture: imageUrl,
+        }),
+      });
+
+      if (!updateResponse.ok) {
+        throw new Error("Failed to update profile picture");
+      }
+
+      setFormData((prev) => ({ ...prev, profilePicture: imageUrl }));
+      toast({
+        title: "Success",
+        description: "Profile picture updated successfully",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error ? error.message : "Failed to upload image",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -85,34 +131,38 @@ export default function BasicDetails() {
 
       try {
         const response = await fetch(`/api/user/${userId}`, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
-          throw new Error(data.error || 'Failed to fetch user data');
+          throw new Error(data.error || "Failed to fetch user data");
         }
-        
+
         setFormData({
-          name: data.name || '',
-          username: data.username || '',
-          tagline: data.tagline || '',
-          bio: data.bio || '',
-          twitter: data.twitter || '',
-          github: data.github || '',
-          link: data.link || '',
-          location: data.location || '',
+          name: data.name || "",
+          username: data.username || "",
+          tagline: data.tagline || "",
+          bio: data.bio || "",
+          twitter: data.twitter || "",
+          github: data.github || "",
+          link: data.link || "",
+          location: data.location || "",
+          profilePicture: data.profilePicture || "",
         });
       } catch (error) {
-        console.error('Fetch error:', error);
+        console.error("Fetch error:", error);
         toast({
           variant: "destructive",
           title: "Error",
-          description: error instanceof Error ? error.message : "Failed to fetch user data",
+          description:
+            error instanceof Error
+              ? error.message
+              : "Failed to fetch user data",
         });
       }
     };
@@ -150,7 +200,8 @@ export default function BasicDetails() {
       } catch (error) {
         toast({
           title: "Error",
-          description: error instanceof Error ? error.message : "Failed to save changes",
+          description:
+            error instanceof Error ? error.message : "Failed to save changes",
           variant: "destructive",
         });
         console.error("Error saving changes:", error);
@@ -158,7 +209,9 @@ export default function BasicDetails() {
     };
 
     if (isDirty) {
-      timeoutId = setTimeout(saveChanges, 2000) as unknown as ReturnType<typeof setTimeout>;
+      timeoutId = setTimeout(saveChanges, 2000) as unknown as ReturnType<
+        typeof setTimeout
+      >;
     }
 
     return () => {
@@ -172,7 +225,44 @@ export default function BasicDetails() {
         <CardTitle className="text-2xl font-bold">Basic Details</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="flex flex-col items-center space-y-4">
+            <Avatar className="h-24 w-24">
+              {formData.profilePicture ? (
+                <AvatarImage
+                  src={formData.profilePicture}
+                  alt={formData.name || "Profile"}
+                />
+              ) : (
+                <AvatarFallback>
+                  {isUploading ? (
+                    <Loader2 className="h-8 w-8 animate-spin" />
+                  ) : (
+                    formData.name?.charAt(0) || "?"
+                  )}
+                </AvatarFallback>
+              )}
+            </Avatar>
+            <CldUploadButton
+              onSuccess={(result: CloudinaryUploadWidgetResults) => {
+                if (
+                  result &&
+                  typeof result === "object" &&
+                  "info" in result &&
+                  result.info &&
+                  typeof result.info === "object" &&
+                  "secure_url" in result.info
+                ) {
+                  handleImageUpload(result.info.secure_url);
+                }
+              }}
+              uploadPreset="portify"
+              options={{ folder: "portify" }}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {isUploading ? "Uploading..." : "Change Profile Picture"}
+            </CldUploadButton>
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium">
