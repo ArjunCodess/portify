@@ -86,7 +86,8 @@ export default function Page() {
       const result = await createUsername(
         user.primaryEmailAddress.emailAddress,
         username,
-        user.fullName
+        user.fullName,
+        user.id
       );
 
       if (result.success) {

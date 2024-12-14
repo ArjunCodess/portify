@@ -3,12 +3,11 @@
 import { db } from "@/db/drizzle";
 import { user as userSchema } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import crypto from 'crypto';
 
-export async function createUsername(email: string, username: string, name: string) {
+export async function createUsername(email: string, username: string, name: string, id: string) {
   try {
     await db.insert(userSchema).values({
-      id: crypto.randomUUID(),
+      id,
       name,
       email,
       username,
