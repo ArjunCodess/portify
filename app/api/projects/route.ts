@@ -34,7 +34,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { id, name, description, link, logo, category, userId } = body;
+    const { id, name, description, link, logo, banner, category, userId } = body;
 
     if (!name || !userId) {
       return NextResponse.json(
@@ -51,26 +51,28 @@ export async function POST(request: Request) {
           description,
           link,
           logo,
+          banner,
           category,
         })
-        .where(eq(projects.id, id))
+        .where(and(eq(projects.id, id), eq(projects.userId, userId)))
         .returning();
 
       return NextResponse.json(updatedProject[0]);
     }
 
-    // Otherwise create a new project
-    const project = await db.insert(projects).values({
+    // Create new project
+    const newProject = await db.insert(projects).values({
       id: uuidv4(),
       name,
       description,
       link,
       logo,
+      banner,
       category,
       userId,
     }).returning();
 
-    return NextResponse.json(project[0]);
+    return NextResponse.json(newProject[0]);
   } catch (error) {
     console.error("Error creating/updating project:", error);
     return NextResponse.json(

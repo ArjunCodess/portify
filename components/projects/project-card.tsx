@@ -13,15 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-
-interface Project {
-  id: string;
-  name: string;
-  description: string | null;
-  link: string | null;
-  logo: string | null;
-  category: string | null;
-}
+import { Project } from "@/types";
 
 interface ProjectCardProps {
   project: Project;

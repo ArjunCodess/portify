@@ -24,6 +24,7 @@ export default function AddProject() {
     description: "",
     link: "",
     logo: "",
+    banner: "",
     category: "",
   });
 
@@ -68,6 +69,7 @@ export default function AddProject() {
         description: "",
         link: "",
         logo: "",
+        banner: "",
         category: "",
       });
       setIsDialogOpen(false);
@@ -99,6 +101,33 @@ export default function AddProject() {
       toast({
         title: "Error",
         description: "Failed to upload logo",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleBannerUpload = async (result: CloudinaryUploadWidgetResults) => {
+    try {
+      setIsUploading(true);
+      if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
+        const imageUrl = result.info.secure_url as string;
+        setFormData((prev) => ({
+          ...prev,
+          banner: imageUrl,
+        }));
+        
+        toast({
+          title: "Success",
+          description: "Banner uploaded successfully",
+        });
+      }
+    } catch (error) {
+      console.error("Error uploading banner:", error);
+      toast({
+        title: "Error",
+        description: "Failed to upload banner",
         variant: "destructive",
       });
     } finally {
@@ -158,41 +187,55 @@ export default function AddProject() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium block mb-2">
-                Project Logo
-              </label>
-              <div className="flex items-center gap-4">
-                {formData.logo && (
-                  <div className="flex items-center gap-2 flex-1">
+              <div className="grid grid-cols-3 gap-4">
+                <CldUploadButton
+                  uploadPreset="portify"
+                  className={`col-span-1 h-32 w-32 border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition ${
+                    formData.logo ? "border-primary" : "border-muted-foreground"
+                  }`}
+                  onSuccess={(result: CloudinaryUploadWidgetResults) => {
+                    if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
+                      handleImageUpload(result.info.secure_url as string);
+                    }
+                  }}
+                >
+                  {formData.logo ? (
                     <Image
                       src={formData.logo}
                       alt="Project logo"
-                      width={50}
-                      height={50}
-                      className="rounded-lg"
+                      width={128}
+                      height={128}
+                      className="w-full h-full object-cover rounded-lg"
                     />
-                  </div>
-                )}
+                  ) : (
+                    <div className="flex flex-col items-center gap-2">
+                      <ImagePlus className="w-8 h-8 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">Upload Logo</span>
+                    </div>
+                  )}
+                </CldUploadButton>
+
                 <CldUploadButton
-                  onSuccess={(result: CloudinaryUploadWidgetResults) => {
-                    if (
-                      result &&
-                      typeof result === "object" &&
-                      "info" in result &&
-                      result.info &&
-                      typeof result.info === "object" &&
-                      "secure_url" in result.info
-                    ) {
-                      handleImageUpload(result.info.secure_url);
-                    }
-                  }}
                   uploadPreset="portify"
-                  className="w-1/2 flex h-10 items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground"
+                  className={`col-span-2 h-32 w-full border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition ${
+                    formData.banner ? "border-primary" : "border-muted-foreground"
+                  }`}
+                  onSuccess={handleBannerUpload}
                 >
-                  <div className="flex items-center gap-2">
-                    <ImagePlus className="h-4 w-4" />
-                    {formData.logo ? "Set New Logo" : "Upload Logo"}
-                  </div>
+                  {formData.banner ? (
+                    <Image
+                      src={formData.banner}
+                      alt="Project banner"
+                      width={400}
+                      height={128}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center gap-2">
+                      <ImagePlus className="w-8 h-8 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">Upload Banner</span>
+                    </div>
+                  )}
                 </CldUploadButton>
               </div>
             </div>

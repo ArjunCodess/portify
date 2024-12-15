@@ -17,15 +17,7 @@ import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
 import { ImagePlus } from "lucide-react";
 import ProjectCard from "./project-card";
-
-interface Project {
-  id: string;
-  name: string;
-  description: string | null;
-  link: string | null;
-  logo: string | null;
-  category: string | null;
-}
+import { Project } from "@/types";
 
 export default function ProjectList() {
   const { userId } = useAuth();
@@ -170,6 +162,87 @@ export default function ProjectList() {
     }
   };
 
+  const handleBannerUpload = async (result: CloudinaryUploadWidgetResults) => {
+    try {
+      setIsUploading(true);
+      if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
+        const imageUrl = result.info.secure_url as string;
+        
+        const response = await fetch("/api/projects", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...editedProject, banner: imageUrl, userId }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to update project");
+        }
+
+        const updatedProject = await response.json();
+        
+        setProjects((prev) =>
+          prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
+        );
+        setSelectedProject(updatedProject);
+        setEditedProject(updatedProject);
+
+        toast({
+          title: "Success",
+          description: "Banner uploaded successfully",
+        });
+      }
+    } catch (error) {
+      console.error("Error uploading banner:", error);
+      toast({
+        title: "Error",
+        description: "Failed to upload banner",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleRemoveBanner = async () => {
+    try {
+      if (editedProject) {
+        const response = await fetch("/api/projects", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...editedProject, banner: null, userId }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to remove banner");
+        }
+
+        const updatedProject = await response.json();
+        
+        setProjects((prev) =>
+          prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
+        );
+        setSelectedProject(updatedProject);
+        setEditedProject(updatedProject);
+
+        toast({
+          title: "Success",
+          description: "Banner removed successfully",
+        });
+      }
+    } catch (error) {
+      console.error("Error removing banner:", error);
+      toast({
+        title: "Error",
+        description: "Failed to remove banner",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleDeleteProject = async (projectId: string) => {
     if (!userId) return;
 
@@ -222,7 +295,7 @@ export default function ProjectList() {
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         {projects.map((project) => (
           <ProjectCard
             key={project.id}
@@ -286,58 +359,102 @@ export default function ProjectList() {
                   placeholder="e.g., Web App, Mobile App"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium block mb-2">
-                  Project Logo
-                </label>
-                <div className="flex items-center gap-4">
-                  {selectedProject?.logo && (
-                    <div className="flex items-center gap-2 flex-1">
-                      <div className="relative group">
-                        <Image
-                          src={selectedProject.logo}
-                          alt="Project logo"
-                          width={50}
-                          height={50}
-                          className="rounded-lg"
-                        />
+              <div className="space-y-4">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="relative col-span-1">
+                    <CldUploadButton
+                      uploadPreset="portify"
+                      className={`h-32 w-full border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition group ${
+                        selectedProject?.logo ? "border-primary" : "border-muted-foreground"
+                      }`}
+                      onSuccess={(result: CloudinaryUploadWidgetResults) => {
+                        if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
+                          handleImageUpload(result.info.secure_url);
+                        }
+                      }}
+                    >
+                      {selectedProject?.logo ? (
+                        <>
+                          <Image
+                            src={selectedProject.logo}
+                            alt="Project logo"
+                            width={128}
+                            height={128}
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                          <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                            <div className="flex flex-col items-center gap-2">
+                              <ImagePlus className="w-6 h-6 text-foreground" />
+                              <span className="text-sm font-medium">Change Logo</span>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex flex-col items-center gap-2">
+                          <ImagePlus className="w-6 h-6 text-muted-foreground" />
+                          <span className="text-sm font-medium text-muted-foreground">Upload Logo</span>
+                        </div>
+                      )}
+                    </CldUploadButton>
+                    {selectedProject?.logo && (
+                      <div className="absolute -top-2 -right-2">
                         <Button
                           type="button"
                           variant="destructive"
                           size="icon"
-                          className="absolute -top-2 -right-2 h-6 w-6"
+                          className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
                           onClick={handleRemoveLogo}
                         >
                           <Trash2 className="h-3 w-3" />
                         </Button>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                   <CldUploadButton
-                    onSuccess={(result: CloudinaryUploadWidgetResults) => {
-                      if (
-                        result &&
-                        typeof result === "object" &&
-                        "info" in result &&
-                        result.info &&
-                        typeof result.info === "object" &&
-                        "secure_url" in result.info
-                      ) {
-                        handleImageUpload(result.info.secure_url);
-                      }
-                    }}
                     uploadPreset="portify"
-                    options={{
-                      maxFiles: 1,
-                      folder: "portify"
-                    }}
-                    className="w-1/2 flex h-10 items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground"
+                    className={`relative col-span-2 h-32 border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition group ${
+                      selectedProject?.banner ? "border-primary" : "border-muted-foreground"
+                    }`}
+                    onSuccess={handleBannerUpload}
                   >
-                    <div className="flex items-center gap-2">
-                      <ImagePlus className="h-4 w-4" />
-                      {editedProject?.logo ? "Set New Logo" : "Upload Logo"}
-                    </div>
+                    {selectedProject?.banner ? (
+                      <>
+                        <Image
+                          src={selectedProject.banner}
+                          alt="Project banner"
+                          width={400}
+                          height={128}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                          <div className="flex flex-col items-center gap-2">
+                            <ImagePlus className="w-6 h-6 text-foreground" />
+                            <span className="text-sm font-medium">Change Banner</span>
+                          </div>
+                        </div>
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="icon"
+                          className="absolute -top-2 -right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveBanner();
+                          }}
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </>
+                    ) : (
+                      <div className="flex flex-col items-center gap-2">
+                        <ImagePlus className="w-8 h-8 text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">Upload Banner</span>
+                      </div>
+                    )}
                   </CldUploadButton>
+                </div>
+                <div className="text-xs text-muted-foreground text-center">
+                  Recommended: Square logo (128x128px), Wide banner (1200x400px)
                 </div>
               </div>
             </div>
