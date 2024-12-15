@@ -3,23 +3,21 @@ import { projects } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
+import { asc, sql } from "drizzle-orm/sql";
+import { auth } from "@clerk/nextjs/server";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
-
+    const { userId } = await auth();
     if (!userId) {
-      return NextResponse.json(
-        { error: "User ID is required" },
-        { status: 400 }
-      );
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const userProjects = await db
       .select()
       .from(projects)
-      .where(eq(projects.userId, userId));
+      .where(eq(projects.userId, userId))
+      .orderBy(asc(projects.order));
 
     return NextResponse.json(userProjects);
   } catch (error) {
@@ -43,7 +41,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // If ID exists, update the project
     if (id) {
       const updatedProject = await db.update(projects)
         .set({
@@ -60,17 +57,26 @@ export async function POST(request: Request) {
       return NextResponse.json(updatedProject[0]);
     }
 
-    // Create new project
-    const newProject = await db.insert(projects).values({
-      id: uuidv4(),
-      name,
-      description,
-      link,
-      logo,
-      banner,
-      category,
-      userId,
-    }).returning();
+    const highestOrder = await db
+      .select({ maxOrder: sql<number>`COALESCE(MAX(${projects.order}), -1)` })
+      .from(projects)
+      .where(eq(projects.userId, userId));
+
+    const newOrder = (highestOrder[0]?.maxOrder ?? -1) + 1;
+
+    const newProject = await db.insert(projects)
+      .values({
+        id: uuidv4(),
+        name,
+        description,
+        link,
+        logo,
+        banner,
+        category,
+        userId,
+        order: newOrder,
+      })
+      .returning();
 
     return NextResponse.json(newProject[0]);
   } catch (error) {

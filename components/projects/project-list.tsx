@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
@@ -16,8 +16,23 @@ import {
 import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
 import { ImagePlus } from "lucide-react";
-import ProjectCard from "./project-card";
+import SortableProjectCard from "./sortable-project-card";
 import { Project } from "@/types";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  horizontalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 export default function ProjectList() {
   const { userId } = useAuth();
@@ -28,26 +43,26 @@ export default function ProjectList() {
   const [, setIsUploading] = useState(false);
   const [editedProject, setEditedProject] = useState<Project | null>(null);
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      if (!userId) return;
+  const fetchProjects = useCallback(async () => {
+    if (!userId) return;
 
-      try {
-        const response = await fetch(`/api/projects?userId=${userId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch projects");
-        }
-        const data = await response.json();
-        setProjects(data);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      } finally {
-        setLoading(false);
+    try {
+      const response = await fetch(`/api/projects?userId=${userId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch projects");
       }
-    };
-
-    fetchProjects();
+      const data = await response.json();
+      setProjects(data);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    } finally {
+      setLoading(false);
+    }
   }, [userId]);
+
+  useEffect(() => {
+    fetchProjects();
+  }, [userId, fetchProjects]);
 
   const handleProjectClick = (project: Project) => {
     setSelectedProject(project);
@@ -100,7 +115,7 @@ export default function ProjectList() {
       }
 
       const updatedProject = await response.json();
-      
+
       setProjects((prev) =>
         prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
       );
@@ -139,8 +154,7 @@ export default function ProjectList() {
         }
 
         const updatedProject = await response.json();
-        
-        // Update all states immediately
+
         setProjects((prev) =>
           prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
         );
@@ -165,9 +179,13 @@ export default function ProjectList() {
   const handleBannerUpload = async (result: CloudinaryUploadWidgetResults) => {
     try {
       setIsUploading(true);
-      if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
+      if (
+        result.info &&
+        typeof result.info === "object" &&
+        "secure_url" in result.info
+      ) {
         const imageUrl = result.info.secure_url as string;
-        
+
         const response = await fetch("/api/projects", {
           method: "POST",
           headers: {
@@ -181,7 +199,7 @@ export default function ProjectList() {
         }
 
         const updatedProject = await response.json();
-        
+
         setProjects((prev) =>
           prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
         );
@@ -221,7 +239,7 @@ export default function ProjectList() {
         }
 
         const updatedProject = await response.json();
-        
+
         setProjects((prev) =>
           prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
         );
@@ -273,6 +291,54 @@ export default function ProjectList() {
     }
   };
 
+  const updateProjectOrder = async (projectIds: string[]) => {
+    const response = await fetch("/api/projects/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ projectIds }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update project order");
+    }
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    if (active.id !== over.id) {
+      setProjects((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        const newItems = arrayMove(items, oldIndex, newIndex);
+
+        // Make API call in background without waiting
+        updateProjectOrder(newItems.map((item) => item.id)).catch(() => {
+          toast({
+            title: "Error updating project order",
+            description: "Failed to save the new project order. Please try again.",
+            variant: "destructive",
+          });
+          // Fetch the latest order from the server
+          fetchProjects();
+        });
+
+        return newItems;
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-32">
@@ -295,16 +361,30 @@ export default function ProjectList() {
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-2">
-        {projects.map((project) => (
-          <ProjectCard
-            key={project.id}
-            project={project}
-            onProjectClick={handleProjectClick}
-            onDeleteClick={handleDeleteProject}
-          />
-        ))}
-      </div>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={projects.map((p) => p.id)}
+          strategy={horizontalListSortingStrategy}
+        >
+          <div className="grid gap-4 md:grid-cols-2 auto-rows-max">
+            {projects.map((project) => (
+              <SortableProjectCard
+                key={project.id}
+                project={{
+                  ...project,
+                  serialNumber: projects.indexOf(project) + 1,
+                }}
+                onClick={() => handleProjectClick(project)}
+                onDelete={() => handleDeleteProject(project.id)}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
 
       <Dialog
         open={selectedProject !== null}
@@ -365,10 +445,16 @@ export default function ProjectList() {
                     <CldUploadButton
                       uploadPreset="portify"
                       className={`h-32 w-full border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition group ${
-                        selectedProject?.logo ? "border-primary" : "border-muted-foreground"
+                        selectedProject?.logo
+                          ? "border-primary"
+                          : "border-muted-foreground"
                       }`}
                       onSuccess={(result: CloudinaryUploadWidgetResults) => {
-                        if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
+                        if (
+                          result.info &&
+                          typeof result.info === "object" &&
+                          "secure_url" in result.info
+                        ) {
                           handleImageUpload(result.info.secure_url);
                         }
                       }}
@@ -385,14 +471,18 @@ export default function ProjectList() {
                           <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
                             <div className="flex flex-col items-center gap-2">
                               <ImagePlus className="w-6 h-6 text-foreground" />
-                              <span className="text-sm font-medium">Change Logo</span>
+                              <span className="text-sm font-medium">
+                                Change Logo
+                              </span>
                             </div>
                           </div>
                         </>
                       ) : (
                         <div className="flex flex-col items-center gap-2">
                           <ImagePlus className="w-6 h-6 text-muted-foreground" />
-                          <span className="text-sm font-medium text-muted-foreground">Upload Logo</span>
+                          <span className="text-sm font-medium text-muted-foreground">
+                            Upload Logo
+                          </span>
                         </div>
                       )}
                     </CldUploadButton>
@@ -410,48 +500,57 @@ export default function ProjectList() {
                       </div>
                     )}
                   </div>
-                  <CldUploadButton
-                    uploadPreset="portify"
-                    className={`relative col-span-2 h-32 border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition group ${
-                      selectedProject?.banner ? "border-primary" : "border-muted-foreground"
-                    }`}
-                    onSuccess={handleBannerUpload}
-                  >
-                    {selectedProject?.banner ? (
-                      <>
-                        <Image
-                          src={selectedProject.banner}
-                          alt="Project banner"
-                          width={400}
-                          height={128}
-                          className="w-full h-full object-cover rounded-lg"
-                        />
-                        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                          <div className="flex flex-col items-center gap-2">
-                            <ImagePlus className="w-6 h-6 text-foreground" />
-                            <span className="text-sm font-medium">Change Banner</span>
+                  <div className="col-span-2 relative">
+                    <CldUploadButton
+                      uploadPreset="portify"
+                      className={`relative h-32 border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition group ${
+                        selectedProject?.banner
+                          ? "border-primary"
+                          : "border-muted-foreground"
+                      }`}
+                      onSuccess={handleBannerUpload}
+                    >
+                      {selectedProject?.banner ? (
+                        <>
+                          <Image
+                            src={selectedProject.banner}
+                            alt="Project banner"
+                            width={256}
+                            height={128}
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                          <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                            <div className="flex flex-col items-center gap-2">
+                              <ImagePlus className="w-6 h-6 text-foreground" />
+                              <span className="text-sm font-medium">
+                                Change Banner
+                              </span>
+                            </div>
                           </div>
+                        </>
+                      ) : (
+                        <div className="flex flex-col items-center gap-2">
+                          <ImagePlus className="w-6 h-6 text-muted-foreground" />
+                          <span className="text-sm font-medium text-muted-foreground">
+                            Upload Banner
+                          </span>
                         </div>
+                      )}
+                    </CldUploadButton>
+                    {selectedProject?.banner && (
+                      <div className="absolute top-2 right-2 z-10">
                         <Button
                           type="button"
                           variant="destructive"
                           size="icon"
-                          className="absolute -top-2 -right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleRemoveBanner();
-                          }}
+                          className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={handleRemoveBanner}
                         >
                           <Trash2 className="h-3 w-3" />
                         </Button>
-                      </>
-                    ) : (
-                      <div className="flex flex-col items-center gap-2">
-                        <ImagePlus className="w-8 h-8 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Upload Banner</span>
                       </div>
                     )}
-                  </CldUploadButton>
+                  </div>
                 </div>
                 <div className="text-xs text-muted-foreground text-center">
                   Recommended: Square logo (128x128px), Wide banner (1200x400px)

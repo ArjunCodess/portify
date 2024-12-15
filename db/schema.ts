@@ -1,4 +1,4 @@
-import { pgTable, text, varchar } from "drizzle-orm/pg-core"
+import { pgTable, text, varchar, integer } from "drizzle-orm/pg-core"
 
 export const user = pgTable('user', {
     id: varchar('id').primaryKey(),
@@ -23,4 +23,5 @@ export const projects = pgTable('projects', {
     logo: text('logo'),
     banner: text('banner'),
     category: varchar('category'),
+    order: integer('order').default(0),
 })
