@@ -15,6 +15,13 @@
       "when": 1734195319271,
       "tag": "0001_stiff_cardiac",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1734243115968,
+      "tag": "0002_foamy_iron_monger",
+      "breakpoints": true
     }
   ]
 }
