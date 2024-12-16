@@ -3,6 +3,7 @@ import { Github, Link as LucideLink } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useProfile } from "@/app/(root)/[username]/provider";
+import { Badge } from "@/components/ui/badge";
 
 export default function ProjectDetails() {
   const { userData } = useProfile();
@@ -56,6 +57,15 @@ export default function ProjectDetails() {
                       <CardDescription className="text-sm text-foreground/70">
                         {project.description}
                       </CardDescription>
+                      {project.category && project.category.length > 0 && (
+                        <div className="flex flex-wrap gap-2 pt-1">
+                          {project.category.split(',').map((item, i) => (
+                            <Badge key={i} variant="secondary" className="text-xs">
+                              {item.trim()}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex gap-2 text-foreground/50 flex-shrink-0">

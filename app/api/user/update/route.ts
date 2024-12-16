@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 
 export async function PATCH(req: Request) {
   try {
-    const { userId, name, username, tagline, bio } = await req.json()
+    const { userId, name, username, tagline, bio, skills } = await req.json()
 
     if (!userId) {
       return NextResponse.json(
@@ -19,7 +19,8 @@ export async function PATCH(req: Request) {
         name,
         username,
         tagline,
-        bio
+        bio,
+        skills: skills || []
       })
       .where(eq(user.id, userId))
 

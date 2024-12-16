@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import React from "react";
+import React, { use } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProfile } from "./provider";
 import UserDetails from "@/components/portfolio/user-details";
@@ -21,7 +21,7 @@ interface PageProps {
 export default function Profile({ params }: PageProps) {
   const { isLoaded } = useUser();
   const { userData, loading } = useProfile();
-  const resolvedParams = React.use(params);
+  const resolvedParams = use(params);
 
   if (!isLoaded || loading) {
     return (

@@ -3,7 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { checkUserExists } from "@/actions/user";
+import { getUserByEmail } from "@/actions/user";
 import Editor from "@/components/editor";
 import Preview from "@/components/preview";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,6 +12,7 @@ export default function Admin() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
+  const [portfolioUsername, setPortfolioUsername] = useState('');
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -24,10 +25,13 @@ export default function Admin() {
           return;
         }
 
-        const exists = await checkUserExists(email);
-        if (!exists) {
+        const userRecord = await getUserByEmail(email);
+        if (!userRecord || !userRecord.id) {
           router.push("/create");
+          return;
         }
+        
+        setPortfolioUsername(userRecord.username);
       } catch (error) {
         console.error('Error checking user:', error);
         router.push("/create");
@@ -58,7 +62,7 @@ export default function Admin() {
         <Editor />
       </div>
       <div className="col-span-1">
-        <Preview username={user?.username ?? ''} />
+        <Preview username={portfolioUsername} />
       </div>
     </section>
   );

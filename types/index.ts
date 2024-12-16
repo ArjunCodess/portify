@@ -31,4 +31,5 @@ export type UserData = {
   location: string | null;
   profilePicture: string | null;
   projects: Project[];
+  skills: string[] | null;
 };

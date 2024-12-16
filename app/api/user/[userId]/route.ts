@@ -44,7 +44,7 @@ export async function PATCH(
 ) {
   try {
     const { userId } = await context.params
-    const { name, username, tagline, bio, twitter, github, link, location, profilePicture } = await request.json()
+    const { name, username, tagline, bio, twitter, github, link, location, profilePicture, skills } = await request.json()
 
     if (!userId) {
       return NextResponse.json(
@@ -65,6 +65,7 @@ export async function PATCH(
         link,
         location,
         profilePicture,
+        skills: skills || [],
       })
       .where(eq(user.id, userId))
       .returning()

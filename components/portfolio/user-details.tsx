@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { UserData } from "@/types";
 
 interface UserDetailsProps {
@@ -21,6 +22,16 @@ export default function UserDetails({ data }: UserDetailsProps) {
           I&apos;m a {data.tagline} from {data.location}.
         </p>
         <p className="text-sm text-foreground/70 mx-auto">{data.bio}</p>
+        
+        {data.skills && data.skills.length > 0 && (
+          <div className="flex flex-wrap justify-center gap-2 mt-4">
+            {data.skills.map((skill, index) => (
+              <Badge key={index} variant="secondary">
+                {skill}
+              </Badge>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

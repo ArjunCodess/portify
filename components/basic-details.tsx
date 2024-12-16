@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@clerk/nextjs";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
 import {
   CldUploadButton,
   CloudinaryUploadWidgetResults,
@@ -27,7 +29,9 @@ export default function BasicDetails() {
     link: "",
     location: "",
     profilePicture: "",
+    skills: [] as string[],
   });
+  const [newSkill, setNewSkill] = useState("");
   const [isDirty, setIsDirty] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -37,6 +41,77 @@ export default function BasicDetails() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setIsDirty(true);
+  };
+
+  const saveToDatabase = async (updatedData: typeof formData) => {
+    if (!userId) return;
+    
+    try {
+      const response = await fetch(`/api/user/${userId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save changes');
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleAddSkill = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const trimmedSkill = newSkill.trim();
+      
+      if (trimmedSkill && !formData.skills.includes(trimmedSkill)) {
+        const updatedSkills = [...formData.skills, trimmedSkill];
+        const updatedData = { ...formData, skills: updatedSkills };
+        
+        setFormData(updatedData);
+        setNewSkill('');
+
+        try {
+          await saveToDatabase(updatedData);
+        } catch {
+          // Rollback on error
+          setFormData(formData);
+          setNewSkill(trimmedSkill);
+          toast({
+            title: "Error",
+            description: "Failed to save skill",
+            variant: "destructive",
+          });
+        }
+      }
+    }
+  };
+
+  const handleRemoveSkill = async (skillToRemove: string) => {
+    const updatedSkills = formData.skills.filter(skill => skill !== skillToRemove);
+    const updatedData = { ...formData, skills: updatedSkills };
+    
+    const previousData = formData;
+    
+    setFormData(updatedData);
+
+    try {
+      await saveToDatabase(updatedData);
+    } catch {
+      // Rollback on error
+      setFormData(previousData);
+      toast({
+        title: "Error",
+        description: "Failed to remove skill",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -135,6 +210,7 @@ export default function BasicDetails() {
           headers: {
             "Content-Type": "application/json",
           },
+          cache: 'no-store', // Disable caching to always get fresh data
         });
 
         const data = await response.json();
@@ -153,6 +229,7 @@ export default function BasicDetails() {
           link: data.link || "",
           location: data.location || "",
           profilePicture: data.profilePicture || "",
+          skills: data.skills || [],
         });
       } catch (error) {
         console.error("Fetch error:", error);
@@ -311,6 +388,33 @@ export default function BasicDetails() {
               value={formData.bio}
               onChange={handleChange}
               placeholder="Tell us about yourself"
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="skills" className="text-sm font-medium">
+              Skills
+            </label>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {formData.skills?.map((skill, index) => (
+                <Badge key={index} variant="secondary" className="flex items-center gap-1 px-3 py-1">
+                  {skill}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveSkill(skill)}
+                    className="hover:text-destructive ml-1"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </Badge>
+              ))}
+            </div>
+            <Input
+              id="skills"
+              value={newSkill}
+              onChange={(e) => setNewSkill(e.target.value)}
+              onKeyDown={handleAddSkill}
+              placeholder="Add a skill (press Enter)"
+              className="mt-2"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
