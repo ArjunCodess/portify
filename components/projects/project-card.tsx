@@ -13,12 +13,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { Project } from "@/types";
+import { ProjectWithSerialNumber } from "@/types";
 import { GripVertical } from "lucide-react";
 
 interface ProjectCardProps {
-  project: Project;
-  onProjectClick: (project: Project) => void;
+  project: ProjectWithSerialNumber;
+  onProjectClick: (project: ProjectWithSerialNumber) => void;
   onDeleteClick: (projectId: string) => void;
   dragHandleProps?: React.HTMLAttributes<HTMLDivElement>;
 }
@@ -39,7 +39,7 @@ export default function ProjectCard({
   return (
     <>
       <Card
-        className="overflow-hidden hover:bg-accent transition-colors relative flex"
+        className="h-full overflow-hidden hover:bg-accent transition-colors relative flex"
         onClick={() => onProjectClick(project)}
       >
         {dragHandleProps && (
@@ -83,7 +83,7 @@ export default function ProjectCard({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-destructive-foreground bg-destructive"
+                  className="h-8 w-8 text-destructive-foreground bg-destructive hover:bg-destructive/50"
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowDeleteDialog(true);

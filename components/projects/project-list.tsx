@@ -17,7 +17,7 @@ import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
 import { ImagePlus } from "lucide-react";
 import SortableProjectCard from "./sortable-project-card";
-import { Project } from "@/types";
+import { ProjectWithSerialNumber } from "@/types";
 import {
   DndContext,
   closestCenter,
@@ -37,11 +37,13 @@ import {
 export default function ProjectList() {
   const { userId } = useAuth();
   const { toast } = useToast();
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ProjectWithSerialNumber[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] =
+    useState<ProjectWithSerialNumber | null>(null);
   const [, setIsUploading] = useState(false);
-  const [editedProject, setEditedProject] = useState<Project | null>(null);
+  const [editedProject, setEditedProject] =
+    useState<ProjectWithSerialNumber | null>(null);
 
   const fetchProjects = useCallback(async () => {
     if (!userId) return;
@@ -64,7 +66,7 @@ export default function ProjectList() {
     fetchProjects();
   }, [userId, fetchProjects]);
 
-  const handleProjectClick = (project: Project) => {
+  const handleProjectClick = (project: ProjectWithSerialNumber) => {
     setSelectedProject(project);
     setEditedProject({ ...project });
   };
@@ -327,7 +329,8 @@ export default function ProjectList() {
         updateProjectOrder(newItems.map((item) => item.id)).catch(() => {
           toast({
             title: "Error updating project order",
-            description: "Failed to save the new project order. Please try again.",
+            description:
+              "Failed to save the new project order. Please try again.",
             variant: "destructive",
           });
           // Fetch the latest order from the server
@@ -444,6 +447,7 @@ export default function ProjectList() {
                   <div className="relative col-span-1">
                     <CldUploadButton
                       uploadPreset="portify"
+                      options={{ folder: "portify" }}
                       className={`h-32 w-full border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition group ${
                         selectedProject?.logo
                           ? "border-primary"
@@ -503,7 +507,8 @@ export default function ProjectList() {
                   <div className="col-span-2 relative">
                     <CldUploadButton
                       uploadPreset="portify"
-                      className={`relative h-32 border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition group ${
+                      options={{ folder: "portify" }}
+                      className={`relative h-32 w-full border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition group ${
                         selectedProject?.banner
                           ? "border-primary"
                           : "border-muted-foreground"

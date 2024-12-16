@@ -62,7 +62,7 @@ export default function AddProject() {
         title: "Success",
         description: "Project added successfully",
       });
-      
+
       // Reset form and close dialog
       setFormData({
         name: "",
@@ -91,7 +91,7 @@ export default function AddProject() {
         ...prev,
         logo: imageUrl,
       }));
-      
+
       toast({
         title: "Success",
         description: "Logo uploaded successfully",
@@ -111,13 +111,17 @@ export default function AddProject() {
   const handleBannerUpload = async (result: CloudinaryUploadWidgetResults) => {
     try {
       setIsUploading(true);
-      if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
+      if (
+        result.info &&
+        typeof result.info === "object" &&
+        "secure_url" in result.info
+      ) {
         const imageUrl = result.info.secure_url as string;
         setFormData((prev) => ({
           ...prev,
           banner: imageUrl,
         }));
-        
+
         toast({
           title: "Success",
           description: "Banner uploaded successfully",
@@ -145,7 +149,10 @@ export default function AddProject() {
         {isDialogOpen && (
           <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" />
         )}
-        <DialogContent className="sm:max-w-md" onInteractOutside={(event) => event.preventDefault()}>
+        <DialogContent
+          className="sm:max-w-md"
+          onInteractOutside={(event) => event.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle>Add New Project</DialogTitle>
           </DialogHeader>
@@ -190,11 +197,16 @@ export default function AddProject() {
               <div className="grid grid-cols-3 gap-4">
                 <CldUploadButton
                   uploadPreset="portify"
+                  options={{ folder: "portify" }}
                   className={`col-span-1 h-32 w-32 border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition ${
                     formData.logo ? "border-primary" : "border-muted-foreground"
                   }`}
                   onSuccess={(result: CloudinaryUploadWidgetResults) => {
-                    if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
+                    if (
+                      result.info &&
+                      typeof result.info === "object" &&
+                      "secure_url" in result.info
+                    ) {
                       handleImageUpload(result.info.secure_url as string);
                     }
                   }}
@@ -210,15 +222,20 @@ export default function AddProject() {
                   ) : (
                     <div className="flex flex-col items-center gap-2">
                       <ImagePlus className="w-8 h-8 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Upload Logo</span>
+                      <span className="text-sm text-muted-foreground">
+                        Upload Logo
+                      </span>
                     </div>
                   )}
                 </CldUploadButton>
 
                 <CldUploadButton
                   uploadPreset="portify"
+                  options={{ folder: "portify" }}
                   className={`col-span-2 h-32 w-full border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer hover:border-primary/50 transition ${
-                    formData.banner ? "border-primary" : "border-muted-foreground"
+                    formData.banner
+                      ? "border-primary"
+                      : "border-muted-foreground"
                   }`}
                   onSuccess={handleBannerUpload}
                 >
@@ -233,7 +250,9 @@ export default function AddProject() {
                   ) : (
                     <div className="flex flex-col items-center gap-2">
                       <ImagePlus className="w-8 h-8 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Upload Banner</span>
+                      <span className="text-sm text-muted-foreground">
+                        Upload Banner
+                      </span>
                     </div>
                   )}
                 </CldUploadButton>

@@ -3,7 +3,7 @@ import { Geist } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import Navbar from "@/components/navbar";
+import NavbarContainer from "@/components/navbar-container";
 import { Toaster } from "@/components/ui/toaster";
 
 const geist = Geist({
@@ -33,7 +33,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
+            <NavbarContainer />
             {children}
             <Toaster />
           </ThemeProvider>
@@ -41,4 +41,4 @@ export default function RootLayout({
       </html>
     </ClerkProvider>
   );
-};
+}

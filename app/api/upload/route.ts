@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
     // Upload to Cloudinary
     const result = await cloudinary.uploader.upload(fileBase64, {
-      folder: 'portify/profiles',
+      folder: 'portify',
       transformation: [
         { width: 400, height: 400, crop: 'fill' },
         { quality: 'auto' },
