@@ -32,7 +32,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { id, name, description, link, logo, banner, category, userId } = body;
+    const { id, name, description, link, github, logo, banner, category, userId } = body;
 
     if (!name || !userId) {
       return NextResponse.json(
@@ -47,6 +47,7 @@ export async function POST(request: Request) {
           name,
           description,
           link,
+          github,
           logo,
           banner,
           category,
@@ -70,6 +71,7 @@ export async function POST(request: Request) {
         name,
         description,
         link,
+        github,
         logo,
         banner,
         category,

@@ -65,7 +65,7 @@ export default function Profile({ params }: PageProps) {
     <section>
       <TopBar username={resolvedParams.username} />
       <Separator />
-      <div className="p-4 md:p-8 lg:p-12 max-w-2xl mx-auto">
+      <div className="p-6 md:p-8 lg:p-12 max-w-2xl mx-auto">
         <UserDetails data={userData} />
         <Separator className="my-10" />
         <Socials data={userData} />

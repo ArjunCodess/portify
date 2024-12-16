@@ -23,6 +23,7 @@ export default function AddProject() {
     name: "",
     description: "",
     link: "",
+    github: "",
     logo: "",
     banner: "",
     category: "",
@@ -68,6 +69,7 @@ export default function AddProject() {
         name: "",
         description: "",
         link: "",
+        github: "",
         logo: "",
         banner: "",
         category: "",
@@ -176,12 +178,25 @@ export default function AddProject() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Project URL</label>
+              <label className="text-sm font-medium">
+                Project URL (Optional)
+              </label>
               <Input
                 name="link"
                 value={formData.link}
                 onChange={handleChange}
                 placeholder="https://"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">
+                GitHub Repository (Optional)
+              </label>
+              <Input
+                name="github"
+                value={formData.github}
+                onChange={handleChange}
+                placeholder="https://github.com/username/repository"
               />
             </div>
             <div className="space-y-2">
@@ -256,6 +271,9 @@ export default function AddProject() {
                     </div>
                   )}
                 </CldUploadButton>
+              </div>
+              <div className="text-xs text-muted-foreground text-center">
+                Recommended: Square logo (128x128px), Wide banner (1200x400px)
               </div>
             </div>
             <Button onClick={handleSubmit} className="w-full">

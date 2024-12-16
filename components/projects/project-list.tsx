@@ -71,12 +71,16 @@ export default function ProjectList() {
     setEditedProject({ ...project });
   };
 
-  const handleChange = async (
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     if (!editedProject) return;
     const { name, value } = e.target;
     setEditedProject((prev) => ({ ...prev!, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    if (!editedProject) return;
 
     try {
       const response = await fetch("/api/projects", {
@@ -84,7 +88,7 @@ export default function ProjectList() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...editedProject, [name]: value, userId }),
+        body: JSON.stringify({ ...editedProject, userId }),
       });
 
       if (!response.ok) {
@@ -95,8 +99,21 @@ export default function ProjectList() {
       setProjects((prev) =>
         prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
       );
+
+      toast({
+        title: "Success",
+        description: "Project updated successfully",
+      });
+
+      setSelectedProject(null); // Close the dialog
+      setEditedProject(null);
     } catch (error) {
       console.error("Error updating project:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update project",
+        variant: "destructive",
+      });
     }
   };
 
@@ -425,12 +442,23 @@ export default function ProjectList() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Project URL</label>
+                <label className="text-sm font-medium">Link (Optional)</label>
                 <Input
                   name="link"
-                  value={selectedProject.link || ""}
+                  value={editedProject?.link || ""}
                   onChange={handleChange}
-                  placeholder="https://"
+                  placeholder="Project Link"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  GitHub Repository (Optional)
+                </label>
+                <Input
+                  name="github"
+                  value={editedProject?.github || ""}
+                  onChange={handleChange}
+                  placeholder="https://github.com/username/repository"
                 />
               </div>
               <div className="space-y-2">
@@ -561,6 +589,9 @@ export default function ProjectList() {
                   Recommended: Square logo (128x128px), Wide banner (1200x400px)
                 </div>
               </div>
+              <Button onClick={handleSave} className="mt-4 w-full">
+                Save Changes
+              </Button>
             </div>
           )}
         </DialogContent>

@@ -13,6 +13,7 @@ export const user = pgTable('user', {
     link: text('link'),
     location: varchar('location'),
     profilePicture: text('profile_picture'),
+    skills: text('skills').array(),
 })
 
 export const projects = pgTable('projects', {

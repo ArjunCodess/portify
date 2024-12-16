@@ -39,7 +39,7 @@ export default function ProjectCard({
   return (
     <>
       <Card
-        className="h-full overflow-hidden hover:bg-accent transition-colors relative flex"
+        className="h-full overflow-hidden hover:bg-accent/50 transition-colors relative flex hover:cursor-pointer"
         onClick={() => onProjectClick(project)}
       >
         {dragHandleProps && (
