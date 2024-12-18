@@ -14,6 +14,7 @@ export const user = pgTable('user', {
     location: varchar('location'),
     profilePicture: text('profile_picture'),
     skills: text('skills').array(),
+    theme: varchar('theme').notNull().default('neutral'),
 })
 
 export const projects = pgTable('projects', {

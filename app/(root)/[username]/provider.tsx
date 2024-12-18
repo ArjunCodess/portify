@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { UserData } from '@/types';
 import { getUserDataByUsername } from '@/actions/user-data';
+import { ThemeProvider } from './theme-provider';
 
 type ProfileContextType = {
   userData: UserData | null;
@@ -39,7 +40,9 @@ export default function Provider({
 
   return (
     <ProfileContext.Provider value={{ userData, loading }}>
-      {children}
+      <ThemeProvider>
+        {children}
+      </ThemeProvider>
     </ProfileContext.Provider>
   );
 }

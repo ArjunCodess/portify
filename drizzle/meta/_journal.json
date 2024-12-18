@@ -43,6 +43,13 @@
       "when": 1734360827025,
       "tag": "0005_illegal_arclight",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1734501929697,
+      "tag": "0006_keen_maddog",
+      "breakpoints": true
     }
   ]
 }
