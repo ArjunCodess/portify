@@ -16,6 +16,7 @@ export type Project = {
   banner: string | null;
   category: string | null;
   order: number | null;
+  clickCount: number | null;
 };
 
 export type UserData = {

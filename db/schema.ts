@@ -15,6 +15,7 @@ export const user = pgTable('user', {
     profilePicture: text('profile_picture'),
     skills: text('skills').array(),
     theme: varchar('theme').notNull().default('neutral'),
+    profileVisitCount: integer('profile_visit_count').default(0),
 })
 
 export const projects = pgTable('projects', {
@@ -28,6 +29,13 @@ export const projects = pgTable('projects', {
     banner: text('banner'),
     category: varchar('category'),
     order: integer('order').default(0),
+    clickCount: integer('click_count').default(0),
+})
+
+export const projectsClicks = pgTable('projects_clicks', {
+    id: varchar('id').primaryKey(),
+    projectId: varchar('project_id').notNull().references(() => projects.id),
+    timestamp: integer('timestamp').notNull(),
 })
 
 export const userProjectRelation = relations(user, ({ many }) => ({

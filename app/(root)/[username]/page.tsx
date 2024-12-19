@@ -23,6 +23,34 @@ export default function Profile({ params }: PageProps) {
   const { userData, loading } = useProfile();
   const resolvedParams = use(params);
 
+  React.useEffect(() => {
+    const incrementVisitCount = async () => {
+      if (resolvedParams.username) {
+        try {
+          // Check if page is in an iframe
+          const isInIframe = window.self !== window.top;
+          // Check if we're in preview mode by checking the referrer
+          const isPreview = window.location.pathname.includes('/preview');
+
+          // Only increment if not in iframe and not in preview
+          if (!isInIframe && !isPreview) {
+            await fetch('/api/profile/visit', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ username: resolvedParams.username }),
+            });
+          }
+        } catch (error) {
+          console.error('Error incrementing visit count:', error);
+        }
+      }
+    };
+
+    incrementVisitCount();
+  }, [resolvedParams.username]);
+
   if (!isLoaded || loading) {
     return (
       <div className="flex flex-col space-y-4 p-4">

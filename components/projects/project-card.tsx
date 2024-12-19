@@ -79,7 +79,14 @@ export default function ProjectCard({
                 </div>
               )}
               <CardTitle className="flex items-center justify-between w-full">
-                {project.name}
+                <div className="flex items-baseline gap-2">
+                  <span>{project.name}</span>
+                  {project.clickCount !== undefined && (
+                    <span className="text-sm text-muted-foreground">
+                      ({project.clickCount} clicks)
+                    </span>
+                  )}
+                </div>
                 <Button
                   variant="ghost"
                   size="icon"

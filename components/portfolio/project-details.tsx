@@ -1,9 +1,9 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Github, Link as LucideLink } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
 import { useProfile } from "@/app/(root)/[username]/provider";
 import { Badge } from "@/components/ui/badge";
+import { ProjectLink } from "@/components/projects/project-clicks";
 
 export default function ProjectDetails() {
   const { userData } = useProfile();
@@ -70,24 +70,14 @@ export default function ProjectDetails() {
 
                     <div className="flex gap-2 text-foreground/50 flex-shrink-0">
                       {project.github && (
-                        <Link
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:text-foreground transition-colors"
-                        >
-                          <Github className="h-5 w-5" />
-                        </Link>
+                        <ProjectLink href={project.github} projectId={project.id}>
+                          <Github className="h-5 w-5 hover:text-foreground transition-colors" />
+                        </ProjectLink>
                       )}
                       {project.link && (
-                        <Link
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:text-foreground transition-colors"
-                        >
-                          <LucideLink className="h-5 w-5" />
-                        </Link>
+                        <ProjectLink href={project.link} projectId={project.id}>
+                          <LucideLink className="h-5 w-5 hover:text-foreground transition-colors" />
+                        </ProjectLink>
                       )}
                     </div>
                   </div>

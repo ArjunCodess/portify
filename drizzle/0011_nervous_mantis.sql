@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "profile_visit_count" integer DEFAULT 0;

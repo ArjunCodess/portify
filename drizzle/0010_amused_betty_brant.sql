@@ -1,0 +1,1 @@
+ALTER TABLE "projects" ADD COLUMN "click_count" integer DEFAULT 0;
