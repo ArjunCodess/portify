@@ -27,7 +27,7 @@ const data = [
     icon: PaintBucket,
   },
   {
-    title: "Stats",
+    title: "Analytics",
     url: "/admin/analytics",
     icon: BarChart2,
   },

@@ -34,4 +34,5 @@ export type UserData = {
   projects: Project[];
   skills: string[] | null;
   theme: string;
+  visitCount: number;
 };

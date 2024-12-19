@@ -15,7 +15,6 @@ export const user = pgTable('user', {
     profilePicture: text('profile_picture'),
     skills: text('skills').array(),
     theme: varchar('theme').notNull().default('neutral'),
-    profileVisitCount: integer('profile_visit_count').default(0),
 })
 
 export const projects = pgTable('projects', {
@@ -35,6 +34,12 @@ export const projects = pgTable('projects', {
 export const projectsClicks = pgTable('projects_clicks', {
     id: varchar('id').primaryKey(),
     projectId: varchar('project_id').notNull().references(() => projects.id),
+    timestamp: integer('timestamp').notNull(),
+})
+
+export const profileVisits = pgTable('profile_visits', {
+    id: varchar('id').primaryKey(),
+    userId: varchar('user_id').notNull().references(() => user.id),
     timestamp: integer('timestamp').notNull(),
 })
 

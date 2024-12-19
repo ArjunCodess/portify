@@ -23,6 +23,10 @@ export default function UserDetails({ data }: UserDetailsProps) {
         </p>
         <p className="text-sm text-foreground/70 mx-auto">{data.bio}</p>
         
+        <div className="text-sm text-foreground/60">
+          {data.visitCount.toLocaleString()} profile {data.visitCount === 1 ? 'visit' : 'visits'}
+        </div>
+        
         {data.skills && data.skills.length > 0 && (
           <div className="flex flex-wrap justify-center gap-2 mt-4">
             {data.skills.map((skill, index) => (
