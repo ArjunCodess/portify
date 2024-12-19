@@ -15,6 +15,12 @@ import {
 } from "next-cloudinary";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Loader2 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function BasicDetails() {
   const { toast } = useToast();
@@ -354,9 +360,18 @@ export default function BasicDetails() {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="username" className="text-sm font-medium">
-                Username
-              </label>
+              <TooltipProvider>
+                <Tooltip delayDuration={0}>
+                  <TooltipTrigger asChild>
+                    <label htmlFor="username" className="text-sm font-medium flex items-center gap-2">
+                      Username <span className="text-muted-foreground hover:text-foreground transition-colors">ⓘ</span>
+                    </label>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" align="start" className="translate-y-[-10px]">
+                    <p>Changing your username will require a page reload</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <Input
                 id="username"
                 name="username"
