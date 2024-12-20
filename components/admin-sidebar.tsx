@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from "react";
-import { FileText, PaintBucket, BarChart2, Settings } from "lucide-react";
+import { FileText, PaintBucket, BarChart2 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import {
@@ -30,11 +30,6 @@ const data = [
     title: "Analytics",
     url: "/admin/analytics",
     icon: BarChart2,
-  },
-  {
-    title: "Settings",
-    url: "/admin/settings",
-    icon: Settings,
   },
 ];
 

@@ -36,3 +36,16 @@ export type UserData = {
   theme: string;
   visitCount: number;
 };
+
+export type AnalyticsData = {
+  profileVisits: {
+    date: string;
+    count: number;
+  }[];
+  projectClicks: {
+    projectId: string;
+    projectName: string;
+    date: string;
+    count: number;
+  }[];
+}

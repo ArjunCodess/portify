@@ -19,13 +19,9 @@ export default function UserDetails({ data }: UserDetailsProps) {
       <div className="space-y-4 max-w-lg">
         <h1 className="text-2xl font-bold">Hi, I&apos;m {data.name} 👋</h1>
         <p className="text-sm text-foreground/95 mx-auto">
-          I&apos;m a {data.tagline} from {data.location}.
+          {data.tagline} from {data.location}.
         </p>
         <p className="text-sm text-foreground/70 mx-auto">{data.bio}</p>
-        
-        <div className="text-sm text-foreground/60">
-          {data.visitCount.toLocaleString()} profile {data.visitCount === 1 ? 'visit' : 'visits'}
-        </div>
         
         {data.skills && data.skills.length > 0 && (
           <div className="flex flex-wrap justify-center gap-2 mt-4">

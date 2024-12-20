@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ export default function Admin() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
-  const [portfolioUsername, setPortfolioUsername] = useState('');
+  const [portfolioUsername, setPortfolioUsername] = useState("");
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -30,10 +30,10 @@ export default function Admin() {
           router.push("/create");
           return;
         }
-        
+
         setPortfolioUsername(userRecord.username);
       } catch (error) {
-        console.error('Error checking user:', error);
+        console.error("Error checking user:", error);
         router.push("/create");
       } finally {
         setIsChecking(false);
@@ -57,12 +57,22 @@ export default function Admin() {
   }
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full px-4">
-      <div className="col-span-1 md:col-span-2">
-        <Editor />
+    <section className="h-full px-4">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
+        <p className="text-muted-foreground">
+          Welcome to your admin dashboard. Here you can manage your portfolio
+          content and settings.
+        </p>
       </div>
-      <div className="col-span-1">
-        <Preview username={portfolioUsername} />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="col-span-1 md:col-span-2">
+          <Editor />
+        </div>
+        <div className="col-span-1">
+          <Preview username={portfolioUsername} />
+        </div>
       </div>
     </section>
   );
