@@ -1,20 +1,34 @@
-import { headers } from "next/headers";
+"use client"
+
+import { useUser } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
 import { ProfileVisitsChart, ProjectClicksChart } from "@/components/analytics-charts";
+import { AnalyticsData } from "@/types";
 
-async function getAnalyticsData() {
-  const headersList = await headers();
-  const host = headersList.get("host");
-  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-  
-  const res = await fetch(`${protocol}://${host}/api/analytics`, {
-    cache: "no-store",
-  });
-  if (!res.ok) throw new Error("Failed to fetch analytics data");
-  return res.json();
-}
+function AnalyticsPage() {
+  const { user } = useUser();
+  const [data, setData] = useState<AnalyticsData | null>(null);
 
-export default async function AnalyticsPage() {
-  const data = await getAnalyticsData();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`/api/analytics?userId=${user?.id}`, {
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error("Failed to fetch analytics data");
+        const analyticsData = await res.json();
+        setData(analyticsData);
+      } catch (error) {
+        console.error("Error fetching analytics:", error);
+      }
+    };
+
+    if (user?.id) {
+      fetchData();
+    }
+  }, [user?.id]);
+
+  if (!data) return <div>Loading...</div>;
 
   return (
     <section className="space-y-6 px-4 h-full w-full">
@@ -32,3 +46,5 @@ export default async function AnalyticsPage() {
     </section>
   )
 }
+
+export default AnalyticsPage;

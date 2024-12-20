@@ -40,6 +40,20 @@ const profileVisitsConfig = {
 }
 
 export function ProfileVisitsChart({ data }: { data: AnalyticsData['profileVisits'] }) {
+  if (!data || data.length === 0) {
+    return (
+      <Card className="col-span-2">
+        <CardHeader>
+          <CardTitle>Profile Visits</CardTitle>
+          <CardDescription>Number of visitors to your portfolio.</CardDescription>
+        </CardHeader>
+        <CardContent className="flex items-center justify-center min-h-[200px] text-muted-foreground">
+          No profile visits data available
+        </CardContent>
+      </Card>
+    );
+  }
+
   // Get unique dates to check data points
   const uniqueDates = new Set(data.map(d => d.date));
   
@@ -174,6 +188,20 @@ function ProjectChart({ projectName, data }: ProjectChartProps) {
 }
 
 export function ProjectClicksChart({ data }: { data: AnalyticsData['projectClicks'] }) {
+  if (!data || data.length === 0) {
+    return (
+      <Card className="col-span-2">
+        <CardHeader>
+          <CardTitle>Project Clicks</CardTitle>
+          <CardDescription>Number of clicks on your projects.</CardDescription>
+        </CardHeader>
+        <CardContent className="flex items-center justify-center min-h-[200px] text-muted-foreground">
+          No project analytics data available
+        </CardContent>
+      </Card>
+    );
+  }
+
   // Process data to group by project
   const projectsData = data.reduce((acc, curr) => {
     if (!acc[curr.projectId]) {

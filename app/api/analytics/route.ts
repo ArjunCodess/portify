@@ -2,6 +2,7 @@ import { db } from "@/db/drizzle";
 import { profileVisits, projectsClicks, projects } from "@/db/schema";
 import { sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 function addDummyDays(data: { date: string; count: number }[]) {
   const sortedData = [...data].sort((a, b) => b.date.localeCompare(a.date));
@@ -27,17 +28,27 @@ function addDummyDays(data: { date: string; count: number }[]) {
 
 export async function GET() {
   try {
-    // Get profile visits data grouped by day
+    const { userId } = await auth();
+    
+    if (!userId) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    // Get profile visits data grouped by day for the specific user
     const profileVisitsData = await db
       .select({
         date: sql<string>`to_char(to_timestamp(timestamp), 'YYYY-MM-DD')`,
         count: sql<number>`count(*)`,
       })
       .from(profileVisits)
+      .where(sql`${profileVisits.userId} = ${userId}`)
       .groupBy(sql`to_char(to_timestamp(timestamp), 'YYYY-MM-DD')`)
       .orderBy(sql`to_char(to_timestamp(timestamp), 'YYYY-MM-DD')`);
 
-    // Get project clicks data grouped by project and day
+    // Get project clicks data grouped by project and day for the specific user
     const projectClicksData = await db
       .select({
         projectId: projectsClicks.projectId,
@@ -47,6 +58,7 @@ export async function GET() {
       })
       .from(projectsClicks)
       .leftJoin(projects, sql`${projects.id} = ${projectsClicks.projectId}`)
+      .where(sql`${projects.userId} = ${userId}`)
       .groupBy(projectsClicks.projectId, projects.name, sql`to_char(to_timestamp(${projectsClicks.timestamp}), 'YYYY-MM-DD')`)
       .orderBy(sql`to_char(to_timestamp(${projectsClicks.timestamp}), 'YYYY-MM-DD')`);
 

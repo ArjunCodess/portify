@@ -5,7 +5,7 @@ export const user = pgTable('user', {
     id: varchar('id').primaryKey(),
     name: varchar('name').notNull(),
     email: varchar('email').notNull(),
-    username: varchar('username').notNull(),
+    username: varchar('username').notNull().unique(),
     tagline: text('tagline'),
     bio: text('bio'),
     twitter: varchar('twitter'),
