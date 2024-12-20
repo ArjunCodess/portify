@@ -15,6 +15,7 @@ export const user = pgTable('user', {
     profilePicture: text('profile_picture'),
     skills: text('skills').array(),
     theme: varchar('theme').notNull().default('neutral'),
+    template: varchar('template', { enum: ['minimal', 'pristine', 'vibrant', 'elegant'] }).notNull().default('minimal'),
 })
 
 export const projects = pgTable('projects', {

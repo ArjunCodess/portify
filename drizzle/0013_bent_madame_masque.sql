@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "template" varchar DEFAULT 'minimal' NOT NULL;

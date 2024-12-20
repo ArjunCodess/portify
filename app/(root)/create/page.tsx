@@ -1,59 +1,75 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createUsername, checkUsernameAvailable } from '@/actions/username';
-import { getUserByEmail } from '@/actions/user';
-import { useToast } from '@/hooks/use-toast';
+import { createUsername, checkUsernameAvailable } from "@/actions/username";
+import { getUserByEmail } from "@/actions/user";
+import { useToast } from "@/hooks/use-toast";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { templates } from "@/lib/templates";
+import { themes } from "@/lib/themes";
 
 export default function Page() {
   const { user } = useUser();
   const router = useRouter();
   const { toast } = useToast();
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
+  const [template, setTemplate] = useState("minimal");
+  const [theme, setTheme] = useState("neutral");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [isChecking, setIsChecking] = useState(false);
+  const [error, setError] = useState("");
+  const [, setIsChecking] = useState(false);
 
   useEffect(() => {
     async function checkUser() {
       if (!user?.id) return;
-      
+
       if (!user.primaryEmailAddress?.emailAddress) return;
-      
-      const userRecord = await getUserByEmail(user.primaryEmailAddress.emailAddress);
+
+      const userRecord = await getUserByEmail(
+        user.primaryEmailAddress.emailAddress
+      );
       if (userRecord) {
         router.push("/admin");
       }
     }
-    
+
     checkUser();
   }, [user, router]);
 
   useEffect(() => {
     const checkUsername = async () => {
       if (!username) {
-        setError('');
+        setError("");
         return;
       }
 
       // Basic validation
       if (username.length < 5) {
-        setError('Username must be at least 5 characters long');
+        setError("Username must be at least 5 characters long");
         return;
       }
 
-      if (username.includes(' ')) {
-        setError('Username cannot contain spaces');
+      if (username.includes(" ")) {
+        setError("Username cannot contain spaces");
         return;
       }
 
       if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
-        setError('Username can only contain letters, numbers, underscores, and hyphens');
+        setError(
+          "Username can only contain letters, numbers, underscores, and hyphens"
+        );
         return;
       }
 
@@ -61,12 +77,12 @@ export default function Page() {
       try {
         const isAvailable = await checkUsernameAvailable(username);
         if (!isAvailable) {
-          setError('This username is already taken');
+          setError("This username is already taken");
         } else {
-          setError('');
+          setError("");
         }
       } catch {
-        setError('Error checking username availability');
+        setError("Error checking username availability");
       } finally {
         setIsChecking(false);
       }
@@ -87,7 +103,9 @@ export default function Page() {
         user.primaryEmailAddress.emailAddress,
         username,
         user.fullName,
-        user.id
+        user.id,
+        template,
+        theme
       );
 
       if (result.success) {
@@ -95,19 +113,19 @@ export default function Page() {
           title: "Success!",
           description: "Your portfolio is ready",
         });
-        router.push('/admin');
+        router.push("/admin");
       } else {
         toast({
           variant: "destructive",
           title: "Error",
-          description: result.error,
+          description: result.error || "Something went wrong",
         });
       }
     } catch {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Something went wrong",
+        description: "Failed to create portfolio",
       });
     } finally {
       setIsLoading(false);
@@ -115,40 +133,96 @@ export default function Page() {
   };
 
   return (
-    <div className="container max-w-lg mx-auto min-h-[calc(100vh-65px)] flex justify-center items-center py-10">
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Create Username for Portfolio</CardTitle>
-          <CardDescription>Add Username for your portfolio</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Input
-                placeholder="Enter username"
-                value={username}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
-                disabled={isLoading}
-                className={error ? "border-red-500" : ""}
-              />
-              {isChecking ? (
-                <p className="text-sm text-muted-foreground">Checking username...</p>
-              ) : error ? (
-                <p className="text-sm text-red-500">{error}</p>
-              ) : username.length > 0 ? (
-                <p className="text-sm text-green-500">Username is available!</p>
-              ) : null}
-            </div>
-            <Button 
-              type="submit" 
-              className="w-full" 
-              disabled={isLoading || !username.trim() || Boolean(error)}
-            >
-              {isLoading ? "Creating..." : "Create"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+    <div className="flex items-center justify-center min-h-[calc(100vh-65px)]">
+      <div className="container max-w-lg py-10">
+        <Card>
+          <CardHeader>
+            <CardTitle>Create your portfolio</CardTitle>
+            <CardDescription>
+              Choose a username and customize your portfolio
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className={error ? "border-red-500" : ""}
+                />
+                {error && <p className="text-sm text-red-500">{error}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label>Template</Label>
+                <RadioGroup
+                  defaultValue="minimal"
+                  value={template}
+                  onValueChange={setTemplate}
+                  className="grid grid-cols-2 gap-4"
+                >
+                  {templates.map((template) => (
+                    <div key={template.value}>
+                      <RadioGroupItem
+                        value={template.value}
+                        id={template.value}
+                        className="peer sr-only"
+                      />
+                      <Label
+                        htmlFor={template.value}
+                        className="cursor-pointer flex flex-col items-center justify-between rounded-md border-2 border-muted bg-background p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                      >
+                        <span>{template.label}</span>
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Theme</Label>
+                <RadioGroup
+                  defaultValue="neutral"
+                  value={theme}
+                  onValueChange={setTheme}
+                  className="grid grid-cols-2 gap-4"
+                >
+                  {themes.map((theme) => (
+                    <div key={theme.name}>
+                      <RadioGroupItem
+                        value={theme.name}
+                        id={theme.name}
+                        className="peer sr-only"
+                      />
+                      <Label
+                        htmlFor={theme.name}
+                        className="cursor-pointer flex flex-row items-center justify-between rounded-md border-2 border-muted bg-background p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                      >
+                        <span>{theme.label}</span>
+                        <div
+                          className="h-4 w-4 rounded-full border"
+                          style={{ backgroundColor: `#${theme.activeColor}` }}
+                        />
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={!!error || isLoading}
+              >
+                {isLoading ? "Creating..." : "Create Portfolio"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

@@ -4,7 +4,7 @@ interface TopBarProps {
   username: string;
 }
 
-export function TopBar({ username }: TopBarProps) {
+export default function TopBar({ username }: TopBarProps) {
   return (
     <div className="z-50 backdrop-blur-sm">
       <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">

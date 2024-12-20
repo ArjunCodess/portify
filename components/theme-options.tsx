@@ -48,7 +48,6 @@ export default function ThemeOptions({ onThemeChange }: ThemeOptionsProps) {
 
   return (
     <section>
-      <h1 className="text-2xl font-bold mb-6">Color Palettes</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {themes.map((theme) => (
           <div 

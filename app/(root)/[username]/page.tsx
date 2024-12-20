@@ -1,12 +1,12 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import React, { use } from "react";
+import React, { use, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProfile } from "./provider";
 import UserDetails from "@/components/portfolio/user-details";
 import ProjectDetails from "@/components/portfolio/project-details";
-import { TopBar } from "@/components/portfolio/top-bar";
+import TopBar from "@/components/portfolio/top-bar";
 import { Separator } from "@/components/ui/separator";
 import Socials from "@/components/portfolio/socials";
 import Link from "next/link";
@@ -23,7 +23,7 @@ export default function Profile({ params }: PageProps) {
   const { userData, loading } = useProfile();
   const resolvedParams = use(params);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const incrementVisitCount = async () => {
       if (resolvedParams.username) {
         try {
@@ -93,13 +93,24 @@ export default function Profile({ params }: PageProps) {
     <section>
       <TopBar username={resolvedParams.username} />
       <Separator />
-      <div className="p-6 md:p-8 lg:p-12 max-w-2xl mx-auto">
-        <UserDetails data={userData} />
-        <Separator className="my-10" />
-        <Socials data={userData} />
-        <Separator className="my-10" />
-        <ProjectDetails />
-      </div>
+      {userData.template === "pristine" && (
+        <div className="p-6 md:p-8 max-w-2xl mx-auto sm:border sm:rounded-lg sm:my-5 bg-foreground/[0.02]">
+          <UserDetails data={userData} />
+          <Separator className="my-10" />
+          <Socials data={userData} />
+          <Separator className="my-10" />
+          <ProjectDetails />
+        </div>
+      )}
+      {userData.template === "minimal" && (
+        <div className="p-6 md:p-8 lg:p-12 max-w-2xl mx-auto">
+          <UserDetails data={userData} />
+          <Separator className="my-10" />
+          <Socials data={userData} />
+          <Separator className="my-10" />
+          <ProjectDetails />
+        </div>
+      )}
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import { InferSelectModel } from 'drizzle-orm';
 import { projects } from '@/db/schema';
+import { TemplateType } from '@/lib/templates';
 
 export type ProjectWithSerialNumber = InferSelectModel<typeof projects> & {
   serialNumber?: number;
@@ -34,6 +35,7 @@ export type UserData = {
   projects: Project[];
   skills: string[] | null;
   theme: string;
+  template: TemplateType;
   visitCount: number;
 };
 

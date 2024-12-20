@@ -3,29 +3,39 @@
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import ThemeOptions from "@/components/theme-options";
+import TemplateOptions from "@/components/template-options";
 import { useEffect, useState } from "react";
 
 export default function AdminStylesPage() {
   const { user: clerkUser, isLoaded } = useUser();
   const [currentTheme, setCurrentTheme] = useState<string>("neutral");
+  const [currentTemplate, setCurrentTemplate] = useState<string>("minimal");
 
   useEffect(() => {
-    const fetchUserTheme = async () => {
+    const fetchUserSettings = async () => {
       if (!clerkUser?.id) return;
 
       try {
-        const response = await fetch("/api/theme");
-        if (!response.ok) {
-          throw new Error("Failed to fetch theme");
+        const [themeResponse, templateResponse] = await Promise.all([
+          fetch("/api/theme"),
+          fetch("/api/template")
+        ]);
+        
+        if (!themeResponse.ok || !templateResponse.ok) {
+          throw new Error("Failed to fetch settings");
         }
-        const data = await response.json();
-        setCurrentTheme(data.theme);
+
+        const themeData = await themeResponse.json();
+        const templateData = await templateResponse.json();
+
+        setCurrentTheme(themeData.theme);
+        setCurrentTemplate(templateData.template);
       } catch (error) {
-        console.error("Error fetching theme:", error);
+        console.error("Error fetching settings:", error);
       }
     };
 
-    fetchUserTheme();
+    fetchUserSettings();
   }, [clerkUser?.id]);
 
   const handleThemeChange = (newTheme: string) => {
@@ -45,12 +55,24 @@ export default function AdminStylesPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Styles</h1>
         <p className="text-muted-foreground">
-          Customize the appearance of your portfolio by selecting a theme.
-          Your current theme is: <span className="font-medium">{currentTheme}</span>.
+          Customize the appearance of your portfolio by selecting a theme and
+          template. Your current theme is:{" "}
+          <span className="font-medium">{currentTheme}</span> and your current
+          template is: <span className="font-medium">{currentTemplate}</span>
         </p>
       </div>
-      
-      <ThemeOptions onThemeChange={handleThemeChange} />
+
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl font-bold mb-6">Template</h1>
+          <TemplateOptions onTemplateChange={setCurrentTemplate} />
+        </div>
+
+        <div>
+          <h1 className="text-2xl font-bold mb-6">Color Palettes</h1>
+          <ThemeOptions onThemeChange={handleThemeChange} />
+        </div>
+      </div>
     </div>
   );
 }
