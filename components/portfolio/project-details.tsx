@@ -115,7 +115,7 @@ export default function ProjectDetails() {
       )}
 
       {userData.template === "pristine" && (
-        <div className="space-y-6 bg-background/90 dark:bg-background/5 p-4 sm:p-6 rounded-lg backdrop-blur-sm border border-border">
+        <div className="space-y-6 bg-background/95 dark:bg-background/5 p-4 pt-6 sm:p-6 rounded-lg backdrop-blur-sm border border-border">
           <div className="flex items-center justify-between">
             <h2 className="text-xl sm:text-2xl text-foreground font-bold">Projects</h2>
           </div>
@@ -123,7 +123,7 @@ export default function ProjectDetails() {
             {sortedProjects.map((project, index) => (
               <div
                 key={index}
-                className="group overflow-hidden rounded-lg border border-border bg-background/50 dark:bg-background/10 hover:bg-background/70 dark:hover:bg-background/20 transition-colors"
+                className="group overflow-hidden rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 transition-colors"
               >
                 {project.banner && (
                   <div className="relative w-full h-36 sm:h-48">
@@ -137,56 +137,58 @@ export default function ProjectDetails() {
                     />
                   </div>
                 )}
-                <div className="flex flex-col sm:flex-row items-start gap-4 p-4">
-                  {project.logo && (
-                    <div className="relative flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 bg-background/50 dark:bg-background/20 rounded-lg overflow-hidden border border-border">
-                      <Image
-                        src={project.logo}
-                        alt={`${project.name} logo`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 56px, 48px"
-                      />
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0 w-full space-y-3">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <h3 className="font-medium text-lg text-foreground">{project.name}</h3>
-                      <div className="flex gap-3 text-foreground/80 sm:self-center order-first sm:order-last">
-                        {project.github && (
-                          <ProjectLink
-                            href={project.github}
-                            projectId={project.id}
-                          >
-                            <Github className="h-5 w-5 hover:text-muted-foreground transition-colors" />
-                          </ProjectLink>
-                        )}
-                        {project.link && (
-                          <ProjectLink
-                            href={project.link}
-                            projectId={project.id}
-                          >
-                            <LucideLink className="h-5 w-5 hover:text-muted-foreground transition-colors" />
-                          </ProjectLink>
-                        )}
-                      </div>
-                    </div>
-                    <p className="text-sm text-muted-foreground/80 line-clamp-2">
-                      {project.description}
-                    </p>
-                    {project.category && project.category.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {project.category.split(",").map((item, i) => (
-                          <Badge
-                            key={i}
-                            variant="secondary"
-                            className="text-xs bg-background/50 dark:bg-background/20 text-foreground/70 border border-border"
-                          >
-                            {item.trim()}
-                          </Badge>
-                        ))}
+                <div className="flex flex-col items-start gap-4 p-4">
+                  <div className="flex items-start gap-4 w-full">
+                    {project.logo && (
+                      <div className="relative flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 rounded-lg overflow-hidden border border-border">
+                        <Image
+                          src={project.logo}
+                          alt={`${project.name} logo`}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 56px, 48px"
+                        />
                       </div>
                     )}
+                    <div className="flex-1 min-w-0 space-y-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <h3 className="font-medium text-lg text-foreground">{project.name}</h3>
+                        <div className="flex gap-3 text-foreground/60 hover:text-foreground/80">
+                          {project.github && (
+                            <ProjectLink
+                              href={project.github}
+                              projectId={project.id}
+                            >
+                              <Github className="h-5 w-5 hover:text-foreground transition-colors" />
+                            </ProjectLink>
+                          )}
+                          {project.link && (
+                            <ProjectLink
+                              href={project.link}
+                              projectId={project.id}
+                            >
+                              <LucideLink className="h-5 w-5 hover:text-foreground transition-colors" />
+                            </ProjectLink>
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {project.description}
+                      </p>
+                      {project.category && project.category.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {project.category.split(",").map((item, i) => (
+                            <Badge
+                              key={i}
+                              variant="secondary"
+                              className="text-xs bg-muted hover:bg-muted/80 dark:bg-background/20 text-foreground/70 border border-border"
+                            >
+                              {item.trim()}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

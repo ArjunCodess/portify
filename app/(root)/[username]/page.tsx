@@ -30,20 +30,20 @@ export default function Profile({ params }: PageProps) {
           // Check if page is in an iframe
           const isInIframe = window.self !== window.top;
           // Check if we're in preview mode by checking the referrer
-          const isPreview = window.location.pathname.includes('/preview');
+          const isPreview = window.location.pathname.includes("/preview");
 
           // Only increment if not in iframe and not in preview
           if (!isInIframe && !isPreview) {
-            await fetch('/api/profile/visit', {
-              method: 'POST',
+            await fetch("/api/profile/visit", {
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({ username: resolvedParams.username }),
             });
           }
         } catch (error) {
-          console.error('Error incrementing visit count:', error);
+          console.error("Error incrementing visit count:", error);
         }
       }
     };
@@ -93,24 +93,18 @@ export default function Profile({ params }: PageProps) {
     <section>
       <TopBar username={resolvedParams.username} />
       <Separator />
-      {userData.template === "pristine" && (
-        <div className="p-6 md:p-8 max-w-2xl mx-auto sm:border sm:rounded-lg sm:my-5 bg-foreground/[0.02]">
-          <UserDetails data={userData} />
-          <Separator className="my-10" />
-          <Socials data={userData} />
-          <Separator className="my-10" />
-          <ProjectDetails />
-        </div>
-      )}
-      {userData.template === "minimal" && (
-        <div className="p-6 md:p-8 lg:p-12 max-w-2xl mx-auto">
-          <UserDetails data={userData} />
-          <Separator className="my-10" />
-          <Socials data={userData} />
-          <Separator className="my-10" />
-          <ProjectDetails />
-        </div>
-      )}
+      <div
+        className={`p-6 md:p-8 max-w-2xl mx-auto ${
+          (userData.template === "minimal" && "lg:p-12") ||
+          (userData.template === "pristine" && "sm:border sm:rounded-lg sm:my-5 bg-muted-foreground/[0.01] dark:bg-muted-foreground/[0.03]")
+        }`}
+      >
+        <UserDetails data={userData} />
+        <Separator className="my-8" />
+        <Socials data={userData} />
+        <Separator className="my-8" />
+        <ProjectDetails />
+      </div>
     </section>
   );
 }

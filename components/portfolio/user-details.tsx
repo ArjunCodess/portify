@@ -41,23 +41,23 @@ export default function UserDetails({ data }: UserDetailsProps) {
       )}
 
       {data.template === "pristine" && (
-        <div className="bg-background/90 dark:bg-background/5 rounded-lg p-4 sm:p-6 backdrop-blur-sm border border-border">
+        <div className="bg-background/95 dark:bg-background/5 rounded-lg p-6 sm:p-8 md:p-10 backdrop-blur-sm border border-border">
           <div className="flex flex-col-reverse sm:flex-row items-center sm:items-start gap-6 sm:justify-between text-center sm:text-left">
             <div className="space-y-4 w-full">
               <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
                 I&apos;m{" "}
-                <span className="bg-foreground text-background px-2 rounded-md">
+                <span className="bg-muted-foreground dark:bg-white text-background px-2 rounded-md border border-border">
                   {data.name.split(" ")[0]}.
                 </span>{" "}
                 👋
               </h1>
-              <div className="space-y-2 text-sm max-w-xs sm:max-w-sm md:max-w-md mx-auto sm:mx-0">
-                <p className="text-muted-foreground/90 text-lg">
+              <div className="space-y-2 text-sm max-w-full sm:max-w-sm md:max-w-md mx-auto sm:mx-0">
+                <p className="text-muted-foreground text-lg">
                   {data.tagline}
                   {data.tagline && data.tagline.endsWith(".") ? "" : "."} Based in{" "}
                   {data.location}.
                 </p>
-                <p className="text-muted-foreground/70">{data.bio}</p>
+                <p className="text-muted-foreground/80">{data.bio}</p>
               </div>
               {data.skills && data.skills.length > 0 && (
                 <div className="flex flex-wrap justify-center sm:justify-start gap-2">
@@ -65,7 +65,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
                     <Badge
                       key={index}
                       variant="secondary"
-                      className="rounded-full bg-background/50 dark:bg-background/10 text-foreground/80 dark:text-foreground/70 border border-border"
+                      className="rounded-full bg-muted hover:bg-muted/80 dark:bg-background/10 text-foreground/80 dark:text-foreground/70 border border-border"
                     >
                       {skill}
                     </Badge>
@@ -75,7 +75,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
             </div>
             <Avatar className="w-20 h-20 sm:w-24 sm:h-24 shrink-0 border border-border">
               <AvatarImage src={data.profilePicture ?? ""} alt={data.name} />
-              <AvatarFallback className="bg-background/50 dark:bg-background/20 text-foreground/80">{data.name[0]}</AvatarFallback>
+              <AvatarFallback className="bg-muted dark:bg-background/20 text-foreground/80">{data.name[0]}</AvatarFallback>
             </Avatar>
           </div>
         </div>

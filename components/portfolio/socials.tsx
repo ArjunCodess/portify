@@ -59,14 +59,14 @@ export default function Socials({ data }: { data: UserData }) {
       )}
 
       {data.template === "pristine" && (
-        <div className="w-full rounded-lg bg-background/90 dark:bg-background/5 px-4 py-5 sm:py-6 backdrop-blur-sm border border-border">
+        <div className="w-full rounded-lg bg-background/95 dark:bg-background/5 px-4 py-5 sm:py-6 backdrop-blur-sm border border-border">
           <div className="flex flex-wrap justify-center gap-3">
             {data.github && (
               <Link
                 href={data.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-background/50 dark:bg-background/10 hover:bg-background/70 dark:hover:bg-background/20 text-foreground/80 hover:text-foreground transition-colors"
+                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 text-muted-foreground/90 hover:text-muted-foreground transition-colors"
               >
                 <Github className="h-5 w-5" />
               </Link>
@@ -76,7 +76,7 @@ export default function Socials({ data }: { data: UserData }) {
                 href={data.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-background/50 dark:bg-background/10 hover:bg-background/70 dark:hover:bg-background/20 text-foreground/80 hover:text-foreground transition-colors"
+                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 text-muted-foreground/90 hover:text-muted-foreground transition-colors"
               >
                 <Twitter className="h-5 w-5" />
               </Link>
@@ -86,7 +86,7 @@ export default function Socials({ data }: { data: UserData }) {
                 href={data.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-background/50 dark:bg-background/10 hover:bg-background/70 dark:hover:bg-background/20 text-foreground/80 hover:text-foreground transition-colors"
+                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 text-muted-foreground/90 hover:text-muted-foreground transition-colors"
               >
                 <LinkSVG className="h-5 w-5" />
               </Link>
@@ -94,7 +94,7 @@ export default function Socials({ data }: { data: UserData }) {
             {data.email && (
               <Link
                 href={`mailto:${data.email}`}
-                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-background/50 dark:bg-background/10 hover:bg-background/70 dark:hover:bg-background/20 text-foreground/80 hover:text-foreground transition-colors"
+                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 text-muted-foreground/90 hover:text-muted-foreground transition-colors"
               >
                 <Mail className="h-5 w-5" />
               </Link>
