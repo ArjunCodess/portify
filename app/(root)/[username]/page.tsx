@@ -94,9 +94,10 @@ export default function Profile({ params }: PageProps) {
       <TopBar username={resolvedParams.username} />
       <Separator />
       <div
-        className={`p-6 md:p-8 max-w-2xl mx-auto ${
-          (userData.template === "minimal" && "lg:p-12") ||
-          (userData.template === "pristine" && "sm:border sm:rounded-lg sm:my-5 bg-muted-foreground/[0.01] dark:bg-muted-foreground/[0.03]")
+        className={`p-6 md:p-8 mx-auto ${
+          userData.template === "minimal" ? "lg:p-12 max-w-2xl" :
+          userData.template === "pristine" ? "sm:border sm:rounded-lg sm:my-5 bg-muted-foreground/[0.01] dark:bg-muted-foreground/[0.03] max-w-2xl" :
+          userData.template === "vibrant" ? "max-w-6xl m-4" : "max-w-2xl"
         }`}
       >
         <UserDetails data={userData} />

@@ -1,8 +1,19 @@
-import { Github, Mail, Twitter, Link as LinkSVG } from "lucide-react";
+import { Github, Mail, Twitter, Link as LinkSVG, Globe } from "lucide-react";
 import Link from "next/link";
 import { UserData } from "@/types";
+import { Button } from "@/components/ui/button";
 
 export default function Socials({ data }: { data: UserData }) {
+  const getGithubUrl = (url: string) => {
+    if (url.startsWith("https://github.com/")) return url;
+    return `https://github.com/${url.replace("@", "")}`;
+  };
+
+  const getTwitterUrl = (url: string) => {
+    if (url.startsWith("https://twitter.com/")) return url;
+    return `https://twitter.com/${url.replace("@", "")}`;
+  };
+
   return (
     <>
       {data.template === "minimal" && (
@@ -11,7 +22,7 @@ export default function Socials({ data }: { data: UserData }) {
             {data.github && (
               <li>
                 <Link
-                  href={data.github}
+                  href={getGithubUrl(data.github)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
@@ -23,7 +34,7 @@ export default function Socials({ data }: { data: UserData }) {
             {data.twitter && (
               <li>
                 <Link
-                  href={data.twitter}
+                  href={getTwitterUrl(data.twitter)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
@@ -59,45 +70,108 @@ export default function Socials({ data }: { data: UserData }) {
       )}
 
       {data.template === "pristine" && (
-        <div className="w-full rounded-lg bg-background/95 dark:bg-background/5 px-4 py-5 sm:py-6 backdrop-blur-sm border border-border">
-          <div className="flex flex-wrap justify-center gap-3">
+        <div className="w-full max-w-sm mx-auto rounded-lg">
+          <ul className="flex justify-center gap-4">
             {data.github && (
-              <Link
-                href={data.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 text-muted-foreground/90 hover:text-muted-foreground transition-colors"
-              >
-                <Github className="h-5 w-5" />
-              </Link>
+              <li>
+                <Link
+                  href={getGithubUrl(data.github)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-border hover:bg-muted transition-colors"
+                >
+                  <Github className="h-5 w-5" />
+                </Link>
+              </li>
             )}
             {data.twitter && (
-              <Link
-                href={data.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 text-muted-foreground/90 hover:text-muted-foreground transition-colors"
-              >
-                <Twitter className="h-5 w-5" />
-              </Link>
+              <li>
+                <Link
+                  href={getTwitterUrl(data.twitter)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-border hover:bg-muted transition-colors"
+                >
+                  <Twitter className="h-5 w-5" />
+                </Link>
+              </li>
             )}
             {data.link && (
-              <Link
-                href={data.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 text-muted-foreground/90 hover:text-muted-foreground transition-colors"
-              >
-                <LinkSVG className="h-5 w-5" />
-              </Link>
+              <li>
+                <Link
+                  href={data.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-border hover:bg-muted transition-colors"
+                >
+                  <LinkSVG className="h-5 w-5" />
+                </Link>
+              </li>
             )}
             {data.email && (
-              <Link
-                href={`mailto:${data.email}`}
-                className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 text-muted-foreground/90 hover:text-muted-foreground transition-colors"
+              <li>
+                <Link
+                  href={`mailto:${data.email}`}
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-background border border-border hover:bg-muted transition-colors"
+                >
+                  <Mail className="h-5 w-5" />
+                </Link>
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
+
+      {data.template === "vibrant" && (
+        <div className="w-full max-w-sm mx-auto">
+          <div className="flex gap-4 justify-center">
+            {data.github && (
+              <Button
+                asChild
+                size="icon"
+                variant="outline"
+                className="rounded-full w-12 h-12 bg-background/50 dark:bg-background/5"
               >
-                <Mail className="h-5 w-5" />
-              </Link>
+                <Link href={getGithubUrl(data.github)} target="_blank" rel="noopener noreferrer">
+                  <Github className="h-5 w-5" />
+                </Link>
+              </Button>
+            )}
+            {data.twitter && (
+              <Button
+                asChild
+                size="icon"
+                variant="outline"
+                className="rounded-full w-12 h-12 bg-background/50 dark:bg-background/5"
+              >
+                <Link href={getTwitterUrl(data.twitter)} target="_blank" rel="noopener noreferrer">
+                  <Twitter className="h-5 w-5" />
+                </Link>
+              </Button>
+            )}
+            {data.link && (
+              <Button
+                asChild
+                size="icon"
+                variant="outline"
+                className="rounded-full w-12 h-12 bg-background/50 dark:bg-background/5"
+              >
+                <Link href={data.link} target="_blank" rel="noopener noreferrer">
+                  <Globe className="h-5 w-5" />
+                </Link>
+              </Button>
+            )}
+            {data.email && (
+              <Button
+                asChild
+                size="icon"
+                variant="outline"
+                className="rounded-full w-12 h-12 bg-background/50 dark:bg-background/5"
+              >
+                <Link href={`mailto:${data.email}`}>
+                  <Mail className="h-5 w-5" />
+                </Link>
+              </Button>
             )}
           </div>
         </div>

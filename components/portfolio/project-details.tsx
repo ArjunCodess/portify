@@ -196,6 +196,87 @@ export default function ProjectDetails() {
           </div>
         </div>
       )}
+
+      {userData.template === "vibrant" && (
+        <div className="w-full space-y-8 px-4 sm:px-6 py-4">
+        <div className="text-center lg:text-left">
+          <h2 className="text-3xl font-bold">Featured Projects</h2>
+          <p className="text-muted-foreground mt-2">Some of my best works and side projects.</p>
+        </div>
+  
+        <div className="columns-1 md:columns-2 gap-6 [column-fill:_balance] w-full">
+          {sortedProjects.map((project, index) => (
+            <div
+              key={index}
+              className="group break-inside-avoid mb-6 overflow-hidden rounded-xl border border-border bg-background/50 dark:bg-background/5 hover:bg-background/70 dark:hover:bg-background/10 transition-all duration-300"
+            >
+              {project.banner && (
+                <div className="relative w-full">
+                  <Image
+                    src={project.banner}
+                    alt={`${project.name} banner`}
+                    width={600}
+                    height={400}
+                    className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={index < 2}
+                  />
+                </div>
+              )}
+              <div className="p-6 space-y-4">
+                <div className="flex items-center gap-4">
+                  {project.logo && (
+                    <div className="relative flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border border-border bg-background/80">
+                      <Image
+                        src={project.logo}
+                        alt={`${project.name} logo`}
+                        fill
+                        className="object-cover"
+                        sizes="48px"
+                      />
+                    </div>
+                  )}
+                  <div className="flex-1 flex items-center justify-between">
+                    <h3 className="text-lg font-semibold">{project.name}</h3>
+                    <div className="flex gap-3 text-muted-foreground">
+                      {project.github && (
+                        <ProjectLink href={project.github} projectId={project.id}>
+                          <Github className="h-5 w-5 hover:text-foreground transition-colors" />
+                        </ProjectLink>
+                      )}
+                      {project.link && (
+                        <ProjectLink href={project.link} projectId={project.id}>
+                          <LucideLink className="h-5 w-5 hover:text-foreground transition-colors" />
+                        </ProjectLink>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    {project.description}
+                  </p>
+                  {project.category && project.category.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {project.category.split(",").map((item, i) => (
+                        <Badge
+                          key={i}
+                          variant="outline"
+                          className="px-2.5 py-0.5 text-xs rounded-full bg-background/50 dark:bg-background/5"
+                        >
+                          {item.trim()}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      )}
     </>
   );
 }
