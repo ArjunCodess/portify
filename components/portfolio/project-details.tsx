@@ -37,7 +37,7 @@ export default function ProjectDetails() {
                 className="group overflow-hidden border bg-background/40 hover:bg-background/60 transition-colors"
               >
                 {project.banner && (
-                  <div className="relative w-full h-48 overflow-hidden">
+                  <div className="relative aspect-video w-full">
                     <Image
                       src={project.banner}
                       alt={`${project.name} banner`}
@@ -115,11 +115,14 @@ export default function ProjectDetails() {
       )}
 
       {userData.template === "pristine" && (
-        <div className="space-y-6 bg-background/95 dark:bg-background/5 p-4 pt-6 sm:p-6 rounded-lg backdrop-blur-sm border border-border">
-          <div className="flex items-center justify-between">
+        <div className="space-y-6 bg-background/95 dark:bg-background/5 p-0 sm:p-6 rounded-lg backdrop-blur-sm sm:border border-border">
+          <div className="flex flex-col justify-between">
             <h2 className="text-xl sm:text-2xl text-foreground font-bold">
               Projects
             </h2>
+            <p className="text-muted-foreground mt-2">
+              Some of my best works and side projects:
+            </p>
           </div>
           <div className="grid gap-4">
             {sortedProjects.map((project, index) => (
@@ -128,7 +131,7 @@ export default function ProjectDetails() {
                 className="group overflow-hidden rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 transition-colors"
               >
                 {project.banner && (
-                  <div className="relative w-full h-36 sm:h-48">
+                  <div className="relative aspect-[16/9] w-full">
                     <Image
                       src={project.banner}
                       alt={`${project.name} banner`}
@@ -142,7 +145,7 @@ export default function ProjectDetails() {
                 <div className="flex flex-col items-start gap-4 p-4">
                   <div className="flex items-start gap-4 w-full">
                     {project.logo && (
-                      <div className="relative flex-shrink-0 w-14 h-14 sm:w-12 sm:h-12 rounded-lg overflow-hidden border border-border">
+                      <div className="relative flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden border border-border">
                         <Image
                           src={project.logo}
                           alt={`${project.name} logo`}
@@ -206,7 +209,7 @@ export default function ProjectDetails() {
           <div className="text-center lg:text-left">
             <h2 className="text-3xl font-bold">Featured Projects</h2>
             <p className="text-muted-foreground mt-2">
-              Some of my best works and side projects.
+              Some of my best works and side projects:
             </p>
           </div>
 
@@ -217,13 +220,13 @@ export default function ProjectDetails() {
                 className="group break-inside-avoid mb-6 overflow-hidden rounded-xl border border-border bg-background/50 dark:bg-background/5 hover:bg-background/70 dark:hover:bg-background/10 transition-all duration-300"
               >
                 {project.banner && (
-                  <div className="relative w-full">
+                  <div className="relative aspect-video w-full">
                     <Image
                       src={project.banner}
                       alt={`${project.name} banner`}
                       width={600}
                       height={400}
-                      className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority={index < 2}
                     />
@@ -301,7 +304,7 @@ export default function ProjectDetails() {
               Featured Projects
             </h2>
             <p className="text-muted-foreground mt-2">
-              Some of my best works and side projects.
+              Some of my best works and side projects:
             </p>
           </div>
 
@@ -313,13 +316,13 @@ export default function ProjectDetails() {
               >
                 {/* Banner Image */}
                 {project.banner && (
-                  <div className="w-full">
+                  <div className="relative aspect-video w-full">
                     <Image
                       src={project.banner}
                       alt={`${project.name} banner`}
                       width={600}
                       height={400}
-                      className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>

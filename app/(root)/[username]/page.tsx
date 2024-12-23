@@ -100,7 +100,7 @@ export default function Profile({ params }: PageProps) {
           userData.template === "minimal"
             ? "lg:p-12 max-w-2xl"
             : userData.template === "pristine"
-            ? "sm:border sm:rounded-lg sm:my-5 bg-muted-foreground/[0.01] dark:bg-muted-foreground/[0.03] max-w-2xl"
+            ? "sm:border sm:rounded-lg sm:my-5 bg-muted-foreground/[0.01] dark:bg-muted-foreground/[0.03] max-w-3xl"
             : userData.template === "elegant"
             ? "max-w-screen-xl my-4"
             : userData.template === "vibrant"

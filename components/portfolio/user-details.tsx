@@ -43,7 +43,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
       )}
 
       {data.template === "pristine" && (
-        <div className="bg-background/95 dark:bg-background/5 rounded-lg p-6 sm:p-8 md:p-10 backdrop-blur-sm border border-border">
+        <div className="bg-background/95 dark:bg-background/5 rounded-lg p-0 sm:p-8 md:p-10 backdrop-blur-sm sm:border border-border">
           <div className="flex flex-col-reverse sm:flex-row items-center sm:items-start gap-6 sm:justify-between text-center sm:text-left">
             <div className="space-y-4 w-full">
               <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
@@ -75,12 +75,25 @@ export default function UserDetails({ data }: UserDetailsProps) {
                 </div>
               )}
             </div>
-            <Avatar className="w-20 h-20 sm:w-24 sm:h-24 shrink-0 border border-border">
-              <AvatarImage src={data.profilePicture ?? ""} alt={data.name} />
-              <AvatarFallback className="bg-muted dark:bg-background/20 text-foreground/80">
-                {data.name[0]}
-              </AvatarFallback>
-            </Avatar>
+            <div className="relative">
+              <div className="absolute -top-1 -right-2 w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <div className="absolute -top-3 right-3 w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+              <div className="absolute top-4 -right-4 w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+              <div className="absolute bottom-6 -left-2 w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+              <div className="absolute -bottom-2 right-3 w-2 h-2 rounded-full bg-pink-400 animate-pulse" />
+              <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full transform rotate-6 hover:rotate-0 transition-transform duration-300 mx-auto md:ml-auto">
+                <Avatar className="w-full h-full rounded-full border-[3px] border-background dark:border-background/10">
+                  <AvatarImage
+                    src={data.profilePicture ?? ""}
+                    alt={data.name}
+                    className="object-cover"
+                  />
+                  <AvatarFallback className="text-4xl">
+                    {data.name[0]}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+            </div>
           </div>
         </div>
       )}
