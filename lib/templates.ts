@@ -2,22 +2,22 @@ export const templates = [
   {
     value: "minimal",
     label: "Minimal",
-    description: "Clean and simple design focusing on content",
+    image: "/templates/minimal.png",
   },
   {
     value: "pristine",
     label: "Pristine",
-    description: "Modern and professional with clear project cards",
+    image: "/templates/pristine.png",
   },
   {
     value: "vibrant",
     label: "Vibrant",
-    description: "Dynamic layout with colorful accents",
+    image: "/templates/vibrant.png",
   },
   {
     value: "elegant",
     label: "Elegant",
-    description: "Sophisticated design with typography focus",
+    image: "/templates/elegant.png",
   },
 ] as const;
 

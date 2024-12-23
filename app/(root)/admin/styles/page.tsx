@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import ThemeOptions from "@/components/theme-options";
 import TemplateOptions from "@/components/template-options";
 import { useEffect, useState } from "react";
+import { Separator } from "@/components/ui/separator";
 
 export default function AdminStylesPage() {
   const { user: clerkUser, isLoaded } = useUser();
@@ -57,16 +58,20 @@ export default function AdminStylesPage() {
         <p className="text-muted-foreground">
           Customize the appearance of your portfolio by selecting a theme and
           template. Your current theme is:{" "}
-          <span className="font-medium">{currentTheme}</span> and your current
-          template is: <span className="font-medium">{currentTemplate}</span>
+          <span className="font-medium text-foreground">{currentTheme}</span> and your current
+          template is: <span className="font-medium text-foreground">{currentTemplate}</span>.
         </p>
       </div>
 
+      <Separator className="mb-8" />
+
       <div className="space-y-8">
         <div>
-          <h1 className="text-2xl font-bold mb-6">Template</h1>
+          <h1 className="text-2xl font-bold mb-6">Templates</h1>
           <TemplateOptions onTemplateChange={setCurrentTemplate} />
         </div>
+
+        <Separator />
 
         <div>
           <h1 className="text-2xl font-bold mb-6">Color Palettes</h1>
