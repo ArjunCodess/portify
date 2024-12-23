@@ -1,6 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserData } from "@/types";
+import { Card } from "../ui/card";
+import Socials from "./socials";
 
 interface UserDetailsProps {
   data: UserData | null;
@@ -140,6 +142,37 @@ export default function UserDetails({ data }: UserDetailsProps) {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {data.template === "elegant" && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 min-h-[25rem]">
+          <Card className="col-span-2 flex flex-col justify-between p-6 bg-gradient-to-r from-accent/40 dark:from-accent/20 to-background">
+            <div className="space-y-2">
+              <h1 className="text-4xl font-medium leading-tight tracking-tight">
+                Hello, I&apos;m {data.name} 👋
+              </h1>
+              {data.tagline && (
+                <p className="text-xl text-muted-foreground">{data.tagline}</p>
+              )}
+            </div>
+            {data.bio && (
+              <p className="text-md text-muted-foreground/80">{data.bio}</p>
+            )}
+            <Socials data={data} />
+          </Card>
+          <Card className="col-span-1">
+            <Avatar className="w-auto h-full border-[3px] border-background dark:border-background/10 object-cover rounded-lg">
+              <AvatarImage
+                src={data.profilePicture ?? ""}
+                alt={data.name}
+                className="object-cover"
+              />
+              <AvatarFallback className="text-4xl">
+                {data.name[0]}
+              </AvatarFallback>
+            </Avatar>
+          </Card>
         </div>
       )}
     </>

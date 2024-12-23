@@ -1,4 +1,11 @@
-import { Github, Mail, Twitter, Link as LinkSVG, Globe } from "lucide-react";
+import {
+  Github,
+  Mail,
+  Twitter,
+  Link as LinkSVG,
+  Globe,
+  Link2,
+} from "lucide-react";
 import Link from "next/link";
 import { UserData } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -132,7 +139,11 @@ export default function Socials({ data }: { data: UserData }) {
                 variant="outline"
                 className="rounded-full w-12 h-12 bg-background/50 dark:bg-background/5"
               >
-                <Link href={getGithubUrl(data.github)} target="_blank" rel="noopener noreferrer">
+                <Link
+                  href={getGithubUrl(data.github)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Github className="h-5 w-5" />
                 </Link>
               </Button>
@@ -144,7 +155,11 @@ export default function Socials({ data }: { data: UserData }) {
                 variant="outline"
                 className="rounded-full w-12 h-12 bg-background/50 dark:bg-background/5"
               >
-                <Link href={getTwitterUrl(data.twitter)} target="_blank" rel="noopener noreferrer">
+                <Link
+                  href={getTwitterUrl(data.twitter)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Twitter className="h-5 w-5" />
                 </Link>
               </Button>
@@ -156,7 +171,11 @@ export default function Socials({ data }: { data: UserData }) {
                 variant="outline"
                 className="rounded-full w-12 h-12 bg-background/50 dark:bg-background/5"
               >
-                <Link href={data.link} target="_blank" rel="noopener noreferrer">
+                <Link
+                  href={data.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Globe className="h-5 w-5" />
                 </Link>
               </Button>
@@ -173,6 +192,37 @@ export default function Socials({ data }: { data: UserData }) {
                 </Link>
               </Button>
             )}
+          </div>
+        </div>
+      )}
+
+      {data.template === "elegant" && (
+        <div className="flex items-center gap-4">
+          <div className="flex gap-3">
+            <Link
+              href={data.link!}
+              className="rounded-full bg-background p-2.5 hover:bg-background/90 border"
+            >
+              <Link2 className="h-5 w-5 text-foreground" />
+            </Link>
+            <Link
+              href={data.twitter!}
+              className="rounded-full bg-background p-2.5 hover:bg-background/90 border"
+            >
+              <Twitter className="h-5 w-5 text-foreground" />
+            </Link>
+            <Link
+              href={data.github!}
+              className="rounded-full bg-background p-2.5 hover:bg-background/90 border"
+            >
+              <Github className="h-5 w-5 text-foreground" />
+            </Link>
+            <Link
+              href={`mailto:${data.email}`}
+              className="rounded-full bg-background p-2.5 hover:bg-background/90 border"
+            >
+              <Mail className="h-5 w-5 text-foreground" />
+            </Link>
           </div>
         </div>
       )}

@@ -117,7 +117,9 @@ export default function ProjectDetails() {
       {userData.template === "pristine" && (
         <div className="space-y-6 bg-background/95 dark:bg-background/5 p-4 pt-6 sm:p-6 rounded-lg backdrop-blur-sm border border-border">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl sm:text-2xl text-foreground font-bold">Projects</h2>
+            <h2 className="text-xl sm:text-2xl text-foreground font-bold">
+              Projects
+            </h2>
           </div>
           <div className="grid gap-4">
             {sortedProjects.map((project, index) => (
@@ -152,7 +154,9 @@ export default function ProjectDetails() {
                     )}
                     <div className="flex-1 min-w-0 space-y-3">
                       <div className="flex items-center justify-between gap-3">
-                        <h3 className="font-medium text-lg text-foreground">{project.name}</h3>
+                        <h3 className="font-medium text-lg text-foreground">
+                          {project.name}
+                        </h3>
                         <div className="flex gap-3 text-foreground/60 hover:text-foreground/80">
                           {project.github && (
                             <ProjectLink
@@ -199,83 +203,181 @@ export default function ProjectDetails() {
 
       {userData.template === "vibrant" && (
         <div className="w-full space-y-8 px-4 sm:px-6 py-4">
-        <div className="text-center lg:text-left">
-          <h2 className="text-3xl font-bold">Featured Projects</h2>
-          <p className="text-muted-foreground mt-2">Some of my best works and side projects.</p>
-        </div>
-  
-        <div className="columns-1 md:columns-2 gap-6 [column-fill:_balance] w-full">
-          {sortedProjects.map((project, index) => (
-            <div
-              key={index}
-              className="group break-inside-avoid mb-6 overflow-hidden rounded-xl border border-border bg-background/50 dark:bg-background/5 hover:bg-background/70 dark:hover:bg-background/10 transition-all duration-300"
-            >
-              {project.banner && (
-                <div className="relative w-full">
-                  <Image
-                    src={project.banner}
-                    alt={`${project.name} banner`}
-                    width={600}
-                    height={400}
-                    className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    priority={index < 2}
-                  />
-                </div>
-              )}
-              <div className="p-6 space-y-4">
-                <div className="flex items-center gap-4">
-                  {project.logo && (
-                    <div className="relative flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border border-border bg-background/80">
-                      <Image
-                        src={project.logo}
-                        alt={`${project.name} logo`}
-                        fill
-                        className="object-cover"
-                        sizes="48px"
-                      />
-                    </div>
-                  )}
-                  <div className="flex-1 flex items-center justify-between">
-                    <h3 className="text-lg font-semibold">{project.name}</h3>
-                    <div className="flex gap-3 text-muted-foreground">
-                      {project.github && (
-                        <ProjectLink href={project.github} projectId={project.id}>
-                          <Github className="h-5 w-5 hover:text-foreground transition-colors" />
-                        </ProjectLink>
-                      )}
-                      {project.link && (
-                        <ProjectLink href={project.link} projectId={project.id}>
-                          <LucideLink className="h-5 w-5 hover:text-foreground transition-colors" />
-                        </ProjectLink>
-                      )}
+          <div className="text-center lg:text-left">
+            <h2 className="text-3xl font-bold">Featured Projects</h2>
+            <p className="text-muted-foreground mt-2">
+              Some of my best works and side projects.
+            </p>
+          </div>
+
+          <div className="columns-1 md:columns-2 gap-6 [column-fill:_balance] w-full">
+            {sortedProjects.map((project, index) => (
+              <div
+                key={index}
+                className="group break-inside-avoid mb-6 overflow-hidden rounded-xl border border-border bg-background/50 dark:bg-background/5 hover:bg-background/70 dark:hover:bg-background/10 transition-all duration-300"
+              >
+                {project.banner && (
+                  <div className="relative w-full">
+                    <Image
+                      src={project.banner}
+                      alt={`${project.name} banner`}
+                      width={600}
+                      height={400}
+                      className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      priority={index < 2}
+                    />
+                  </div>
+                )}
+                <div className="p-6 space-y-4">
+                  <div className="flex items-center gap-4">
+                    {project.logo && (
+                      <div className="relative flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border border-border bg-background/80">
+                        <Image
+                          src={project.logo}
+                          alt={`${project.name} logo`}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1 flex items-center justify-between">
+                      <div>
+                        <h3 className="text-lg font-semibold">
+                          {project.name}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {project.description}
+                        </p>
+                      </div>
+                      <div className="flex gap-3 text-muted-foreground">
+                        {project.github && (
+                          <ProjectLink
+                            href={project.github}
+                            projectId={project.id}
+                          >
+                            <Github className="h-5 w-5 hover:text-foreground transition-colors" />
+                          </ProjectLink>
+                        )}
+                        {project.link && (
+                          <ProjectLink
+                            href={project.link}
+                            projectId={project.id}
+                          >
+                            <LucideLink className="h-5 w-5 hover:text-foreground transition-colors" />
+                          </ProjectLink>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                
-                <div className="space-y-3">
-                  <p className="text-sm text-muted-foreground">
-                    {project.description}
-                  </p>
-                  {project.category && project.category.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {project.category.split(",").map((item, i) => (
-                        <Badge
-                          key={i}
-                          variant="outline"
-                          className="px-2.5 py-0.5 text-xs rounded-full bg-background/50 dark:bg-background/5"
-                        >
-                          {item.trim()}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
+
+                  <div className="space-y-3">
+                    {project.category && project.category.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {project.category.split(",").map((item, i) => (
+                          <Badge
+                            key={i}
+                            variant="outline"
+                            className="px-2.5 py-0.5 text-xs rounded-full bg-background/50 dark:bg-background/5"
+                          >
+                            {item.trim()}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {userData.template === "elegant" && (
+        <Card className="w-full space-y-4 p-6 bg-gradient-to-r from-accent/40 dark:from-accent/20 to-background">
+          <div className="text-center lg:text-left">
+            <h2 className="text-3xl font-medium tracking-tight">
+              Featured Projects
+            </h2>
+            <p className="text-muted-foreground mt-2">
+              Some of my best works and side projects.
+            </p>
+          </div>
+
+          <div className="columns-1 md:columns-2 gap-6 [column-fill:_balance] w-full">
+            {sortedProjects.map((project, index) => (
+              <div
+                key={index}
+                className="group break-inside-avoid mb-6 overflow-hidden rounded-xl border border-border bg-background/50 dark:bg-background/5 hover:bg-background/70 dark:hover:bg-background/10 transition-all duration-300"
+              >
+                {/* Banner Image */}
+                {project.banner && (
+                  <div className="w-full">
+                    <Image
+                      src={project.banner}
+                      alt={`${project.name} banner`}
+                      width={600}
+                      height={400}
+                      className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                )}
+
+                <div className="p-6 py-4 flex items-start justify-between gap-4 backdrop-blur-sm">
+                  <div className="flex items-center gap-4 flex-1">
+                    {project.logo && (
+                      <div className="relative flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border border-border bg-background/80">
+                        <Image
+                          src={project.logo}
+                          alt={`${project.name} logo`}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                      </div>
+                    )}
+                    <div className="space-y-1 mb-1">
+                      <h3 className="text-lg font-semibold">{project.name}</h3>
+                      <div className="space-y-2">
+                        <p className="text-sm text-muted-foreground">
+                          {project.description}
+                        </p>
+                        {project.category && project.category.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {project.category.split(",").map((item, i) => (
+                              <Badge
+                                key={i}
+                                variant="outline"
+                                className="px-2.5 py-0.5 text-xs rounded-full bg-background/50 dark:bg-background/5"
+                              >
+                                {item.trim()}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 text-muted-foreground mt-1">
+                    {project.github && (
+                      <ProjectLink href={project.github} projectId={project.id}>
+                        <Github className="h-5 w-5 hover:text-foreground transition-colors" />
+                      </ProjectLink>
+                    )}
+                    {project.link && (
+                      <ProjectLink href={project.link} projectId={project.id}>
+                        <LucideLink className="h-5 w-5 hover:text-foreground transition-colors" />
+                      </ProjectLink>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
       )}
     </>
   );

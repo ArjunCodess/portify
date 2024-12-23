@@ -53,9 +53,11 @@ export default function Profile({ params }: PageProps) {
 
   if (!isLoaded || loading) {
     return (
-      <div className="flex flex-col space-y-4 p-4">
+      <div className="flex flex-col space-y-4 p-4 max-w-5xl mx-auto">
         <Skeleton className="h-8 w-48" />
-        <Skeleton className="h-32 w-full" />
+        <Skeleton className="h-40 w-full" />
+        <Skeleton className="h-72 w-full" />
+        <Skeleton className="h-64 w-full" />
       </div>
     );
   }
@@ -95,15 +97,25 @@ export default function Profile({ params }: PageProps) {
       <Separator />
       <div
         className={`p-6 md:p-8 mx-auto ${
-          userData.template === "minimal" ? "lg:p-12 max-w-2xl" :
-          userData.template === "pristine" ? "sm:border sm:rounded-lg sm:my-5 bg-muted-foreground/[0.01] dark:bg-muted-foreground/[0.03] max-w-2xl" :
-          userData.template === "vibrant" ? "max-w-6xl m-4" : "max-w-2xl"
+          userData.template === "minimal"
+            ? "lg:p-12 max-w-2xl"
+            : userData.template === "pristine"
+            ? "sm:border sm:rounded-lg sm:my-5 bg-muted-foreground/[0.01] dark:bg-muted-foreground/[0.03] max-w-2xl"
+            : userData.template === "elegant"
+            ? "max-w-screen-xl my-4"
+            : userData.template === "vibrant"
+            ? "max-w-screen-xl"
+            : "max-w-2xl"
         }`}
       >
         <UserDetails data={userData} />
         <Separator className="my-8" />
-        <Socials data={userData} />
-        <Separator className="my-8" />
+        {userData.template !== "elegant" && (
+          <>
+            <Socials data={userData} />
+            <Separator className="my-8" />
+          </>
+        )}
         <ProjectDetails />
       </div>
     </section>
