@@ -198,7 +198,7 @@ export default function Socials({ data }: { data: UserData }) {
       )}
 
       {data.template === "elegant" && (
-        <div className="flex flex-col sm:flex-row items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center gap-4 mb-2 sm:mb-0">
           <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3">
             {data.link && (
               <Link

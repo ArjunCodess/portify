@@ -305,7 +305,7 @@ export default function BasicDetails() {
   return (
     <Card className="w-full mx-auto">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">Basic Details</CardTitle>
+        <CardTitle className="text-3xl font-medium eb-garamond">Basic Details</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">

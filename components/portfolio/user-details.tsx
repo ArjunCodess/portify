@@ -30,8 +30,8 @@ export default function UserDetails({ data }: UserDetailsProps) {
       {data.template === "minimal" && (
         <BlurFade delay={0.5}>
           <div className="flex flex-col items-center text-center space-y-4 px-4 sm:px-0">
-            <Float>
-              <Avatar className="w-24 h-24 sm:w-32 sm:h-32 border-2">
+            <Float amplitude={[10, 10, 10]} rotationRange={[10, 10, 10]}>
+              <Avatar className="w-24 h-24 sm:w-32 sm:h-32 border-2 mb-4 mt-4 md:mt-0">
                 <AvatarImage alt={data.name} src={data.profilePicture ?? ""} />
                 <AvatarFallback>{data.name[0]}</AvatarFallback>
               </Avatar>
@@ -112,14 +112,14 @@ export default function UserDetails({ data }: UserDetailsProps) {
                 )}
               </div>
 
-              <Float>
+              <Float amplitude={[10, 10, 10]} rotationRange={[10, 10, 10]}>
                 <div className="relative my-4 md:my-0">
                   <div className="absolute -top-1 -right-2 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-400 animate-pulse" />
                   <div className="absolute -top-3 right-3 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-purple-400 animate-pulse" />
                   <div className="absolute top-4 -right-4 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-400 animate-pulse" />
                   <div className="absolute bottom-6 -left-2 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-400 animate-pulse" />
                   <div className="absolute -bottom-2 right-3 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-pink-400 animate-pulse" />
-                  <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full transform rotate-6 hover:rotate-0 transition-transform duration-300 mx-auto md:ml-auto">
+                  <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full transform transition-transform duration-300 mx-auto md:ml-auto">
                     <Avatar className="w-full h-full rounded-full border-[3px] border-background dark:border-background/10">
                       <AvatarImage
                         src={data.profilePicture ?? ""}
@@ -182,15 +182,15 @@ export default function UserDetails({ data }: UserDetailsProps) {
                 )}
               </div>
 
-              <Float>
-                <div className="relative mt-8 md:my-0 w-1/2 md:w-full mx-auto">
+              <Float amplitude={[10, 10, 10]} rotationRange={[10, 10, 10]}>
+                <div className="relative mt-8 md:my-0 mx-8">
                   <div className="absolute -top-2 -right-4 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-400 animate-pulse" />
                   <div className="absolute -top-6 right-5 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-purple-400 animate-pulse" />
                   <div className="absolute top-8 -right-8 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-400 animate-pulse" />
                   <div className="absolute bottom-12 -left-4 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-400 animate-pulse" />
                   <div className="absolute -bottom-4 right-5 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-pink-400 animate-pulse" />
 
-                  <div className="w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] md:w-[300px] md:h-[300px] rounded-full transform rotate-6 hover:rotate-0 transition-transform duration-300 mx-auto md:ml-auto">
+                  <div className="w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] md:w-[300px] md:h-[300px] rounded-full transform transition-transform duration-300 mx-auto md:ml-auto">
                     <Avatar className="w-full h-full rounded-full border-[3px] border-background dark:border-background/10">
                       <AvatarImage
                         src={data.profilePicture ?? ""}

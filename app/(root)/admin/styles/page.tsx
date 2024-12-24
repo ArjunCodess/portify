@@ -54,7 +54,7 @@ export default function AdminStylesPage() {
   return (
     <div className="h-full w-full px-4">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Styles</h1>
+        <h1 className="text-4xl font-medium eb-garamond mb-2">Styles</h1>
         <p className="text-muted-foreground">
           Customize the appearance of your portfolio by selecting a theme and
           template. Your current theme is:{" "}
@@ -67,14 +67,14 @@ export default function AdminStylesPage() {
 
       <div className="space-y-8">
         <div>
-          <h1 className="text-2xl font-bold mb-6">Templates</h1>
+          <h1 className="text-3xl font-medium eb-garamond mb-6">Templates</h1>
           <TemplateOptions onTemplateChange={setCurrentTemplate} />
         </div>
 
         <Separator />
 
         <div>
-          <h1 className="text-2xl font-bold mb-6">Color Palettes</h1>
+          <h1 className="text-3xl font-medium eb-garamond mb-6">Color Palettes</h1>
           <ThemeOptions onThemeChange={handleThemeChange} />
         </div>
       </div>
