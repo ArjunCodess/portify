@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import Socials from "@/components/portfolio/socials";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import BlurFade from "@/components/ui/blur-fade";
 
 interface PageProps {
   params: Promise<{
@@ -92,11 +93,11 @@ export default function Profile({ params }: PageProps) {
   }
 
   return (
-    <section>
+    <BlurFade delay={0.3}>
       <TopBar username={resolvedParams.username} />
       <Separator />
       <div
-        className={`p-6 md:p-8 mx-auto ${
+        className={`p-4 md:p-8 mx-auto ${
           userData.template === "minimal"
             ? "lg:p-12 max-w-2xl"
             : userData.template === "pristine"
@@ -104,20 +105,27 @@ export default function Profile({ params }: PageProps) {
             : userData.template === "elegant"
             ? "max-w-screen-xl my-4"
             : userData.template === "vibrant"
-            ? "max-w-screen-xl"
+            ? "max-w-screen-xl md:my-4"
             : "max-w-2xl"
         }`}
       >
         <UserDetails data={userData} />
-        <Separator className="my-8" />
+
+        <BlurFade delay={0.6}>
+          <Separator className="my-10" />
+        </BlurFade>
+
         {userData.template !== "elegant" && (
           <>
             <Socials data={userData} />
-            <Separator className="my-8" />
+
+            <BlurFade delay={0.9}>
+              <Separator className="my-10" />
+            </BlurFade>
           </>
         )}
         <ProjectDetails />
       </div>
-    </section>
+    </BlurFade>
   );
 }
