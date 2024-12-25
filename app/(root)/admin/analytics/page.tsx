@@ -33,7 +33,7 @@ function AnalyticsPage() {
   return (
     <section className="space-y-6 px-4 h-full w-full">
       <div className="mb-8">
-        <h1 className="text-4xl font-medium eb-garamond mb-2">Analytics</h1>
+        <h1 className="text-4xl font-medium font-eb-garamond mb-2">Analytics</h1>
         <p className="text-muted-foreground">
           View insights about your portfolio&apos;s performance.
           Track visits and engagement over time.

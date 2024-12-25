@@ -44,7 +44,7 @@ export function ProfileVisitsChart({ data }: { data: AnalyticsData['profileVisit
     return (
       <Card className="col-span-2">
         <CardHeader>
-          <CardTitle className="text-3xl font-medium eb-garamond">Profile Visits</CardTitle>
+          <CardTitle className="text-3xl font-medium font-eb-garamond">Profile Visits</CardTitle>
           <CardDescription>Number of visitors to your portfolio.</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center min-h-[200px] text-muted-foreground">
@@ -78,7 +78,7 @@ export function ProfileVisitsChart({ data }: { data: AnalyticsData['profileVisit
   return (
     <Card className="col-span-2">
       <CardHeader>
-        <CardTitle className="text-3xl font-medium eb-garamond">Profile Visits</CardTitle>
+        <CardTitle className="text-3xl font-medium font-eb-garamond">Profile Visits</CardTitle>
         <CardDescription>Number of visitors to your portfolio.</CardDescription>
       </CardHeader>
       <CardContent className="pl-2">
@@ -153,7 +153,7 @@ function ProjectChart({ projectName, data }: ProjectChartProps) {
   return (
     <Card className="col-span-2 lg:col-span-1">
       <CardHeader className="pt-4">
-        <CardTitle className="truncate text-2xl font-medium eb-garamond">{projectName}</CardTitle>
+        <CardTitle className="truncate text-2xl font-medium font-eb-garamond">{projectName}</CardTitle>
       </CardHeader>
       <CardContent className="pl-2">
         <ChartContainer config={chartConfig} className="min-h-[200px] max-h-[350px] w-full">
@@ -192,7 +192,7 @@ export function ProjectClicksChart({ data }: { data: AnalyticsData['projectClick
     return (
       <Card className="col-span-2">
         <CardHeader>
-          <CardTitle className="text-3xl font-medium eb-garamond">Project Clicks</CardTitle>
+          <CardTitle className="text-3xl font-medium font-eb-garamond">Project Clicks</CardTitle>
           <CardDescription>Number of clicks on your projects.</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center min-h-[200px] text-muted-foreground">
@@ -235,7 +235,7 @@ export function ProjectClicksChart({ data }: { data: AnalyticsData['projectClick
   return (
     <Card className="col-span-2">
       <CardHeader>
-        <CardTitle className="text-3xl font-medium eb-garamond">Project Clicks</CardTitle>
+        <CardTitle className="text-3xl font-medium font-eb-garamond">Project Clicks</CardTitle>
         <CardDescription>Includes clicks on both GitHub and deployed project link.</CardDescription>
       </CardHeader>
       <CardContent>

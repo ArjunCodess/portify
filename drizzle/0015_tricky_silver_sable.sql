@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "font" jsonb DEFAULT '{"heading":"geist","content":"geist"}'::jsonb NOT NULL;

@@ -20,13 +20,16 @@ export default function ProjectDetails() {
     (a, b) => (a.order ?? 0) - (b.order ?? 0)
   );
 
+  const fontHeadingClass = "font-" + userData.font.heading;
+  const fontContentClass = "font-" + userData.font.content;
+
   return (
-    <>
+    <section className={fontContentClass}>
       {userData.template === "minimal" && (
         <div className="space-y-6">
           <BlurFade delay={0.8}>
             <div className="text-center space-y-2">
-              <h2 className="text-2xl font-bold">Projects</h2>
+              <h2 className={`text-3xl font-bold ${fontHeadingClass} font-medium`}>Projects</h2>
               <p className="text-sm text-muted-foreground">
                 Here are some of my best works:
               </p>
@@ -66,7 +69,7 @@ export default function ProjectDetails() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-4">
                           <div className="space-y-2">
-                            <CardTitle className="text-base font-medium">
+                            <CardTitle className={`text-lg md:text-xl font-medium ${fontHeadingClass}`}>
                               {project.name}
                             </CardTitle>
                             <CardDescription className="text-sm text-foreground/70">
@@ -124,9 +127,7 @@ export default function ProjectDetails() {
           <div className="space-y-6 bg-background/95 dark:bg-background/5 p-0 sm:p-6 sm:pb-8 rounded-lg backdrop-blur-sm sm:border border-border">
             <BlurFade delay={0.8}>
               <div className="flex flex-col justify-between">
-                <h2 className="text-xl sm:text-2xl text-foreground font-bold">
-                  Projects
-                </h2>
+              <h2 className={`text-3xl font-bold ${fontHeadingClass} font-medium`}>Projects</h2>
                 <p className="text-muted-foreground mt-2">
                   Some of my best works and side projects:
                 </p>
@@ -161,11 +162,9 @@ export default function ProjectDetails() {
                             />
                           </div>
                         )}
-                        <div className="flex-1 min-w-0 space-y-3">
+                        <div className="flex-1 min-w-0 space-y-1">
                           <div className="flex items-center justify-between gap-3">
-                            <h3 className="font-medium text-lg text-foreground">
-                              {project.name}
-                            </h3>
+                            <h3 className={`text-lg md:text-xl font-medium text-foreground ${fontHeadingClass}`}>{project.name}</h3>
                             <div className="flex gap-3 text-foreground/60 hover:text-foreground/80">
                               {project.github && (
                                 <ProjectLink
@@ -185,6 +184,7 @@ export default function ProjectDetails() {
                               )}
                             </div>
                           </div>
+                          <div className="space-y-2">
                           <p className="text-sm text-muted-foreground line-clamp-2">
                             {project.description}
                           </p>
@@ -201,6 +201,7 @@ export default function ProjectDetails() {
                               ))}
                             </div>
                           )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -216,7 +217,7 @@ export default function ProjectDetails() {
         <div className="w-full space-y-8 px-4 sm:px-6 py-4">
           <BlurFade delay={0.8}>
             <div className="text-center lg:text-left">
-              <h2 className="text-3xl font-bold">Featured Projects</h2>
+            <h2 className={`text-3xl font-bold ${fontHeadingClass} font-medium`}>Projects</h2>
               <p className="text-muted-foreground mt-2">
                 Some of my best works and side projects:
               </p>
@@ -255,9 +256,7 @@ export default function ProjectDetails() {
                       )}
                       <div className="flex-1 flex items-center justify-between">
                         <div>
-                          <h3 className="text-lg font-semibold">
-                            {project.name}
-                          </h3>
+                          <h3 className={`text-lg md:text-xl font-semibold ${fontHeadingClass}`}>{project.name}</h3>
                           <p className="text-sm text-muted-foreground">
                             {project.description}
                           </p>
@@ -310,9 +309,7 @@ export default function ProjectDetails() {
         <Card className="w-full space-y-6 sm:space-y-4 p-4 sm:p-6 bg-gradient-to-r from-accent/40 dark:from-accent/20 to-background">
           <BlurFade delay={0.8}>
             <div className="text-center lg:text-left space-y-2 mt-2 sm:mt-0">
-              <h2 className="text-2xl sm:text-3xl font-medium tracking-tight">
-                Featured Projects
-              </h2>
+            <h2 className={`text-3xl font-bold ${fontHeadingClass} font-medium`}>Projects</h2>
               <p className="text-sm sm:text-base text-muted-foreground">
                 Some of my best works and side projects:
               </p>
@@ -351,9 +348,7 @@ export default function ProjectDetails() {
                       )}
                       <div className="flex-1 flex items-center justify-between">
                         <div>
-                          <h3 className="text-lg font-semibold">
-                            {project.name}
-                          </h3>
+                        <h3 className={`text-lg md:text-xl font-semibold ${fontHeadingClass}`}>{project.name}</h3>
                           <p className="text-sm text-muted-foreground">
                             {project.description}
                           </p>
@@ -401,6 +396,6 @@ export default function ProjectDetails() {
           </div>
         </Card>
       )}
-    </>
+    </section>
   );
 }

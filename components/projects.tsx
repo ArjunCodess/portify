@@ -7,7 +7,7 @@ export default function Projects() {
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <CardTitle className="text-3xl font-medium eb-garamond">Projects</CardTitle>
+        <CardTitle className="text-3xl font-medium font-eb-garamond">Projects</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <ProjectList />

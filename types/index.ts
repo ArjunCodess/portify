@@ -36,6 +36,10 @@ export type UserData = {
   skills: string[] | null;
   theme: string;
   template: TemplateType;
+  font: {
+    heading: string;
+    content: string;
+  };
   visitCount: number;
 };
 

@@ -31,7 +31,7 @@ export default function Provider({
     async function fetchData() {
       if (username) {
         const data = await getUserDataByUsername(username);
-        setUserData(data[0]);
+        setUserData(data[0] as UserData);
       }
       setLoading(false);
     }

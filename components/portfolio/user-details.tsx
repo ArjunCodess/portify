@@ -25,8 +25,11 @@ export default function UserDetails({ data }: UserDetailsProps) {
 
   if (!data) return null;
 
+  const fontHeadingClass = "font-" + data.font.heading;
+  const fontContentClass = "font-" + data.font.content;
+
   return (
-    <>
+    <section className={fontContentClass}>
       {data.template === "minimal" && (
         <BlurFade delay={0.5}>
           <div className="flex flex-col items-center text-center space-y-4 px-4 sm:px-0">
@@ -38,7 +41,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
             </Float>
 
             <div className="space-y-4 max-w-sm sm:max-w-lg">
-              <h1 className="text-xl sm:text-2xl font-bold">
+              <h1 className={`text-2xl sm:text-3xl font-bold ${fontHeadingClass} font-medium`}>
                 Hi, I&apos;m{" "}
                 <ScrambleIn
                   ref={scrambleRef}
@@ -46,8 +49,8 @@ export default function UserDetails({ data }: UserDetailsProps) {
                   scrambleSpeed={70}
                   scrambledLetterCount={5}
                   autoStart={false}
-                />.{" "}
-                👋
+                />
+                . 👋
               </h1>
               <p className="text-sm text-foreground/95 mx-auto">
                 {data.tagline}
@@ -75,7 +78,9 @@ export default function UserDetails({ data }: UserDetailsProps) {
           <div className="bg-background/95 dark:bg-background/5 rounded-lg p-4 sm:p-8 md:p-10 backdrop-blur-sm sm:border border-border">
             <div className="flex flex-col-reverse sm:flex-row items-center sm:items-start gap-4 sm:gap-6 sm:justify-between text-center sm:text-left">
               <div className="space-y-4 w-full">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
+                <h1
+                  className={`text-3xl sm:text-4xl md:text-5xl font-bold ${fontHeadingClass} font-medium`}
+                >
                   I&apos;m{" "}
                   <span className="bg-muted-foreground dark:bg-white text-background px-2 rounded-md border border-border">
                     <ScrambleIn
@@ -144,7 +149,9 @@ export default function UserDetails({ data }: UserDetailsProps) {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 items-center px-4 sm:px-6 py-4">
               <div className="space-y-6 text-center lg:text-left md:col-span-1 lg:col-span-2">
                 <div className="space-y-4">
-                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+                  <h1
+                    className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight ${fontHeadingClass} font-medium`}
+                  >
                     Hey, I&apos;m{" "}
                     <span className="bg-muted-foreground dark:bg-white text-background px-2 rounded-md border border-border">
                       <ScrambleIn
@@ -157,10 +164,10 @@ export default function UserDetails({ data }: UserDetailsProps) {
                       .
                     </span>{" "}
                     👋
-                    <span className="block text-lg sm:text-xl lg:text-2xl mt-4 text-muted-foreground font-normal max-w-xl">
-                      {data.tagline}
-                    </span>
                   </h1>
+                  <span className="block text-lg sm:text-xl lg:text-2xl mt-4 text-muted-foreground font-normal max-w-xl">
+                    {data.tagline}
+                  </span>
                   <p className="text-sm sm:text-md text-muted-foreground/80 max-w-xl mx-auto lg:mx-0">
                     {data.bio}{" "}
                     <span className="inline">Based in {data.location}.</span>
@@ -225,7 +232,9 @@ export default function UserDetails({ data }: UserDetailsProps) {
           </Card>
           <Card className="col-span-2 md:col-start-1 md:row-start-1 flex flex-col justify-between p-4 sm:p-6 bg-gradient-to-r from-accent/40 dark:from-accent/20 to-background">
             <div className="space-y-2 sm:space-y-3">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium leading-tight tracking-tight">
+              <h1
+                className={`text-2xl sm:text-3xl md:text-4xl font-medium leading-tight tracking-tight ${fontHeadingClass} font-medium`}
+              >
                 Hello, I&apos;m{" "}
                 <ScrambleIn
                   ref={scrambleRef}
@@ -233,8 +242,8 @@ export default function UserDetails({ data }: UserDetailsProps) {
                   scrambleSpeed={70}
                   scrambledLetterCount={5}
                   autoStart={false}
-                />.{" "}
-                👋
+                />
+                . 👋
               </h1>
               {data.tagline && (
                 <p className="text-md sm:text-xl text-muted-foreground">
@@ -243,14 +252,27 @@ export default function UserDetails({ data }: UserDetailsProps) {
               )}
             </div>
             {data.bio && (
-              <p className="text-sm sm:text-md text-muted-foreground/80 mt-4 my-6">
+              <p className="text-sm sm:text-md text-muted-foreground/80 mt-4 mb-6">
                 {data.bio}
               </p>
+            )}
+            {data.skills && data.skills.length > 0 && (
+              <div className="flex flex-row sm:flex-row items-center justify-center md:justify-start gap-1.5 sm:gap-2 mb-6">
+                {data.skills.map((skill) => (
+                  <Badge
+                    key={skill}
+                    variant="outline"
+                    className="px-3 sm:px-4 py-1 sm:py-1.5 text-xs rounded-full bg-background/50 dark:bg-background/5"
+                  >
+                    {skill}
+                  </Badge>
+                ))}
+              </div>
             )}
             <Socials data={data} />
           </Card>
         </div>
       )}
-    </>
+    </section>
   );
 }

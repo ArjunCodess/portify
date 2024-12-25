@@ -59,7 +59,7 @@ export default function Admin() {
   return (
     <section className="h-full px-4">
       <div className="mb-8">
-        <h1 className="text-4xl font-medium eb-garamond mb-2">Admin Dashboard</h1>
+        <h1 className="text-4xl font-medium font-eb-garamond mb-2">Admin Dashboard</h1>
         <p className="text-muted-foreground">
           Welcome to your admin dashboard. Here you can manage your portfolio
           content and settings.
