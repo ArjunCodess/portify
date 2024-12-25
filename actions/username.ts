@@ -9,8 +9,10 @@ export async function createUsername(
   username: string,
   name: string,
   id: string,
-  template: string = 'pristine',
-  theme: string = 'system'
+  template: string = 'minimal',
+  theme: string = 'system',
+  headingFont: string = 'geist',
+  contentFont: string = 'geist'
 ) {
   try {
     await db.insert(userSchema).values({
@@ -20,6 +22,10 @@ export async function createUsername(
       username,
       template: template as 'minimal' | 'pristine' | 'vibrant' | 'elegant',
       theme,
+      font: {
+        heading: headingFont,
+        content: contentFont
+      }
     });
     return { success: true };
   } catch (error) {

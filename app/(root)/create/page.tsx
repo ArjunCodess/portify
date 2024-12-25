@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -19,6 +20,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { templates } from "@/lib/templates";
 import { themes } from "@/lib/themes";
+import { headingFonts, contentFonts } from "@/lib/fonts";
+import { Separator } from "@/components/ui/separator";
 
 export default function Page() {
   const { user } = useUser();
@@ -27,6 +30,8 @@ export default function Page() {
   const [username, setUsername] = useState("");
   const [template, setTemplate] = useState("minimal");
   const [theme, setTheme] = useState("neutral");
+  const [headingFont, setHeadingFont] = useState("geist");
+  const [contentFont, setContentFont] = useState("geist");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [, setIsChecking] = useState(false);
@@ -105,7 +110,9 @@ export default function Page() {
         user.fullName,
         user.id,
         template,
-        theme
+        theme,
+        headingFont,
+        contentFont
       );
 
       if (result.success) {
@@ -134,7 +141,7 @@ export default function Page() {
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-65px)]">
-      <div className="container max-w-lg py-10">
+      <div className="container max-w-2xl py-10">
         <Card>
           <CardHeader>
             <CardTitle>Create your portfolio</CardTitle>
@@ -156,13 +163,71 @@ export default function Page() {
                 {error && <p className="text-sm text-red-500">{error}</p>}
               </div>
 
+              <Separator />
+
+              <div className="space-y-4">
+                <Label>Font Selection</Label>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-sm font-medium mb-2">Heading Font</h3>
+                    <RadioGroup
+                      value={headingFont}
+                      onValueChange={setHeadingFont}
+                      className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+                    >
+                      {headingFonts.map((font) => (
+                        <div key={font.value}>
+                          <RadioGroupItem
+                            value={font.value}
+                            id={`heading-${font.value}`}
+                            className="peer sr-only"
+                          />
+                          <Label
+                            htmlFor={`heading-${font.value}`}
+                            className={`cursor-pointer flex flex-col items-center justify-between rounded-md border-2 border-muted bg-background p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary font-${font.value}`}
+                          >
+                            <span>{font.label}</span>
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-medium mb-2">Content Font</h3>
+                    <RadioGroup
+                      value={contentFont}
+                      onValueChange={setContentFont}
+                      className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+                    >
+                      {contentFonts.map((font) => (
+                        <div key={font.value}>
+                          <RadioGroupItem
+                            value={font.value}
+                            id={`content-${font.value}`}
+                            className="peer sr-only"
+                          />
+                          <Label
+                            htmlFor={`content-${font.value}`}
+                            className={`cursor-pointer flex flex-col items-center justify-between rounded-md border-2 border-muted bg-background p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary font-${font.value}`}
+                          >
+                            <span>{font.label}</span>
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
               <div className="space-y-2">
                 <Label>Template</Label>
                 <RadioGroup
-                  defaultValue="minimal"
                   value={template}
                   onValueChange={setTemplate}
-                  className="grid grid-cols-2 gap-4"
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                 >
                   {templates.map((template) => (
                     <div key={template.value}>
@@ -173,19 +238,30 @@ export default function Page() {
                       />
                       <Label
                         htmlFor={template.value}
-                        className="cursor-pointer flex flex-col items-center justify-between rounded-md border-2 border-muted bg-background p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                        className="cursor-pointer flex flex-col rounded-md border-2 border-muted bg-background hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary overflow-hidden"
                       >
-                        <span>{template.label}</span>
+                        <div className="relative w-full aspect-[16/10] border-b-2 border-muted">
+                          <Image
+                            src={template.image}
+                            alt={template.label}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="p-4">
+                          <span className="font-medium">{template.label}</span>
+                        </div>
                       </Label>
                     </div>
                   ))}
                 </RadioGroup>
               </div>
 
+              <Separator />
+
               <div className="space-y-2">
                 <Label>Theme</Label>
                 <RadioGroup
-                  defaultValue="neutral"
                   value={theme}
                   onValueChange={setTheme}
                   className="grid grid-cols-2 gap-4"
@@ -202,20 +278,36 @@ export default function Page() {
                         className="cursor-pointer flex flex-row items-center justify-between rounded-md border-2 border-muted bg-background p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                       >
                         <span>{theme.label}</span>
-                        <div
-                          className="h-4 w-4 rounded-full border"
-                          style={{ backgroundColor: `#${theme.activeColor}` }}
-                        />
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="h-4 w-4 rounded-full border"
+                            style={{ backgroundColor: `#${theme.activeColor}` }}
+                          />
+                          <div
+                            className="h-4 w-4 rounded-full border"
+                            style={{
+                              backgroundColor: `hsl(${theme.cssVars.light["--primary"]})`,
+                            }}
+                          />
+                          <div
+                            className="h-4 w-4 rounded-full border"
+                            style={{
+                              backgroundColor: `hsl(${theme.cssVars.light["--accent"]})`,
+                            }}
+                          />
+                        </div>
                       </Label>
                     </div>
                   ))}
                 </RadioGroup>
               </div>
 
+              <Separator />
+
               <Button
                 type="submit"
                 className="w-full"
-                disabled={!!error || isLoading}
+                disabled={isLoading || !!error}
               >
                 {isLoading ? "Creating..." : "Create Portfolio"}
               </Button>
