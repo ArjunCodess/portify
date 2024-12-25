@@ -124,6 +124,7 @@ export default function Profile({ params }: PageProps) {
             </BlurFade>
           </>
         )}
+        
         <ProjectDetails />
       </div>
     </BlurFade>

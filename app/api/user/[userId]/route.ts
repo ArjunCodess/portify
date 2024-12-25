@@ -3,6 +3,22 @@ import { user } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
+type UserUpdateData = {
+  name?: string;
+  username?: string;
+  tagline?: string | null;
+  bio?: string | null;
+  twitter?: string | null;
+  github?: string | null;
+  link?: string | null;
+  location?: string | null;
+  profilePicture?: string | null;
+  skills?: string[];
+  theme?: string;
+  template?: 'minimal' | 'pristine' | 'vibrant' | 'elegant';
+  font?: { heading: string; content: string };
+}
+
 export async function GET(
   request: NextRequest,
   context: { params: Promise<{ userId: string }> }
@@ -44,7 +60,7 @@ export async function PATCH(
 ) {
   try {
     const { userId } = await context.params
-    const { name, username, tagline, bio, twitter, github, link, location, profilePicture, skills } = await request.json()
+    const updates = await request.json()
 
     if (!userId) {
       return NextResponse.json(
@@ -53,20 +69,31 @@ export async function PATCH(
       )
     }
 
+    // Get current user data
+    const currentUser = await db.query.user.findFirst({
+      where: eq(user.id, userId),
+    })
+
+    if (!currentUser) {
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 }
+      )
+    }
+
+    // Only update fields that are provided in the request
+    const updateData: UserUpdateData = {};
+    
+    // Only allow known fields to be updated
+    (Object.keys(updates) as Array<keyof UserUpdateData>).forEach((key) => {
+      if (updates[key] !== undefined && key in currentUser) {
+        updateData[key] = updates[key];
+      }
+    });
+
     const updatedUser = await db
       .update(user)
-      .set({
-        name,
-        username,
-        tagline,
-        bio,
-        twitter,
-        github,
-        link,
-        location,
-        profilePicture,
-        skills: skills || [],
-      })
+      .set(updateData)
       .where(eq(user.id, userId))
       .returning()
 

@@ -53,9 +53,9 @@ export default function UserDetails({ data }: UserDetailsProps) {
                 . 👋
               </h1>
               <p className="text-sm text-foreground/95 mx-auto">
-                {data.tagline}
-                {data.tagline && data.tagline.endsWith(".") ? "" : "."} Based in{" "}
-                {data.location}.
+                {data.tagline && data.tagline}
+                {data.tagline && !data.tagline.endsWith(".") && "."}
+                {data.location && ` Based in ${data.location}.`}
               </p>
               <p className="text-sm text-foreground/70 mx-auto">{data.bio}</p>
 
@@ -96,9 +96,9 @@ export default function UserDetails({ data }: UserDetailsProps) {
                 </h1>
                 <div className="space-y-2 text-sm max-w-full sm:max-w-sm md:max-w-md mx-auto sm:mx-0">
                   <p className="text-base sm:text-lg text-muted-foreground">
-                    {data.tagline}
-                    {data.tagline && data.tagline.endsWith(".") ? "" : "."}{" "}
-                    Based in {data.location}.
+                    {data.tagline && data.tagline}
+                    {data.tagline && !data.tagline.endsWith(".") && "."}
+                    {data.location && ` Based in ${data.location}.`}
                   </p>
                   <p className="text-sm text-muted-foreground/80">{data.bio}</p>
                 </div>
@@ -165,13 +165,14 @@ export default function UserDetails({ data }: UserDetailsProps) {
                     </span>{" "}
                     👋
                   </h1>
-                  <span className="block text-lg sm:text-xl lg:text-2xl mt-4 text-muted-foreground font-normal max-w-xl">
-                    {data.tagline}
-                  </span>
-                  <p className="text-sm sm:text-md text-muted-foreground/80 max-w-xl mx-auto lg:mx-0">
-                    {data.bio}{" "}
-                    <span className="inline">Based in {data.location}.</span>
-                  </p>
+                  <div className="space-y-2 text-sm max-w-full sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto sm:mx-0">
+                    <p className="text-base sm:text-lg text-muted-foreground">
+                      {data.tagline}
+                      {data.tagline && !data.tagline.endsWith(".") && "."}
+                      {data.location && ` Based in ${data.location}.`}
+                    </p>
+                    <p className="text-sm text-muted-foreground/80">{data.bio}</p>
+                  </div>
                 </div>
 
                 {data.skills && data.skills.length > 0 && (
@@ -217,7 +218,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
       )}
 
       {data.template === "elegant" && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 gap-x-0 md:gap-x-4 min-h-[20rem] sm:min-h-[25rem]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 gap-x-0 md:gap-x-4 min-h-[20rem] sm:min-h-[25rem] text-center md:text-left">
           <Card className="col-span-1 md:col-start-3 p-0 w-full">
             <Avatar className="w-full h-full border-[3px] border-background dark:border-background/10 rounded-lg">
               <AvatarImage
@@ -254,6 +255,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
             {data.bio && (
               <p className="text-sm sm:text-md text-muted-foreground/80 mt-4 mb-6">
                 {data.bio}
+                {data.location && ` Based in ${data.location}.`}
               </p>
             )}
             {data.skills && data.skills.length > 0 && (

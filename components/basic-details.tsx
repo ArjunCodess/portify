@@ -166,13 +166,13 @@ export default function BasicDetails() {
     try {
       setIsUploading(true);
 
+      // Only send the profile picture update
       const updateResponse = await fetch(`/api/user/${userId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...formData,
           profilePicture: imageUrl,
         }),
       });
@@ -181,7 +181,15 @@ export default function BasicDetails() {
         throw new Error("Failed to update profile picture");
       }
 
-      setFormData((prev) => ({ ...prev, profilePicture: imageUrl }));
+      // Get the updated data from the server
+      const updatedData = await updateResponse.json();
+      
+      // Update only the profile picture in the form state
+      setFormData(prev => ({
+        ...prev,
+        profilePicture: updatedData.profilePicture || "",
+      }));
+
       toast({
         title: "Success",
         description: "Profile picture updated successfully",
