@@ -2,14 +2,16 @@ import { Metadata } from "next";
 import Provider from "./provider";
 import React from "react";
 
-type Props = {
-  params: { username: string }
+interface LayoutProps {
+  children: React.ReactNode;
+  params: Promise<{ username: string }>;
 }
 
 export async function generateMetadata(
-  { params }: Props,
+  { params }: LayoutProps
 ): Promise<Metadata> {
-  const username = params.username
+  const resolvedParams = await params;
+  const username = resolvedParams.username;
 
   return {
     title: `${username}'s Portfolio | Portify`,
@@ -33,14 +35,12 @@ export async function generateMetadata(
 export default function UsernameLayout({
   children,
   params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ username: string }>;
-}) {
+}: LayoutProps) {
   const resolvedParams = React.use(params);
+  
   return (
-    <div className="h-full w-full">
-      <Provider username={resolvedParams.username}>{children}</Provider>
-    </div>
+    <Provider username={resolvedParams.username}>
+      {children}
+    </Provider>
   );
 }
