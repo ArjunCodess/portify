@@ -147,7 +147,29 @@ export default function UserDetails({ data }: UserDetailsProps) {
         <BlurFade delay={0.5}>
           <div className="w-full">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 items-center px-4 sm:px-6 py-4">
-              <div className="space-y-6 text-center lg:text-left md:col-span-1 lg:col-span-2">
+              <Float amplitude={[10, 10, 10]} rotationRange={[8, 8, 8]} className="order-first md:order-last lg:order-last md:col-span-1">
+                <div className="relative mt-4 mb-8 md:my-0 mx-auto md:mx-8 max-w-[280px]">
+                  <div className="absolute -top-2 -right-4 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-400 animate-pulse" />
+                  <div className="absolute -top-6 right-5 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-purple-400 animate-pulse" />
+                  <div className="absolute top-4 -right-6 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-400 animate-pulse" />
+                  <div className="absolute bottom-6 -left-4 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-400 animate-pulse" />
+                  <div className="absolute -bottom-2 right-5 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-pink-400 animate-pulse" />
+                  <div className="w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] md:w-[300px] md:h-[300px] rounded-full transform transition-transform duration-300 mx-auto">
+                    <Avatar className="w-full h-full rounded-full border-[3px] border-background dark:border-background/10">
+                      <AvatarImage
+                        src={data.profilePicture ?? ""}
+                        alt={data.name}
+                        className="object-cover"
+                      />
+                      <AvatarFallback className="text-2xl sm:text-4xl">
+                        {data.name[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                </div>
+              </Float>
+
+              <div className="space-y-6 text-center lg:text-left md:col-span-1 lg:col-span-2 order-last md:order-first lg:order-first">
                 <div className="space-y-4">
                   <h1
                     className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight ${fontHeadingClass} font-medium`}
@@ -165,7 +187,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
                     </span>{" "}
                     👋
                   </h1>
-                  <div className="space-y-2 text-sm max-w-full sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto sm:mx-0">
+                  <div className="space-y-2 text-sm max-w-full sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto lg:mx-0">
                     <p className="text-base sm:text-lg text-muted-foreground">
                       {data.tagline}
                       {data.tagline && !data.tagline.endsWith(".") && "."}
@@ -189,29 +211,6 @@ export default function UserDetails({ data }: UserDetailsProps) {
                   </div>
                 )}
               </div>
-
-              <Float amplitude={[10, 10, 10]} rotationRange={[10, 10, 10]}>
-                <div className="relative mt-8 md:my-0 mx-8">
-                  <div className="absolute -top-2 -right-4 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-400 animate-pulse" />
-                  <div className="absolute -top-6 right-5 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-purple-400 animate-pulse" />
-                  <div className="absolute top-8 -right-8 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-400 animate-pulse" />
-                  <div className="absolute bottom-12 -left-4 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-400 animate-pulse" />
-                  <div className="absolute -bottom-4 right-5 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-pink-400 animate-pulse" />
-
-                  <div className="w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] md:w-[300px] md:h-[300px] rounded-full transform transition-transform duration-300 mx-auto md:ml-auto">
-                    <Avatar className="w-full h-full rounded-full border-[3px] border-background dark:border-background/10">
-                      <AvatarImage
-                        src={data.profilePicture ?? ""}
-                        alt={data.name}
-                        className="object-cover"
-                      />
-                      <AvatarFallback className="text-2xl sm:text-4xl">
-                        {data.name[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                </div>
-              </Float>
             </div>
           </div>
         </BlurFade>

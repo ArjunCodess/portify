@@ -317,89 +317,94 @@ export default function BasicDetails() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="flex flex-col items-center space-y-4">
-            <Avatar className="h-24 w-24">
-              {formData.profilePicture ? (
-                <AvatarImage
-                  src={formData.profilePicture}
-                  alt={formData.name || "Profile"}
+          <div className="flex flex-col sm:flex-row gap-8 items-start">
+            <div className="flex flex-col items-center space-y-4 w-full sm:w-1/4 my-2">
+              <Avatar className="h-28 w-28">
+                {formData.profilePicture ? (
+                  <AvatarImage
+                    src={formData.profilePicture}
+                    alt={formData.name || "Profile"}
+                  />
+                ) : (
+                  <AvatarFallback>
+                    {isUploading ? (
+                      <Loader2 className="h-8 w-8 animate-spin" />
+                    ) : (
+                      formData.name?.charAt(0) || "?"
+                    )}
+                  </AvatarFallback>
+                )}
+              </Avatar>
+              <CldUploadButton
+                onSuccess={(result: CloudinaryUploadWidgetResults) => {
+                  if (
+                    result &&
+                    typeof result === "object" &&
+                    "info" in result &&
+                    result.info &&
+                    typeof result.info === "object" &&
+                    "secure_url" in result.info
+                  ) {
+                    handleImageUpload(result.info.secure_url);
+                  }
+                }}
+                uploadPreset="portify"
+                options={{ folder: "portify" }}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {isUploading ? "Uploading..." : "Change Profile Picture"}
+              </CldUploadButton>
+            </div>
+
+            <div className="flex-1 space-y-4 w-full sm:w-3/4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-sm font-medium">
+                    Name
+                  </label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Your name"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <TooltipProvider>
+                    <Tooltip delayDuration={0}>
+                      <TooltipTrigger asChild>
+                        <label htmlFor="username" className="text-sm font-medium flex items-center gap-2">
+                          Username <span className="text-muted-foreground hover:text-foreground transition-colors">ⓘ</span>
+                        </label>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" align="start" className="translate-y-[-10px]">
+                        <p>Changing your username will require a page reload</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <Input
+                    id="username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Your username"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="tagline" className="text-sm font-medium">
+                  Tagline
+                </label>
+                <Input
+                  id="tagline"
+                  name="tagline"
+                  value={formData.tagline}
+                  onChange={handleChange}
+                  placeholder="A brief description about you"
                 />
-              ) : (
-                <AvatarFallback>
-                  {isUploading ? (
-                    <Loader2 className="h-8 w-8 animate-spin" />
-                  ) : (
-                    formData.name?.charAt(0) || "?"
-                  )}
-                </AvatarFallback>
-              )}
-            </Avatar>
-            <CldUploadButton
-              onSuccess={(result: CloudinaryUploadWidgetResults) => {
-                if (
-                  result &&
-                  typeof result === "object" &&
-                  "info" in result &&
-                  result.info &&
-                  typeof result.info === "object" &&
-                  "secure_url" in result.info
-                ) {
-                  handleImageUpload(result.info.secure_url);
-                }
-              }}
-              uploadPreset="portify"
-              options={{ folder: "portify" }}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {isUploading ? "Uploading..." : "Change Profile Picture"}
-            </CldUploadButton>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-medium">
-                Name
-              </label>
-              <Input
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your name"
-              />
+              </div>
             </div>
-            <div className="space-y-2">
-              <TooltipProvider>
-                <Tooltip delayDuration={0}>
-                  <TooltipTrigger asChild>
-                    <label htmlFor="username" className="text-sm font-medium flex items-center gap-2">
-                      Username <span className="text-muted-foreground hover:text-foreground transition-colors">ⓘ</span>
-                    </label>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" align="start" className="translate-y-[-10px]">
-                    <p>Changing your username will require a page reload</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <Input
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                placeholder="Your username"
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="tagline" className="text-sm font-medium">
-              Tagline
-            </label>
-            <Input
-              id="tagline"
-              name="tagline"
-              value={formData.tagline}
-              onChange={handleChange}
-              placeholder="A brief description about you"
-            />
           </div>
           <div className="space-y-2">
             <label htmlFor="bio" className="text-sm font-medium">
