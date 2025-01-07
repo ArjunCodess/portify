@@ -125,7 +125,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
                   <div className="absolute bottom-6 -left-2 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-400 animate-pulse" />
                   <div className="absolute -bottom-2 right-3 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-pink-400 animate-pulse" />
                   <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full transform transition-transform duration-300 mx-auto md:ml-auto">
-                    <Avatar className="w-full h-full rounded-full border-[3px] border-background dark:border-background/10">
+                    <Avatar className="w-full h-full rounded-full border-[3px] border-border dark:border-border/10">
                       <AvatarImage
                         src={data.profilePicture ?? ""}
                         alt={data.name}
@@ -155,7 +155,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
                   <div className="absolute bottom-6 -left-4 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-400 animate-pulse" />
                   <div className="absolute -bottom-2 right-5 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-pink-400 animate-pulse" />
                   <div className="w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] md:w-[300px] md:h-[300px] rounded-full transform transition-transform duration-300 mx-auto">
-                    <Avatar className="w-full h-full rounded-full border-[3px] border-background dark:border-background/10">
+                    <Avatar className="w-full h-full rounded-full border-[3px] border-border dark:border-border/10">
                       <AvatarImage
                         src={data.profilePicture ?? ""}
                         alt={data.name}
@@ -219,7 +219,7 @@ export default function UserDetails({ data }: UserDetailsProps) {
       {data.template === "elegant" && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 gap-x-0 md:gap-x-4 min-h-[20rem] sm:min-h-[25rem] text-center md:text-left">
           <Card className="col-span-1 md:col-start-3 p-0 w-full">
-            <Avatar className="w-full h-full border-[3px] border-background dark:border-background/10 rounded-lg">
+            <Avatar className="w-full h-full rounded-lg">
               <AvatarImage
                 src={data.profilePicture ?? ""}
                 alt={data.name}

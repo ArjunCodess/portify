@@ -38,7 +38,10 @@ export default function Page() {
 
   useEffect(() => {
     async function checkUser() {
-      if (!user?.id) return;
+      if (!user) {
+        router.push("/sign-up");
+        return;
+      }
 
       if (!user.primaryEmailAddress?.emailAddress) return;
 
