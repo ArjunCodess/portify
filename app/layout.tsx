@@ -8,12 +8,6 @@ import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
 import FooterContainer from "@/components/footer-container";
 
-<Script
-  defer
-  data-domain="getportify.vercel.app"
-  src="https://getanalyzr.vercel.app/tracking-script.js"
-/>;
-
 const geist = Geist({
   subsets: ["latin"],
 });
@@ -129,6 +123,11 @@ export default function RootLayout({
           className={`${geist.className} antialiased`}
           suppressHydrationWarning
         >
+          <Script
+            defer
+            data-domain="getportify.vercel.app"
+            src="https://getanalyzr.vercel.app/tracking-script.js"
+          />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
