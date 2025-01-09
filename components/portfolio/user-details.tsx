@@ -60,9 +60,9 @@ export default function UserDetails({ data }: UserDetailsProps) {
               <p className="text-sm text-foreground/70 mx-auto">{data.bio}</p>
 
               {data.skills && data.skills.length > 0 && (
-                <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mt-4">
+                <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mt-4 max-w-full overflow-hidden">
                   {data.skills.map((skill, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs">
+                    <Badge key={index} variant="secondary" className="text-xs whitespace-nowrap px-2 sm:px-3 py-0.5 sm:py-1">
                       {skill}
                     </Badge>
                   ))}
@@ -103,12 +103,12 @@ export default function UserDetails({ data }: UserDetailsProps) {
                   <p className="text-sm text-muted-foreground/80">{data.bio}</p>
                 </div>
                 {data.skills && data.skills.length > 0 && (
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-1.5 sm:gap-2">
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-1.5 sm:gap-2 max-w-full overflow-hidden">
                     {data.skills.map((skill, index) => (
                       <Badge
                         key={index}
                         variant="secondary"
-                        className="text-xs rounded-full bg-muted hover:bg-muted/80 dark:bg-background/10 text-foreground/80 dark:text-foreground/70 border border-border"
+                        className="text-xs rounded-full bg-muted hover:bg-muted/80 dark:bg-background/10 text-foreground/80 dark:text-foreground/70 border border-border whitespace-nowrap px-2 sm:px-3 py-0.5 sm:py-1"
                       >
                         {skill}
                       </Badge>
@@ -198,12 +198,12 @@ export default function UserDetails({ data }: UserDetailsProps) {
                 </div>
 
                 {data.skills && data.skills.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center lg:justify-start">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center lg:justify-start max-w-full overflow-hidden">
                     {data.skills.map((skill) => (
                       <Badge
                         key={skill}
                         variant="outline"
-                        className="px-3 sm:px-4 py-1 sm:py-1.5 text-xs rounded-full bg-background/50 dark:bg-background/5"
+                        className="px-2 sm:px-3 py-0.5 sm:py-1 text-xs rounded-full bg-background/50 dark:bg-background/5 whitespace-nowrap"
                       >
                         {skill}
                       </Badge>
@@ -258,12 +258,12 @@ export default function UserDetails({ data }: UserDetailsProps) {
               </p>
             )}
             {data.skills && data.skills.length > 0 && (
-              <div className="flex flex-row sm:flex-row items-center justify-center md:justify-start gap-1.5 sm:gap-2 mb-6">
+              <div className="flex flex-row sm:flex-row items-center justify-center md:justify-start gap-1.5 sm:gap-2 mb-6 max-w-full overflow-hidden">
                 {data.skills.map((skill) => (
                   <Badge
                     key={skill}
                     variant="outline"
-                    className="px-3 sm:px-4 py-1 sm:py-1.5 text-xs rounded-full bg-background/50 dark:bg-background/5"
+                    className="px-2 sm:px-3 py-0.5 sm:py-1 text-xs rounded-full bg-background/50 dark:bg-background/5 whitespace-nowrap"
                   >
                     {skill}
                   </Badge>
