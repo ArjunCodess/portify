@@ -9,7 +9,7 @@ export default function CallToAction() {
         <div className="flex flex-col text-center bg-muted/50 rounded-md p-6 sm:p-8 lg:p-14 gap-6 sm:gap-8 items-center">
           <div className="flex flex-col gap-2 sm:gap-4">
             <h3 className="font-medium font-eb-garamond text-3xl sm:text-4xl md:text-6xl tracking-tighter max-w-2xl font-regular">
-              Build Your Portfolio Now!
+              Build Your Portfolio <span className="underline underline-offset-8 decoration-blue-500">Now!</span>
             </h3>
             <p className="text-base sm:text-lg leading-relaxed tracking-tight text-muted-foreground max-w-2xl mx-auto">
               Showcase your skills and projects with ease. Our portfolio builder

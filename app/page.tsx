@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Package, Sparkles, HelpCircle, XIcon, MoveDown } from "lucide-react";
+import { Package, Sparkles, HelpCircle, XIcon, MoveDown, MessageCircleQuestion } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FeatureCard } from "@/components/feature-card";
@@ -20,6 +20,13 @@ import { features } from "@/lib/features";
 import { Separator } from "@/components/ui/separator";
 import BlurFade from "@/components/ui/blur-fade";
 import TextRotate from "@/components/ui/text-rotate";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { faqs } from "@/lib/faqs";
 
 export default function Home() {
   return (
@@ -36,10 +43,10 @@ export default function Home() {
                         className="border border-border rounded-lg relative w-full aspect-video group"
                         style={{
                           transform: `rotate(${image.rotation}deg)`,
-                          transition: 'transform 0.3s ease-in-out'
+                          transition: "transform 0.3s ease-in-out",
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'rotate(0deg)';
+                          e.currentTarget.style.transform = "rotate(0deg)";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.transform = `rotate(${image.rotation}deg)`;
@@ -90,7 +97,7 @@ export default function Home() {
                       "Beautiful",
                       "Professional",
                       "Modern",
-                      "Unique"
+                      "Unique",
                     ]}
                     mainClassName="inline-block bg-[#1570EF] px-4 py-1 rounded-lg text-white overflow-hidden -mb-3 md:-mb-4"
                     staggerFrom="first"
@@ -133,10 +140,10 @@ export default function Home() {
                         className="border border-border rounded-lg relative w-full aspect-video group"
                         style={{
                           transform: `rotate(${image.rotation}deg)`,
-                          transition: 'transform 0.3s ease-in-out'
+                          transition: "transform 0.3s ease-in-out",
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'rotate(0deg)';
+                          e.currentTarget.style.transform = "rotate(0deg)";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.transform = `rotate(${image.rotation}deg)`;
@@ -196,14 +203,14 @@ export default function Home() {
           </BlurFade>
         </main>
       </section>
- 
+
       <Separator className="mb-12 sm:mb-20" />
 
       <BlurFade delay={0.5} offset={30} inView={true} inViewMargin="0px">
         <section className="px-4 sm:px-0">
           <h1 className="font-medium font-eb-garamond text-2xl sm:text-3xl md:text-5xl lg:text-6xl leading-tight tracking-tight text-neutral-900 dark:text-white text-center mb-8">
-            Create a{" "}
-            Portfolio in Minutes <MoveDown className="inline-block w-10 h-10 ml-2 -mt-3" />
+            Create a Portfolio in <span className="underline underline-offset-8 decoration-blue-500">Minutes</span>{" "}
+            <MoveDown className="inline-block w-10 h-10 ml-2 -mt-3" />
           </h1>
           <FeatureSteps features={features} autoPlayInterval={3000} />
         </section>
@@ -212,6 +219,32 @@ export default function Home() {
       <Separator className="my-12 sm:my-20" />
 
       <BlurFade delay={0.6} offset={35} inView={true} inViewMargin="0px">
+        <section>
+          <div className="px-8 py-16">
+            <div className="mx-auto max-w-3xl space-y-12">
+              <h1 className="font-medium font-eb-garamond text-2xl sm:text-3xl md:text-5xl lg:text-6xl leading-tight tracking-tight text-neutral-900 dark:text-white text-center mb-8">
+                <span className="underline underline-offset-8 decoration-blue-500">Frequently</span> Asked Questions{" "}
+                <MessageCircleQuestion className="inline-block w-10 h-10 ml-2 -mt-3" />
+              </h1>
+
+              <Accordion type="single" collapsible className="mt-16 space-y-4">
+                {faqs.map((faq) => (
+                  <AccordionItem key={faq.id} value={faq.id}>
+                    <AccordionTrigger>{faq.question}</AccordionTrigger>
+                    <AccordionContent>
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
+        </section>
+      </BlurFade>
+
+      <Separator className="my-12 sm:my-20" />
+
+      <BlurFade delay={0.7} offset={40} inView={true} inViewMargin="0px">
         <section>
           <CallToAction />
         </section>
