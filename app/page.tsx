@@ -27,6 +27,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { faqs } from "@/lib/faqs";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -88,7 +89,15 @@ export default function Home() {
             </BlurFade>
 
             <BlurFade delay={0.2} offset={15} inView={true} inViewMargin="0px">
-              <div className="text-center space-y-4 sm:space-y-6 md:pt-10">
+              <div className="text-center space-y-4 sm:space-y-6">
+                <div className="flex justify-center mb-6">
+                  <Link href="https://www.producthunt.com/posts/getportify?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-getportify" target="_blank" className="hidden dark:block">
+                    <Image src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=741975&theme=dark&t=1736572370595" alt="getPortify - Build Your Professional Portfolio W/ Ease | Product Hunt" width="250" height="54" />
+                  </Link>
+                  <Link href="https://www.producthunt.com/posts/getportify?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-getportify" target="_blank" className="dark:hidden block">
+                    <Image src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=741975&theme=light&t=1736572294253" alt="getPortify - Build Your Professional Portfolio W/ Ease | Product Hunt" width="250" height="54" />
+                  </Link>
+                </div>
                 <h1 className="font-medium font-eb-garamond text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-tight tracking-tight text-neutral-900 dark:text-white">
                   Create a{" "}
                   <TextRotate
