@@ -13,7 +13,7 @@ export const AccordionItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("mb-4", className)}
+    className={cn("mb-2 sm:mb-4", className)}
     {...props}
   />
 ));
@@ -27,15 +27,15 @@ export const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "group w-full rounded-2xl border bg-gray-100 dark:bg-neutral-900 px-6 py-5 text-left text-lg font-medium text-gray-900 dark:text-zinc-200 transition-all hover:bg-gray-200 dark:hover:bg-neutral-800",
+        "group w-full rounded-2xl border bg-gray-100 dark:bg-neutral-900 px-4 sm:px-6 py-4 sm:py-5 text-left text-base sm:text-lg font-medium text-gray-900 dark:text-zinc-200 transition-all hover:bg-gray-200 dark:hover:bg-neutral-800",
         "data-[state=open]:rounded-b-none",
         className
       )}
       {...props}
     >
-      <div className="flex items-center justify-between">
-        {children}
-        <Plus className="h-5 w-5 text-blue-500 dark:text-blue-400 transition-transform duration-500 ease-in-out group-data-[state=open]:rotate-45" />
+      <div className="flex items-center justify-between gap-4">
+        <span className="line-clamp-1">{children}</span>
+        <Plus className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 text-blue-500 dark:text-blue-400 transition-transform duration-500 ease-in-out group-data-[state=open]:rotate-45" />
       </div>
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
@@ -49,7 +49,7 @@ export const AccordionContent = React.forwardRef<
   <AccordionPrimitive.Content
     ref={ref}
     className={cn(
-      "border border-t-0 overflow-hidden text-gray-600 dark:text-zinc-400",
+      "border border-t-0 overflow-hidden text-sm sm:text-base text-gray-600 dark:text-zinc-400",
       "transition-all duration-300 ease-in-out",
       "data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
       "bg-gray-50 dark:bg-[rgb(18,18,18)] rounded-b-2xl",
@@ -58,7 +58,7 @@ export const AccordionContent = React.forwardRef<
     {...props}
   >
     <div className={cn(
-      "px-6 py-5",
+      "px-4 sm:px-6 py-4 sm:py-5",
       "transition-all duration-300 ease-in-out",
       className
     )}>
