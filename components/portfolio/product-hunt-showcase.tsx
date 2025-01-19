@@ -52,13 +52,19 @@ export default function ProductHuntShowcase({
         const response = await fetch(`/api/user/producthunt/${username}`);
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to fetch Product Hunt data");
+          throw new Error(
+            errorData.error || "Failed to fetch Product Hunt data"
+          );
         }
         const productHuntData = await response.json();
         setData(productHuntData);
       } catch (error) {
         console.error("Error fetching Product Hunt data:", error);
-        setError(error instanceof Error ? error.message : "Failed to load Product Hunt data");
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Failed to load Product Hunt data"
+        );
       } finally {
         setLoading(false);
       }
@@ -93,7 +99,8 @@ export default function ProductHuntShowcase({
   const renderProductHuntButton = () => {
     if (!data?.launches) return null;
 
-    const baseClasses = "w-10 h-10 flex items-center justify-center transition-all duration-300";
+    const baseClasses =
+      "w-10 h-10 flex items-center justify-center transition-all duration-300";
     const buttonClasses = {
       minimal: `${baseClasses} rounded-full bg-background border border-input hover:bg-accent hover:text-accent-foreground`,
       pristine: `${baseClasses} rounded-full bg-background border border-border hover:bg-muted`,
@@ -122,14 +129,19 @@ export default function ProductHuntShowcase({
       <div className="space-y-4">
         <div className="flex items-center justify-between gap-4 text-sm text-muted-foreground">
           <span>
-            {data.totalLaunches} Product{data.totalLaunches !== 1 ? "s" : ""} Launched
+            {data.totalLaunches} Product{data.totalLaunches !== 1 ? "s" : ""}{" "}
+            Launched
           </span>
-          <span>
-            {data.totalUpvotes.toLocaleString()} Total Upvotes
-          </span>
+          <span>{data.totalUpvotes.toLocaleString()} Total Upvotes</span>
         </div>
 
-        <div className={`grid grid-cols-1 ${template === 'vibrant' || template === 'elegant' ? 'sm:grid-cols-2' : ''} gap-4 text-left mt-auto`}>
+        <div
+          className={`grid grid-cols-1 ${
+            template === "vibrant" || template === "elegant"
+              ? "sm:grid-cols-2"
+              : ""
+          } gap-4 text-left mt-auto`}
+        >
           {data.launches.map((launch) => (
             <Link
               key={launch.id}
@@ -151,7 +163,11 @@ export default function ProductHuntShowcase({
                   </div>
                 )}
                 <div className="flex-1 min-w-0 my-auto">
-                  <h4 className={`font-medium text-lg truncate font-${headingFont}`}>{launch.name}</h4>
+                  <h4
+                    className={`font-medium text-lg truncate font-${headingFont}`}
+                  >
+                    {launch.name}
+                  </h4>
                   <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
                     {launch.tagline}
                   </p>
@@ -182,7 +198,8 @@ export default function ProductHuntShowcase({
             </div>
             <div className="text-center space-y-2">
               <h3 className={`text-3xl font-medium font-${headingFont}`}>
-                Product Hunt<br className="block sm:hidden" /> Launches
+                Product Hunt
+                <br className="block sm:hidden" /> Launches
               </h3>
               <p className="text-sm text-muted-foreground">
                 Showcasing my products on Product Hunt
@@ -197,7 +214,8 @@ export default function ProductHuntShowcase({
         <div className="bg-background/95 dark:bg-background/5 rounded-lg p-0 sm:p-6 sm:border border-border">
           <div className="flex items-center justify-between mb-2">
             <h3 className={`text-3xl font-medium font-${headingFont}`}>
-              Product Hunt Launches
+              Product Hunt
+              <br className="block sm:hidden" /> Launches
             </h3>
             {renderProductHuntButton()}
           </div>
@@ -212,7 +230,8 @@ export default function ProductHuntShowcase({
         <div className="mt-8 p-6 text-left">
           <div className="flex items-center justify-between mb-2">
             <h3 className={`text-3xl font-medium font-${headingFont}`}>
-              Product Hunt Launches
+              Product Hunt
+              <br className="block sm:hidden" /> Launches
             </h3>
             {renderProductHuntButton()}
           </div>
@@ -227,7 +246,8 @@ export default function ProductHuntShowcase({
         <div className="mt-8 p-6 bg-gradient-to-r from-accent/40 dark:from-accent/20 to-background border border-border rounded-lg text-left">
           <div className="flex items-center justify-between mb-2">
             <h3 className={`text-3xl font-medium font-${headingFont}`}>
-              Product Hunt Launches
+              Product Hunt
+              <br className="block sm:hidden" /> Launches
             </h3>
             {renderProductHuntButton()}
           </div>
@@ -239,4 +259,4 @@ export default function ProductHuntShowcase({
       )}
     </>
   );
-} 
+}
