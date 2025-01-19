@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { UserData } from "@/types";
 import BlurFade from "../ui/blur-fade";
+import Image from "next/image";
 
 export default function Socials({ data }: { data: UserData }) {
   const getGithubUrl = (url: string) => {
@@ -20,6 +21,11 @@ export default function Socials({ data }: { data: UserData }) {
   const getTwitterUrl = (url: string) => {
     if (url.startsWith("https://twitter.com/")) return url;
     return `https://twitter.com/${url.replace("@", "")}`;
+  };
+
+  const getProductHuntUrl = (url: string) => {
+    if (url.startsWith("https://www.producthunt.com/")) return url;
+    return `https://www.producthunt.com/@${url.replace("@", "")}`;
   };
 
   return (
@@ -48,6 +54,18 @@ export default function Socials({ data }: { data: UserData }) {
                   className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
                 >
                   <Twitter className="h-5 w-5" />
+                </Link>
+              </li>
+            )}
+            {data.productHunt && (
+              <li>
+                <Link
+                  href={getProductHuntUrl(data.productHunt)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  <Image src="/producthunt.svg" alt="Product Hunt" width={20} height={20} />
                 </Link>
               </li>
             )}
@@ -101,6 +119,18 @@ export default function Socials({ data }: { data: UserData }) {
                   className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-border hover:bg-muted transition-colors"
                 >
                   <Twitter className="h-5 w-5" />
+                </Link>
+              </li>
+            )}
+            {data.productHunt && (
+              <li>
+                <Link
+                  href={getProductHuntUrl(data.productHunt)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-border hover:bg-muted transition-colors"
+                >
+                  <Image src="/producthunt.svg" alt="Product Hunt" width={20} height={20} />
                 </Link>
               </li>
             )}
@@ -165,6 +195,22 @@ export default function Socials({ data }: { data: UserData }) {
                 </Link>
               </Button>
             )}
+            {data.productHunt && (
+              <Button
+                asChild
+                size="icon"
+                variant="outline"
+                className="rounded-full w-11 h-11 sm:w-12 sm:h-12 bg-background/50 dark:bg-background/5"
+              >
+                <Link
+                  href={getProductHuntUrl(data.productHunt)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image src="/producthunt.svg" alt="Product Hunt" width={20} height={20} />
+                </Link>
+              </Button>
+            )}
             {data.link && (
               <Button
                 asChild
@@ -222,6 +268,16 @@ export default function Socials({ data }: { data: UserData }) {
                 className="rounded-full bg-background p-2 sm:p-2.5 hover:bg-background/90 border"
               >
                 <Github className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
+              </Link>
+            )}
+            {data.productHunt && (
+              <Link
+                href={getProductHuntUrl(data.productHunt)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-background p-2 sm:p-2.5 hover:bg-background/90 border"
+              >
+                <Image src="/producthunt.svg" alt="Product Hunt" width={20} height={20} />
               </Link>
             )}
             {data.email && (

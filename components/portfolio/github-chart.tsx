@@ -10,6 +10,7 @@ interface GitHubChartProps {
   username: string;
   template: "minimal" | "pristine" | "vibrant" | "elegant";
   showGithub: boolean;
+  headingFont: string;
 }
 
 interface ContributionDay {
@@ -46,6 +47,7 @@ export default function GitHubChart({
   username,
   template,
   showGithub,
+  headingFont
 }: GitHubChartProps) {
   const [data, setData] = useState<GitHubData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -189,7 +191,7 @@ export default function GitHubChart({
           >
             <div className="space-y-2 flex-1">
               <div className="flex items-start justify-between">
-                <h4 className="font-medium truncate">{repo.name}</h4>
+                <h4 className={`font-medium truncate text-lg font-${headingFont}`}>{repo.name}</h4>
                 <div className="flex items-center gap-3 text-muted-foreground text-sm">
                   {repo.stargazerCount > 0 && (
                     <span className="flex items-center gap-1">
@@ -206,7 +208,7 @@ export default function GitHubChart({
                 </div>
               </div>
               {repo.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2">
+                <p className="text-sm text-muted-foreground text-left line-clamp-2">
                   {repo.description}
                 </p>
               )}
@@ -236,7 +238,7 @@ export default function GitHubChart({
             {renderGithubButton()}
           </div>
           <div className="text-center space-y-2">
-            <h3 className="text-3xl font-medium font-eb-garamond">
+            <h3 className={`text-3xl font-medium font-${headingFont}`}>
               GitHub Activity
             </h3>
             <p className="text-sm text-muted-foreground">
@@ -252,7 +254,7 @@ export default function GitHubChart({
       {template === "pristine" && (
         <div className="bg-background/95 dark:bg-background/5 rounded-lg p-0 sm:p-6 sm:border border-border">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-3xl font-medium font-eb-garamond">
+            <h3 className={`text-3xl font-medium font-${headingFont}`}>
               GitHub Activity
             </h3>
             {renderGithubButton()}
@@ -267,9 +269,9 @@ export default function GitHubChart({
       )}
 
       {template === "vibrant" && (
-        <div className="mt-8 p-6 text-center lg:text-left">
+        <div className="mt-8 p-6 text-left">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-3xl font-medium font-eb-garamond">
+            <h3 className={`text-3xl font-medium font-${headingFont}`}>
               GitHub Activity
             </h3>
             {renderGithubButton()}
@@ -284,9 +286,9 @@ export default function GitHubChart({
       )}
 
       {template === "elegant" && (
-        <div className="mt-8 p-6 bg-gradient-to-r from-accent/40 dark:from-accent/20 to-background border border-border rounded-lg text-center lg:text-left">
+        <div className="mt-8 p-6 bg-gradient-to-r from-accent/40 dark:from-accent/20 to-background border border-border rounded-lg text-left">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-3xl font-medium font-eb-garamond">
+            <h3 className={`text-3xl font-medium font-${headingFont}`}>
               GitHub Activity
             </h3>
             {renderGithubButton()}

@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import BlurFade from "@/components/ui/blur-fade";
 import GitHubChart from "@/components/portfolio/github-chart";
+import ProductHuntShowcase from "@/components/portfolio/product-hunt-showcase";
 
 interface PageProps {
   params: Promise<{
@@ -94,7 +95,7 @@ export default function Profile({ params }: PageProps) {
   }
 
   return (
-    <BlurFade delay={0.3}>
+    <BlurFade delay={0.3} className={`font-${userData.font.content}`}>
       <TopBar username={resolvedParams.username} />
       <Separator />
       <div
@@ -132,6 +133,22 @@ export default function Profile({ params }: PageProps) {
               username={resolvedParams.username}
               template={userData.template}
               showGithub={userData.showGithub}
+              headingFont={userData.font.heading}
+            />
+
+            <BlurFade delay={0.9}>
+              <Separator className="my-10" />
+            </BlurFade>
+          </>
+        )}
+
+        {userData.productHunt && userData.showProductHunt && (
+          <>
+            <ProductHuntShowcase
+              username={resolvedParams.username}
+              template={userData.template}
+              showProductHunt={userData.showProductHunt}
+              headingFont={userData.font.heading}
             />
 
             <BlurFade delay={0.9}>

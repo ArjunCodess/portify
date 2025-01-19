@@ -42,7 +42,9 @@ export type UserData = {
   };
   visitCount: number;
   showGithub: boolean;
-};
+  productHunt: string | null;
+  showProductHunt: boolean;
+}
 
 export type AnalyticsData = {
   profileVisits: {

@@ -26,10 +26,9 @@ export default function UserDetails({ data }: UserDetailsProps) {
   if (!data) return null;
 
   const fontHeadingClass = "font-" + data.font.heading;
-  const fontContentClass = "font-" + data.font.content;
 
   return (
-    <section className={fontContentClass}>
+    <section>
       {data.template === "minimal" && (
         <BlurFade delay={0.5}>
           <div className="flex flex-col items-center text-center space-y-4 px-4 sm:px-0">

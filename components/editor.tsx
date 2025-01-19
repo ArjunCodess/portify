@@ -3,6 +3,7 @@ import BasicDetails from './basic-details'
 import { Separator } from './ui/separator'
 import Projects from './projects'
 import GitHub from './github'
+import ProductHunt from './product-hunt'
 
 export default function Editor() {
   return (
@@ -12,6 +13,8 @@ export default function Editor() {
       <Projects />
       <Separator className='my-10' />
       <GitHub />
+      <Separator className='my-10' />
+      <ProductHunt />
     </section>
   )
 }

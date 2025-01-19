@@ -21,10 +21,9 @@ export default function ProjectDetails() {
   );
 
   const fontHeadingClass = "font-" + userData.font.heading;
-  const fontContentClass = "font-" + userData.font.content;
 
   return (
-    <section className={fontContentClass}>
+    <section>
       {userData.template === "minimal" && (
         <div className="space-y-6">
           <BlurFade delay={0.8}>
@@ -216,7 +215,7 @@ export default function ProjectDetails() {
       {userData.template === "vibrant" && (
         <div className="w-full space-y-8 px-4 sm:px-6 py-4">
           <BlurFade delay={0.8}>
-            <div className="text-center lg:text-left">
+            <div className="text-left">
             <h2 className={`text-3xl font-bold ${fontHeadingClass} font-medium`}>Projects</h2>
               <p className="text-muted-foreground mt-2">
                 Some of my best works and side projects:
@@ -308,7 +307,7 @@ export default function ProjectDetails() {
       {userData.template === "elegant" && (
         <Card className="w-full space-y-6 sm:space-y-4 p-4 sm:p-6 bg-gradient-to-r from-accent/40 dark:from-accent/20 to-background">
           <BlurFade delay={0.8}>
-            <div className="text-center lg:text-left space-y-2 mt-2 sm:mt-0">
+            <div className="text-left space-y-2 mt-2 sm:mt-0">
             <h2 className={`text-3xl font-bold ${fontHeadingClass} font-medium`}>Projects</h2>
               <p className="text-sm sm:text-base text-muted-foreground">
                 Some of my best works and side projects:

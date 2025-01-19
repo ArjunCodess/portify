@@ -10,6 +10,7 @@ export const user = pgTable('user', {
     bio: text('bio'),
     twitter: varchar('twitter'),
     github: varchar('github'),
+    productHunt: varchar('product_hunt'),
     link: text('link'),
     location: varchar('location'),
     profilePicture: text('profile_picture'),
@@ -18,6 +19,7 @@ export const user = pgTable('user', {
     template: varchar('template', { enum: ['minimal', 'pristine', 'vibrant', 'elegant'] }).notNull().default('minimal'),
     font: jsonb('font').notNull().default({ heading: 'geist', content: 'geist' }),
     showGithub: boolean('show_github').notNull().default(false),
+    showProductHunt: boolean('show_product_hunt').notNull().default(false),
 })
 
 export const projects = pgTable('projects', {

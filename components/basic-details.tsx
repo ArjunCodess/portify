@@ -32,6 +32,7 @@ export default function BasicDetails() {
     bio: "",
     twitter: "",
     github: "",
+    productHunt: "",
     link: "",
     location: "",
     profilePicture: "",
@@ -240,6 +241,7 @@ export default function BasicDetails() {
           bio: data.bio || "",
           twitter: data.twitter || "",
           github: data.github || "",
+          productHunt: data.productHunt || "",
           link: data.link || "",
           location: data.location || "",
           profilePicture: data.profilePicture || "",
@@ -445,7 +447,7 @@ export default function BasicDetails() {
               className="mt-2"
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
               <label htmlFor="twitter" className="text-sm font-medium">
                 Twitter
@@ -468,6 +470,18 @@ export default function BasicDetails() {
                 value={formData.github}
                 onChange={handleChange}
                 placeholder="Your GitHub username (@username)"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="productHunt" className="text-sm font-medium">
+                Product Hunt
+              </label>
+              <Input
+                id="productHunt"
+                name="productHunt"
+                value={formData.productHunt}
+                onChange={handleChange}
+                placeholder="Your Product Hunt username (@username)"
               />
             </div>
           </div>
