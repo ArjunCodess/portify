@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm"
-import { pgTable, text, varchar, integer, jsonb } from "drizzle-orm/pg-core"
+import { pgTable, text, varchar, integer, jsonb, boolean } from "drizzle-orm/pg-core"
 
 export const user = pgTable('user', {
     id: varchar('id').primaryKey(),
@@ -17,6 +17,7 @@ export const user = pgTable('user', {
     theme: varchar('theme').notNull().default('neutral'),
     template: varchar('template', { enum: ['minimal', 'pristine', 'vibrant', 'elegant'] }).notNull().default('minimal'),
     font: jsonb('font').notNull().default({ heading: 'geist', content: 'geist' }),
+    showGithub: boolean('show_github').notNull().default(false),
 })
 
 export const projects = pgTable('projects', {

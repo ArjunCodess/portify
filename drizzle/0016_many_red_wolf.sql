@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "show_github" boolean DEFAULT false NOT NULL;

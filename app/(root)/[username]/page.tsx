@@ -12,6 +12,7 @@ import Socials from "@/components/portfolio/socials";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import BlurFade from "@/components/ui/blur-fade";
+import GitHubChart from "@/components/portfolio/github-chart";
 
 interface PageProps {
   params: Promise<{
@@ -124,7 +125,21 @@ export default function Profile({ params }: PageProps) {
             </BlurFade>
           </>
         )}
-        
+
+        {userData.github && userData.showGithub && (
+          <>
+            <GitHubChart
+              username={resolvedParams.username}
+              template={userData.template}
+              showGithub={userData.showGithub}
+            />
+
+            <BlurFade delay={0.9}>
+              <Separator className="my-10" />
+            </BlurFade>
+          </>
+        )}
+
         <ProjectDetails />
       </div>
     </BlurFade>

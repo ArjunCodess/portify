@@ -41,6 +41,7 @@ export type UserData = {
     content: string;
   };
   visitCount: number;
+  showGithub: boolean;
 };
 
 export type AnalyticsData = {
