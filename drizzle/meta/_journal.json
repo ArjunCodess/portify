@@ -127,6 +127,13 @@
       "when": 1737259258908,
       "tag": "0017_gorgeous_firestar",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1737548156989,
+      "tag": "0018_oval_supreme_intelligence",
+      "breakpoints": true
     }
   ]
 }

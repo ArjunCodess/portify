@@ -28,6 +28,11 @@ export default function Socials({ data }: { data: UserData }) {
     return `https://www.producthunt.com/@${url.replace("@", "")}`;
   };
 
+  const getDevtoUrl = (url: string) => {
+    if (url.startsWith("https://dev.to/")) return url;
+    return `https://dev.to/${url.replace("@", "")}`;
+  };
+
   return (
     <BlurFade delay={0.7}>
       {data.template === "minimal" && (
@@ -54,6 +59,18 @@ export default function Socials({ data }: { data: UserData }) {
                   className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
                 >
                   <Twitter className="h-5 w-5" />
+                </Link>
+              </li>
+            )}
+            {data.devto && (
+              <li>
+                <Link
+                  href={getDevtoUrl(data.devto)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  <Image src="/devto.svg" alt="Dev.to" width={20} height={20} />
                 </Link>
               </li>
             )}
@@ -119,6 +136,18 @@ export default function Socials({ data }: { data: UserData }) {
                   className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-border hover:bg-muted transition-colors"
                 >
                   <Twitter className="h-5 w-5" />
+                </Link>
+              </li>
+            )}
+            {data.devto && (
+              <li>
+                <Link
+                  href={getDevtoUrl(data.devto)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-border hover:bg-muted transition-colors"
+                >
+                  <Image src="/devto.svg" alt="Dev.to" width={20} height={20} />
                 </Link>
               </li>
             )}
@@ -195,6 +224,22 @@ export default function Socials({ data }: { data: UserData }) {
                 </Link>
               </Button>
             )}
+            {data.devto && (
+              <Button
+                asChild
+                size="icon"
+                variant="outline"
+                className="rounded-full w-11 h-11 sm:w-12 sm:h-12 bg-background/50 dark:bg-background/5"
+              >
+                <Link
+                  href={getDevtoUrl(data.devto)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image src="/devto.svg" alt="Dev.to" width={20} height={20} />
+                </Link>
+              </Button>
+            )}
             {data.productHunt && (
               <Button
                 asChild
@@ -268,6 +313,16 @@ export default function Socials({ data }: { data: UserData }) {
                 className="rounded-full bg-background p-2 sm:p-2.5 hover:bg-background/90 border"
               >
                 <Github className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
+              </Link>
+            )}
+            {data.devto && (
+              <Link
+                href={getDevtoUrl(data.devto)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-background p-2 sm:p-2.5 hover:bg-background/90 border"
+              >
+                <Image src="/devto.svg" alt="Dev.to" width={16} height={16} className="sm:w-5 sm:h-5" />
               </Link>
             )}
             {data.productHunt && (

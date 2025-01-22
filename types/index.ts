@@ -29,6 +29,7 @@ export type UserData = {
   bio: string | null;
   twitter: string | null;
   github: string | null;
+  devto: string | null;
   link: string | null;
   location: string | null;
   profilePicture: string | null;
@@ -44,6 +45,7 @@ export type UserData = {
   showGithub: boolean;
   productHunt: string | null;
   showProductHunt: boolean;
+  showDevto: boolean;
 }
 
 export type AnalyticsData = {
