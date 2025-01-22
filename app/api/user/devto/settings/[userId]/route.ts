@@ -5,11 +5,12 @@ import { eq } from "drizzle-orm";
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const resolvedParams = await params;
     const userData = await db.query.user.findFirst({
-      where: eq(user.id, params.userId),
+      where: eq(user.id, resolvedParams.userId),
       columns: {
         showDevto: true,
       },
@@ -34,9 +35,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const resolvedParams = await params;
     const body = await request.json();
     const { showDevto } = body;
 
@@ -50,7 +52,7 @@ export async function PATCH(
     await db
       .update(user)
       .set({ showDevto })
-      .where(eq(user.id, params.userId));
+      .where(eq(user.id, resolvedParams.userId));
 
     return NextResponse.json({ showDevto });
   } catch (error) {
@@ -60,4 +62,4 @@ export async function PATCH(
       { status: 500 }
     );
   }
-} 
+}

@@ -11,6 +11,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
+import Image from "next/image";
 
 interface DevToShowcaseProps {
   username: string;
@@ -151,10 +152,12 @@ export default function DevToShowcase({
           >
             <div className="relative w-full">
               {article.cover_image && (
-                <img
+                <Image
                   src={article.cover_image}
                   alt={article.title}
                   className="object-cover w-full h-full max-h-64"
+                  width={500}
+                  height={500}
                 />
               )}
             </div>

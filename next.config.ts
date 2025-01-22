@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: 'ph-files.imgix.net',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'media2.dev.to',
+        pathname: '/**',
+      },
     ],
   },
 };

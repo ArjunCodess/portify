@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { db } from "@/db/drizzle";
 import { user } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -54,12 +54,14 @@ async function fetchDevToData(devtoUsername: string) {
 }
 
 export async function GET(
-  _request: NextRequest,
-  { params }: { params: { username: string } }
+  request: Request
 ) {
   try {
+    // Get username from URL
+    const username = request.url.split('/').pop();
+    
     const userData = await db.query.user.findFirst({
-      where: eq(user.username, params.username),
+      where: eq(user.username, username!),
       columns: {
         devto: true,
         showDevto: true,
