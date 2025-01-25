@@ -12,6 +12,7 @@ export const user = pgTable('user', {
     github: varchar('github'),
     productHunt: varchar('product_hunt'),
     devto: varchar('devto'),
+    medium: varchar('medium'),
     link: text('link'),
     location: varchar('location'),
     profilePicture: text('profile_picture'),
@@ -22,6 +23,7 @@ export const user = pgTable('user', {
     showGithub: boolean('show_github').notNull().default(false),
     showProductHunt: boolean('show_product_hunt').notNull().default(false),
     showDevto: boolean('show_devto').notNull().default(false),
+    showMedium: boolean('show_medium').notNull().default(false),
 })
 
 export const projects = pgTable('projects', {

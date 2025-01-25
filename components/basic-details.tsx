@@ -38,6 +38,7 @@ export default function BasicDetails() {
     location: "",
     profilePicture: "",
     skills: [] as string[],
+    medium: "",
   });
   const [newSkill, setNewSkill] = useState("");
   const [isDirty, setIsDirty] = useState(false);
@@ -53,7 +54,7 @@ export default function BasicDetails() {
 
   const saveToDatabase = async (updatedData: typeof formData) => {
     if (!userId) return;
-    
+
     try {
       const response = await fetch(`/api/user/${userId}`, {
         method: "PATCH",
@@ -64,7 +65,7 @@ export default function BasicDetails() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save changes');
+        throw new Error("Failed to save changes");
       }
 
       return await response.json();
@@ -74,16 +75,16 @@ export default function BasicDetails() {
   };
 
   const handleAddSkill = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       const trimmedSkill = newSkill.trim();
-      
+
       if (trimmedSkill && !formData.skills.includes(trimmedSkill)) {
         const updatedSkills = [...formData.skills, trimmedSkill];
         const updatedData = { ...formData, skills: updatedSkills };
-        
+
         setFormData(updatedData);
-        setNewSkill('');
+        setNewSkill("");
 
         try {
           await saveToDatabase(updatedData);
@@ -102,11 +103,13 @@ export default function BasicDetails() {
   };
 
   const handleRemoveSkill = async (skillToRemove: string) => {
-    const updatedSkills = formData.skills.filter(skill => skill !== skillToRemove);
+    const updatedSkills = formData.skills.filter(
+      (skill) => skill !== skillToRemove
+    );
     const updatedData = { ...formData, skills: updatedSkills };
-    
+
     const previousData = formData;
-    
+
     setFormData(updatedData);
 
     try {
@@ -185,9 +188,9 @@ export default function BasicDetails() {
 
       // Get the updated data from the server
       const updatedData = await updateResponse.json();
-      
+
       // Update only the profile picture in the form state
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         profilePicture: updatedData.profilePicture || "",
       }));
@@ -226,7 +229,7 @@ export default function BasicDetails() {
           headers: {
             "Content-Type": "application/json",
           },
-          cache: 'no-store', // Disable caching to always get fresh data
+          cache: "no-store", // Disable caching to always get fresh data
         });
 
         const data = await response.json();
@@ -248,6 +251,7 @@ export default function BasicDetails() {
           location: data.location || "",
           profilePicture: data.profilePicture || "",
           skills: data.skills || [],
+          medium: data.medium || "",
         });
       } catch (error) {
         console.error("Fetch error:", error);
@@ -317,7 +321,9 @@ export default function BasicDetails() {
   return (
     <Card className="w-full mx-auto">
       <CardHeader>
-        <CardTitle className="text-3xl font-medium font-eb-garamond">Basic Details</CardTitle>
+        <CardTitle className="text-3xl font-medium font-eb-garamond">
+          Basic Details
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -378,11 +384,21 @@ export default function BasicDetails() {
                   <TooltipProvider>
                     <Tooltip delayDuration={0}>
                       <TooltipTrigger asChild>
-                        <label htmlFor="username" className="text-sm font-medium flex items-center gap-2">
-                          Username <span className="text-muted-foreground hover:text-foreground transition-colors">ⓘ</span>
+                        <label
+                          htmlFor="username"
+                          className="text-sm font-medium flex items-center gap-2"
+                        >
+                          Username{" "}
+                          <span className="text-muted-foreground hover:text-foreground transition-colors">
+                            ⓘ
+                          </span>
                         </label>
                       </TooltipTrigger>
-                      <TooltipContent side="top" align="start" className="translate-y-[-10px]">
+                      <TooltipContent
+                        side="top"
+                        align="start"
+                        className="translate-y-[-10px]"
+                      >
                         <p>Changing your username will require a page reload</p>
                       </TooltipContent>
                     </Tooltip>
@@ -428,7 +444,11 @@ export default function BasicDetails() {
             </label>
             <div className="flex flex-wrap gap-2 mb-2">
               {formData.skills?.map((skill, index) => (
-                <Badge key={index} variant="secondary" className="flex items-center gap-1 px-3 py-1">
+                <Badge
+                  key={index}
+                  variant="secondary"
+                  className="flex items-center gap-1 px-3 py-1"
+                >
                   {skill}
                   <button
                     type="button"
@@ -449,7 +469,7 @@ export default function BasicDetails() {
               className="mt-2"
             />
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
               <label htmlFor="twitter" className="text-sm font-medium">
                 Twitter
@@ -486,6 +506,8 @@ export default function BasicDetails() {
                 placeholder="Your Product Hunt username (@username)"
               />
             </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label htmlFor="devto" className="text-sm font-medium">
                 Dev.to
@@ -496,6 +518,18 @@ export default function BasicDetails() {
                 value={formData.devto}
                 onChange={handleChange}
                 placeholder="Your Dev.to username (@username)"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="medium" className="text-sm font-medium">
+                Medium
+              </label>
+              <Input
+                id="medium"
+                name="medium"
+                value={formData.medium}
+                onChange={handleChange}
+                placeholder="Your Medium username (@username)"
               />
             </div>
           </div>

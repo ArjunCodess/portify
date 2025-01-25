@@ -33,10 +33,15 @@ export default function Socials({ data }: { data: UserData }) {
     return `https://dev.to/${url.replace("@", "")}`;
   };
 
+  const getMediumUrl = (username: string) => {
+    if (username.startsWith("https://medium.com/")) return username;
+    return `https://medium.com/@${username.replace("@", "")}`;
+  };
+
   return (
     <BlurFade delay={0.7}>
       {data.template === "minimal" && (
-        <div className="w-full max-w-xs sm:max-w-sm mx-auto rounded-lg">
+        <div className="w-full max-w-xs sm:max-w-md md:max-w-md mx-auto rounded-lg">
           <ul className="flex flex-wrap justify-center gap-3 sm:gap-4">
             {data.github && (
               <li>
@@ -83,6 +88,18 @@ export default function Socials({ data }: { data: UserData }) {
                   className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
                 >
                   <Image src="/producthunt.svg" alt="Product Hunt" width={20} height={20} />
+                </Link>
+              </li>
+            )}
+            {data.medium && (
+              <li>
+                <Link
+                  href={getMediumUrl(data.medium)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  <Image src="/medium.svg" alt="Medium" width={20} height={20} />
                 </Link>
               </li>
             )}
@@ -113,7 +130,7 @@ export default function Socials({ data }: { data: UserData }) {
       )}
 
       {data.template === "pristine" && (
-        <div className="w-full max-w-xs sm:max-w-sm mx-auto rounded-lg">
+        <div className="w-full max-w-xs sm:max-w-md mx-auto rounded-lg">
           <ul className="flex flex-wrap justify-center gap-3 sm:gap-4">
             {data.github && (
               <li>
@@ -163,6 +180,18 @@ export default function Socials({ data }: { data: UserData }) {
                 </Link>
               </li>
             )}
+            {data.medium && (
+              <li>
+                <Link
+                  href={getMediumUrl(data.medium)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-background border border-border hover:bg-muted transition-colors"
+                >
+                  <Image src="/medium.svg" alt="Medium" width={20} height={20} />
+                </Link>
+              </li>
+            )}
             {data.link && (
               <li>
                 <Link
@@ -190,7 +219,7 @@ export default function Socials({ data }: { data: UserData }) {
       )}
 
       {data.template === "vibrant" && (
-        <div className="w-full max-w-xs sm:max-w-sm mx-auto">
+        <div className="w-full max-w-xs sm:max-w-md mx-auto">
           <div className="flex flex-wrap gap-3 sm:gap-4 justify-center">
             {data.github && (
               <Button
@@ -253,6 +282,22 @@ export default function Socials({ data }: { data: UserData }) {
                   rel="noopener noreferrer"
                 >
                   <Image src="/producthunt.svg" alt="Product Hunt" width={20} height={20} />
+                </Link>
+              </Button>
+            )}
+            {data.medium && (
+              <Button
+                asChild
+                size="icon"
+                variant="outline"
+                className="rounded-full w-11 h-11 sm:w-12 sm:h-12 bg-background/50 dark:bg-background/5"
+              >
+                <Link
+                  href={getMediumUrl(data.medium)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image src="/medium.svg" alt="Medium" width={20} height={20} />
                 </Link>
               </Button>
             )}
@@ -333,6 +378,16 @@ export default function Socials({ data }: { data: UserData }) {
                 className="rounded-full bg-background p-2 sm:p-2.5 hover:bg-background/90 border"
               >
                 <Image src="/producthunt.svg" alt="Product Hunt" width={20} height={20} />
+              </Link>
+            )}
+            {data.medium && (
+              <Link
+                href={getMediumUrl(data.medium)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-background p-2 sm:p-2.5 hover:bg-background/90 border"
+              >
+                <Image src="/medium.svg" alt="Medium" width={20} height={20} />
               </Link>
             )}
             {data.email && (

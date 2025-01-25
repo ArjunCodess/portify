@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
         hostname: 'media2.dev.to',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn-images-1.medium.com',
+        pathname: '/**',
+      },
     ],
   },
 };

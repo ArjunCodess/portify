@@ -134,6 +134,13 @@
       "when": 1737548156989,
       "tag": "0018_oval_supreme_intelligence",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1737555564415,
+      "tag": "0019_groovy_kid_colt",
+      "breakpoints": true
     }
   ]
 }

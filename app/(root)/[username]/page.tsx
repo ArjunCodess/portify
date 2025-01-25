@@ -15,6 +15,7 @@ import BlurFade from "@/components/ui/blur-fade";
 import GitHubChart from "@/components/portfolio/github-chart";
 import ProductHuntShowcase from "@/components/portfolio/product-hunt-showcase";
 import DevToShowcase from "@/components/portfolio/devto-showcase";
+import MediumShowcase from "@/components/portfolio/medium-showcase";
 
 interface PageProps {
   params: Promise<{
@@ -164,6 +165,22 @@ export default function Profile({ params }: PageProps) {
               username={resolvedParams.username}
               template={userData.template}
               showDevto={userData.showDevto}
+              headingFont={userData.font.heading}
+            />
+
+            <BlurFade delay={0.9}>
+              <Separator className="my-10" />
+            </BlurFade>
+          </>
+        )}
+
+        {userData.medium && userData.showMedium && (
+          <>
+            <MediumShowcase
+              username={resolvedParams.username}
+              mediumUsername={userData.medium}
+              template={userData.template}
+              showMedium={userData.showMedium}
               headingFont={userData.font.heading}
             />
 

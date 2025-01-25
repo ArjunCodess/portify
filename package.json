@@ -43,6 +43,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.1",
+    "fast-xml-parser": "^4.5.1",
     "framer-motion": "^11.16.0",
     "lucide-react": "^0.468.0",
     "mini-svg-data-uri": "^1.4.4",

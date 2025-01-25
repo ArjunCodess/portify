@@ -30,6 +30,7 @@ export type UserData = {
   twitter: string | null;
   github: string | null;
   devto: string | null;
+  medium: string | null;
   link: string | null;
   location: string | null;
   profilePicture: string | null;
@@ -46,6 +47,7 @@ export type UserData = {
   productHunt: string | null;
   showProductHunt: boolean;
   showDevto: boolean;
+  showMedium: boolean;
 }
 
 export type AnalyticsData = {

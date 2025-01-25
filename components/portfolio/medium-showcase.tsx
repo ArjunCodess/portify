@@ -2,72 +2,67 @@
 
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  AlertCircle,
-  ArrowUpRight,
-  MessageCircle,
-  Clock,
-} from "lucide-react";
+import { AlertCircle, ArrowUpRight, Clock } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Link from "next/link";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 
-interface DevToShowcaseProps {
+interface MediumShowcaseProps {
   username: string;
+  mediumUsername: string;
   template: "minimal" | "pristine" | "vibrant" | "elegant";
-  showDevto: boolean;
+  showMedium: boolean;
   headingFont: string;
 }
 
 interface Article {
-  id: number;
+  id: string;
   title: string;
   description: string;
   url: string;
-  published_at: string;
-  positive_reactions_count: number;
-  comments_count: number;
-  cover_image: string | null;
-  tag_list: string[];
-  reading_time_minutes: number;
+  publishedAt: string;
+  coverImage: string | null;
+  tags: string[];
+  readingTime: number;
 }
 
-interface DevToData {
+interface MediumData {
   articles: Article[];
   totalArticles: number;
-  totalReactions: number;
+  totalClaps: number;
 }
 
-export default function DevToShowcase({
+export default function MediumShowcase({
   username,
+  mediumUsername,
   template,
-  showDevto,
+  showMedium,
   headingFont,
-}: DevToShowcaseProps) {
-  const [data, setData] = useState<DevToData | null>(null);
+}: MediumShowcaseProps) {
+  const [data, setData] = useState<MediumData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchArticles = async () => {
-      if (!showDevto || !username) {
+      if (!showMedium || !username) {
         setLoading(false);
         return;
       }
 
       try {
-        const response = await fetch(`/api/user/devto/${username}`);
+        const response = await fetch(`/api/user/medium/${username}`);
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to fetch Dev.to data");
+          throw new Error(errorData.error || "Failed to fetch Medium data");
         }
-        const devtoData = await response.json();
-        setData(devtoData);
+        const mediumData = await response.json();
+        setData(mediumData);
       } catch (error) {
-        console.error("Error fetching Dev.to data:", error);
+        console.error("Error fetching Medium data:", error);
         setError(
-          error instanceof Error ? error.message : "Failed to load Dev.to data"
+          error instanceof Error ? error.message : "Failed to load Medium data"
         );
       } finally {
         setLoading(false);
@@ -75,17 +70,12 @@ export default function DevToShowcase({
     };
 
     fetchArticles();
-  }, [username, showDevto]);
+  }, [username, showMedium]);
 
-  if (!showDevto) return null;
+  if (!showMedium) return null;
 
   if (loading) {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Skeleton className="w-full aspect-[1.6/1]" />
-        <Skeleton className="w-full aspect-[1.6/1]" />
-      </div>
-    );
+    return <Skeleton className="w-full h-32" />;
   }
 
   if (error || !data?.articles) {
@@ -94,18 +84,13 @@ export default function DevToShowcase({
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Error</AlertTitle>
         <AlertDescription>
-          {error || "Failed to load Dev.to articles"}
+          {error || "Failed to load Medium articles"}
         </AlertDescription>
       </Alert>
     );
   }
 
-  const getDevtoUrl = (username: string) => {
-    if (username.startsWith("https://dev.to/")) return username;
-    return `https://dev.to/${username.replace("@", "")}`;
-  };
-
-  const renderDevtoButton = () => {
+  const renderMediumButton = () => {
     if (!data?.articles) return null;
 
     const baseClasses =
@@ -119,7 +104,7 @@ export default function DevToShowcase({
 
     return (
       <Link
-        href={getDevtoUrl(username)}
+        href={`https://medium.com/@${mediumUsername}`}
         target="_blank"
         rel="noopener noreferrer"
         className={buttonClasses[template]}
@@ -151,9 +136,9 @@ export default function DevToShowcase({
             className="group flex flex-col rounded-lg border bg-background hover:bg-accent/5 transition-colors relative overflow-hidden h-full"
           >
             <div className="relative w-full">
-              {article.cover_image && (
+              {article.coverImage && (
                 <Image
-                  src={article.cover_image}
+                  src={article.coverImage}
                   alt={article.title}
                   className="object-cover w-full h-full max-h-40 md:max-h-64"
                   width={500}
@@ -172,28 +157,21 @@ export default function DevToShowcase({
                   {article.description}
                 </p>
               </div>
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-wrap gap-2">
-                  {article.tag_list.slice(0, 3).map((tag) => (
-                    <Badge key={tag} variant="secondary">
+              <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground justify-between">
+                <div className="flex flex-wrap gap-1">
+                  {article.tags.map((tag) => (
+                    <Badge
+                      key={tag}
+                      variant="secondary"
+                      className="text-xs bg-muted hover:bg-muted"
+                    >
                       {tag}
                     </Badge>
                   ))}
                 </div>
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1.5 text-red-500">
-                    ❤︎ {article.positive_reactions_count}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <MessageCircle className="w-4 h-4" />
-                      {article.comments_count}
-                    </span>
-                  </div>
-                  <span className="flex items-center gap-1.5">
-                    <Clock className="w-4 h-4" />
-                    {article.reading_time_minutes} min read
-                  </span>
+                <div className="flex items-center gap-1">
+                  <Clock className="w-4 h-4" />
+                  {article.readingTime} min read
                 </div>
               </div>
             </div>
@@ -207,13 +185,13 @@ export default function DevToShowcase({
     <>
       {template === "minimal" && (
         <div className="mt-8 space-y-6 relative">
-          <div className="absolute right-0 top-0">{renderDevtoButton()}</div>
+          <div className="absolute right-0 top-0">{renderMediumButton()}</div>
           <div className="text-center space-y-2">
             <h3 className={`text-3xl font-medium font-${headingFont}`}>
-              Dev.to Articles
+              Medium Articles
             </h3>
             <p className="text-sm text-muted-foreground">
-              Sharing my thoughts and knowledge on Dev.to
+              Sharing my thoughts and insights on Medium
             </p>
           </div>
           {renderArticles()}
@@ -224,12 +202,12 @@ export default function DevToShowcase({
         <div className="bg-background/95 dark:bg-background/5 rounded-lg p-0 sm:p-6 sm:border border-border">
           <div className="flex items-center justify-between mb-2">
             <h3 className={`text-3xl font-medium font-${headingFont}`}>
-              Dev.to Articles
+              Medium Articles
             </h3>
-            {renderDevtoButton()}
+            {renderMediumButton()}
           </div>
           <p className="text-sm text-muted-foreground mb-6">
-            Sharing my thoughts and knowledge on Dev.to
+            Sharing my thoughts and insights on Medium
           </p>
           {renderArticles()}
         </div>
@@ -239,12 +217,12 @@ export default function DevToShowcase({
         <div className="mt-8 p-6 text-left">
           <div className="flex items-center justify-between mb-2">
             <h3 className={`text-3xl font-medium font-${headingFont}`}>
-              Dev.to Articles
+              Medium Articles
             </h3>
-            {renderDevtoButton()}
+            {renderMediumButton()}
           </div>
           <p className="text-sm text-muted-foreground mb-6">
-            Sharing my thoughts and knowledge on Dev.to
+            Sharing my thoughts and insights on Medium
           </p>
           {renderArticles()}
         </div>
@@ -254,12 +232,12 @@ export default function DevToShowcase({
         <div className="mt-8 p-6 bg-gradient-to-r from-accent/40 dark:from-accent/20 to-background border border-border rounded-lg text-left">
           <div className="flex items-center justify-between mb-2">
             <h3 className={`text-3xl font-medium font-${headingFont}`}>
-              Dev.to Articles
+              Medium Articles
             </h3>
-            {renderDevtoButton()}
+            {renderMediumButton()}
           </div>
           <p className="text-sm text-muted-foreground mb-6">
-            Sharing my thoughts and knowledge on Dev.to
+            Sharing my thoughts and insights on Medium
           </p>
           {renderArticles()}
         </div>
