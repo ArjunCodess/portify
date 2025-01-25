@@ -187,7 +187,7 @@ export default function GitHubChart({
             href={repo.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-4 rounded-lg border bg-background/50 hover:bg-background/80 transition-colors relative flex flex-col min-h-[140px]"
+            className="p-4 rounded-lg border bg-background/50 hover:bg-background/80 relative flex flex-col min-h-[140px] hover:ring-4 hover:ring-border transition-all duration-150"
           >
             <div className="space-y-2 flex-1">
               <div className="flex items-start justify-between">

@@ -148,7 +148,7 @@ export default function ProductHuntShowcase({
               href={launch.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 rounded-lg border bg-background/50 hover:bg-background/80 transition-colors relative flex flex-col justify-center"
+              className="p-4 rounded-lg border bg-background/50 hover:bg-background/80 relative flex flex-col justify-center  hover:ring-4 hover:ring-border transition-all duration-150"
             >
               <div className="flex items-center gap-4">
                 {launch.thumbnail && (

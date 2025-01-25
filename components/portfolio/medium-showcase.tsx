@@ -133,7 +133,7 @@ export default function MediumShowcase({
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex flex-col rounded-lg border bg-background hover:bg-accent/5 transition-colors relative overflow-hidden h-full"
+            className="group flex flex-col rounded-lg border bg-background hover:bg-accent/5 relative overflow-hidden h-full hover:ring-4 hover:ring-border transition-all duration-150"
           >
             <div className="relative w-full">
               {article.coverImage && (

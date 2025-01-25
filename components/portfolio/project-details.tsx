@@ -38,7 +38,7 @@ export default function ProjectDetails() {
           <div className="grid grid-cols-1 gap-6">
             {sortedProjects.map((project, index) => (
               <BlurFade key={index} delay={1 + index * 0.2}>
-                <Card className="group overflow-hidden border bg-background/40 hover:bg-background/60 transition-colors">
+                <Card className="group overflow-hidden border bg-background/40 hover:bg-background/60 hover:ring-4 hover:ring-border transition-all duration-150 cursor-pointer">
                   {project.banner && (
                     <div className="relative aspect-video w-full">
                       <Image
@@ -135,7 +135,7 @@ export default function ProjectDetails() {
             <div className="grid gap-6">
               {sortedProjects.map((project, index) => (
                 <BlurFade key={index} delay={1 + index * 0.2}>
-                  <div className="group break-inside-avoid overflow-hidden rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 transition-colors">
+                  <div className="group break-inside-avoid overflow-hidden rounded-lg border border-border bg-card hover:bg-card/80 dark:bg-background/10 dark:hover:bg-background/20 hover:ring-4 hover:ring-border transition-all duration-150 cursor-pointer">
                     {project.banner && (
                       <div className="relative aspect-[16/9] w-full">
                         <Image
@@ -226,7 +226,7 @@ export default function ProjectDetails() {
           <div className="columns-1 md:columns-2 gap-6 [column-fill:_balance] w-full">
             {sortedProjects.map((project, index) => (
               <BlurFade key={index} delay={1 + index * 0.2}>
-                <div className="group break-inside-avoid mb-6 overflow-hidden rounded-xl border border-border bg-background/50 dark:bg-background/5 hover:bg-background/70 dark:hover:bg-background/10 transition-all duration-300">
+                <div className="group break-inside-avoid mb-6 overflow-hidden rounded-xl border border-border bg-background/50 dark:bg-background/5 hover:bg-background/70 dark:hover:bg-background/10 hover:ring-4 hover:ring-border transition-all duration-150 cursor-pointer">
                   {project.banner && (
                     <div className="relative aspect-video w-full">
                       <Image
@@ -318,7 +318,7 @@ export default function ProjectDetails() {
           <div className="columns-1 md:columns-2 gap-6 [column-fill:_balance] w-full">
             {sortedProjects.map((project, index) => (
               <BlurFade key={index} delay={1 + index * 0.2}>
-                <div className="group break-inside-avoid mb-6 sm:mb-4 overflow-hidden rounded-xl border border-border bg-background/50 dark:bg-background/5 hover:bg-background/70 dark:hover:bg-background/10 transition-all duration-300">
+                <div className="group break-inside-avoid mb-6 sm:mb-4 overflow-hidden rounded-xl border border-border bg-background/50 dark:bg-background/5 hover:bg-background/70 dark:hover:bg-background/10 hover:ring-4 hover:ring-border transition-all duration-150 cursor-pointer">
                   {project.banner && (
                     <div className="relative aspect-video w-full">
                       <Image
