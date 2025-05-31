@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import NavbarContainer from "@/components/navbar-container";
 import { Toaster } from "@/components/ui/toaster";
 import Script from "next/script";
@@ -117,30 +116,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${geist.className} antialiased`}
-          suppressHydrationWarning
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geist.className} antialiased`}
+        suppressHydrationWarning
+      >
+        <Script
+          defer
+          data-domain="getportify.vercel.app"
+          src="https://getanalyzr.vercel.app/tracking-script.js"
+        />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <Script
-            defer
-            data-domain="getportify.vercel.app"
-            src="https://getanalyzr.vercel.app/tracking-script.js"
-          />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NavbarContainer />
-            {children}
-            <Toaster />
-            <FooterContainer />
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+          <NavbarContainer />
+          {children}
+          <Toaster />
+          <FooterContainer />
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
